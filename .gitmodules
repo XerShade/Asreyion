@@ -1,0 +1,15 @@
+[submodule "source/AscendingSource.MapEditor"]
+	path = source/AscendingSource.MapEditor
+	url = https://github.com/XerShade/Asreyion.MapEditor.git
+[submodule "source/AscendingSource.Client"]
+	path = source/AscendingSource.Client
+	url = https://github.com/XerShade/Asreyion.Client.git
+[submodule "source/AscendingSource.Server"]
+	path = source/AscendingSource.Server
+	url = https://github.com/XerShade/Asreyion.Server.git
+[submodule "source/AscendingSource.Editors"]
+	path = source/AscendingSource.Editors
+	url = https://github.com/XerShade/Asreyion.Editors.git
+[submodule "source/AscendingSource.Libraries"]
+	path = source/AscendingSource.Libraries
+	url = https://github.com/XerShade/Asreyion.Libraries.git
