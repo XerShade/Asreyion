@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <BaseOutputPath>$(SolutionDir)bin\$(AssemblyName)</BaseOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+    <Title>$(AssemblyName)</Title>
+    <Authors>XerShade</Authors>
+    <Company>XerShade's Corner</Company>
+    <Product>Asreyion</Product>
+    <Description>Asreyion is a modular ASP.NET and C#-based website content management system designed to streamline website creation and management.</Description>
+    <Copyright>© $(Authors) 2025 - 2025</Copyright>
+
+    <RepositoryUrl>https://github.com/XerShade/Asreyion.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <PackageProjectUrl>https://github.com/XerShade/Asreyion</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>asreyion,modular,website,content,management,system,asp.net</PackageTags>
+    <PackageOutputPath>$(SolutionDir)pkg\$(AssemblyName)</PackageOutputPath>
+
+    <AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+    <FileVersion>$(VersionPrefix)</FileVersion>
+    <Version>0.1.0.0</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+    
+    <UserSecretsId>22977ca5-37b5-41eb-ac62-5daa666fbf47</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+  </ItemGroup>
+
+</Project>
