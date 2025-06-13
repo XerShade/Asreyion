@@ -12,8 +12,17 @@ config_version=5
 
 config/name="Asreyion"
 config/version="0.1.0"
+run/main_scene="uid://bqu822voq2bbc"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=480
+window/size/viewport_height=270
+window/size/window_width_override=960
+window/size/window_height_override=540
+window/stretch/mode="viewport"
 
 [dotnet]
 
@@ -58,5 +67,6 @@ MODIFIER_SNEAK={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
