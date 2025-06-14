@@ -1,6 +1,4 @@
-class_name Player extends CharacterBody2D
-
-@onready var animation_player: AnimationPlayer = %AnimationPlayer
+class_name Player extends CharacterActor
 
 @export var move_speed: float = 100.0
 @export var cardinal_direction: Vector2 = Vector2.DOWN

@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://p2x4wgcdq752"]
+
+[ext_resource type="PackedScene" uid="uid://dil3kjxqn64j4" path="res://scenes/nodes/actors/characters/character_actor.tscn" id="1_srjeh"]
+[ext_resource type="Script" uid="uid://ba3b77op8bk14" path="res://scripts/scenes/nodes/actors/player.gd" id="2_d0dko"]
+[ext_resource type="Texture2D" uid="uid://bwbltov5yg68c" path="res://assets/graphics/actors/time_fantasy/chara1-0.png" id="2_rf5ke"]
+
+[node name="Player" instance=ExtResource("1_srjeh")]
+script = ExtResource("2_d0dko")
+move_speed = 100.0
+cardinal_direction = Vector2(0, 1)
+direction = Vector2(0, 0)
+state = "idle"
+idle_animated = false
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource("2_rf5ke")

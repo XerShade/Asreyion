@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6d6v437khbmb"]
+
+[ext_resource type="Script" uid="uid://bkhkpvwqqw1ie" path="res://scripts/scenes/nodes/actors/kinematic_actor.gd" id="1_bykj8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s1p5c"]
+radius = 8.0
+
+[node name="KinematicActor" type="CharacterBody2D"]
+script = ExtResource("1_bykj8")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_s1p5c")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true

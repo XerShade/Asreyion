@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bd74rc4sti3vm"]
+
+[ext_resource type="Script" uid="uid://t8bymijhkw8m" path="res://scripts/scenes/nodes/actors/rigid_actor.gd" id="1_2ki3f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nijsj"]
+radius = 8.0
+
+[node name="RigidActor" type="RigidBody2D"]
+script = ExtResource("1_2ki3f")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_nijsj")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
