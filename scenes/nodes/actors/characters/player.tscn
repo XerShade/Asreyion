@@ -6,11 +6,6 @@
 
 [node name="Player" instance=ExtResource("1_srjeh")]
 script = ExtResource("2_d0dko")
-move_speed = 100.0
-cardinal_direction = Vector2(0, 1)
-direction = Vector2(0, 0)
-state = "idle"
-idle_animated = false
 
 [node name="Sprite" parent="." index="1"]
 texture = ExtResource("2_rf5ke")
