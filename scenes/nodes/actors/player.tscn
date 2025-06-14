@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5q4uvwnsil0u"]
+
+[ext_resource type="Texture2D" uid="uid://bwbltov5yg68c" path="res://assets/graphics/actors/time_fantasy/chara1-0.png" id="1_ej14t"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_31yny"]
+radius = 8.0
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("CircleShape2D_31yny")
+debug_color = Color(0.6, 0, 0.701961, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ej14t")
+hframes = 3
+vframes = 4
+frame = 1

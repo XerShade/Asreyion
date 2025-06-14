@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgg060ko7xwjh"]
+
+[ext_resource type="Script" uid="uid://bsv3yevqfxp12" path="res://scripts/scenes/game_engine.gd" id="1_ef40f"]
+[ext_resource type="PackedScene" uid="uid://b5q4uvwnsil0u" path="res://scenes/nodes/actors/player.tscn" id="2_vnh5w"]
+[ext_resource type="Script" uid="uid://ba3b77op8bk14" path="res://scripts/scenes/nodes/actors/player.gd" id="3_rxtkk"]
+
+[node name="GameEngine" type="Node2D"]
+script = ExtResource("1_ef40f")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("2_vnh5w")]
+script = ExtResource("3_rxtkk")

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Asreyion"
 config/version="0.1.0"
-run/main_scene="uid://bqu822voq2bbc"
+run/main_scene="uid://dgg060ko7xwjh"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
