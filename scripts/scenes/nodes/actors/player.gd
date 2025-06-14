@@ -60,7 +60,7 @@ func _set_move_speed() -> bool:
 
 func _update_animation() -> void:
 	var animation_speed: float = self.move_speed / 25;
-	var animation_name: String = self.state + "_" + self._get_direction_as_string(self.cardinal_direction)
+	var animation_name: String = self.state + "_" + VectorUtilities.get_vector_as_string(self.cardinal_direction)
 	
 	if(self.state == "idle" && self.idle_animated):
 		animation_name += "_animated"
@@ -68,14 +68,3 @@ func _update_animation() -> void:
 	
 	self.animation_player.play(animation_name, -1, animation_speed)
 	pass
-
-func _get_direction_as_string(direction: Vector2) -> String:
-	if(direction.y > 0):
-		return "down"
-	elif(direction.y < 0):
-		return "up"
-	elif(direction.x > 0):
-		return "right"
-	elif(direction.x < 0):
-		return "left"
-	return "down"
