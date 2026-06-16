@@ -1,0 +1,22 @@
+services:
+   asreyion.services.server:
+     build: 
+       context: .
+       dockerfile: applications/Asreyion.Server/Dockerfile
+     expose:
+        - 80
+        - 443
+     volumes:
+        - store:/app/store/
+     restart: unless-stopped
+     env_file:
+        - .env
+     container_name: asreyion.applications.server
+
+volumes:
+  store:
+
+networks:
+  default:
+    external: true
+    name: system.nginx.proxy
