@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/.SolutionItems/">
+    <File Path=".dockerignore" />
+    <File Path="default.env" />
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/Applications/">
+    <Project Path="applications/Asreyion.Server/Asreyion.Server.csproj" Id="198f0bd9-588a-489d-a4ff-9b9af5f28e88" />
+  </Folder>
+</Solution>
