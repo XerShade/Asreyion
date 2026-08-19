@@ -5,12 +5,12 @@ This roadmap outlines the step-by-step process to build a custom CMS with admin 
 ## Phase 1: Foundation Setup
 **Goal:** Set up the database and authentication infrastructure
 
-- [ ] Install required NuGet packages (EF Core, SQLite, Identity)
-- [ ] Create ApplicationDbContext inheriting from IdentityDbContext
-- [ ] Configure SQLite connection string in appsettings.json
-- [ ] Register DbContext and Identity services in Program.cs
-- [ ] Run initial EF Core migration to create database schema
-- [ ] Seed initial admin user account
+- [x] Install required NuGet packages (EF Core, SQLite, Identity)
+- [x] Create ApplicationDbContext inheriting from IdentityDbContext
+- [x] Configure SQLite connection string in appsettings.json
+- [x] Register DbContext and Identity services in Program.cs
+- [x] Run initial EF Core migration to create database schema
+- [x] Seed initial admin user account
 
 ## Phase 2: User Authentication
 **Goal:** Enable user registration and login
