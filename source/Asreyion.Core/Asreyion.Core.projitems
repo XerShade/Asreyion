@@ -10,6 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Data\ApplicationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\SettingsController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\DbContexts\AuthenticationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Migrations\**\*.cs" />
   </ItemGroup>
