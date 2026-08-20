@@ -9,7 +9,7 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ApplicationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ManageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Controllers\DashboardController.cs" />

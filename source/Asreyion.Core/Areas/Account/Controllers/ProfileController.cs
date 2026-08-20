@@ -1,4 +1,4 @@
-﻿using Asreyion.Core.Areas.Account.Models;
+﻿using Asreyion.Core.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
