@@ -15,12 +15,12 @@ This roadmap outlines the step-by-step process to build a custom CMS with admin 
 ## Phase 2: User Authentication
 **Goal:** Enable user registration and login
 
-- [ ] Create AccountController with Register action
-- [ ] Create Register view with form (username, email, password)
-- [ ] Create Login action and view
-- [ ] Create Logout action
-- [ ] Add [Authorize] attributes to protect admin areas
-- [ ] Test registration and login flow
+- [x] Create AccountController with Register action
+- [x] Create Register view with form (username, email, password)
+- [x] Create Login action and view
+- [x] Create Logout action
+- [x] Add [Authorize] attributes to protect admin areas
+- [x] Test registration and login flow
 
 ## Phase 3: Admin Dashboard
 **Goal:** Build protected admin interface

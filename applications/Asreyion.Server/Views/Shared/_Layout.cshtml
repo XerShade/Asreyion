@@ -3,48 +3,202 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - Asreyion.Server</title>
+
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Asreyion.Server.styles.css" asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="~/Asreyion.Server.styles.css"
+          asp-append-version="true" />
 </head>
+
 <body>
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Asreyion.Server</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <!-- Site Name -->
+                <a class="navbar-brand"
+                   asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+                    Asreyion.Server
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
                     <span class="navbar-toggler-icon"></span>
+
                 </button>
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <!-- Main Navigation -->
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark"
+                               asp-area=""
+                               asp-controller="Home"
+                               asp-action="Index">
+                                Home
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark"
+                               asp-area=""
+                               asp-controller="Home"
+                               asp-action="Privacy">
+                                Privacy
+                            </a>
                         </li>
+
                     </ul>
+
+                    <!-- Account Navigation -->
+                    <ul class="navbar-nav">
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <!-- Profile -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area="Account"
+                                   asp-controller="Profile"
+                                   asp-action="Index">
+                                    Profile
+                                </a>
+                            </li>
+
+                            <!-- Settings -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area="Account"
+                                   asp-controller="Manage"
+                                   asp-action="Index">
+                                    Settings
+                                </a>
+                            </li>
+
+                            <!-- Logout -->
+                            <li class="nav-item">
+
+                                <form asp-area="Account"
+                                      asp-controller="Session"
+                                      asp-action="Logout"
+                                      method="post"
+                                      class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit"
+                                            class="nav-link text-dark btn btn-link border-0">
+                                        Logout
+                                    </button>
+
+                                </form>
+
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- Login -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area="Account"
+                                   asp-controller="Session"
+                                   asp-action="Login">
+                                    Login
+                                </a>
+                            </li>
+
+                            <!-- Register -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-area="Account"
+                                   asp-controller="Register"
+                                   asp-action="Index">
+                                    Register
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+
                 </div>
+
             </div>
+
         </nav>
     </header>
+
+    <!-- Main Content -->
     <div class="container">
+
+        <!-- Success Message -->
+        @if (TempData["SuccessMessage"] is string successMessage)
+        {
+            <div class="alert alert-success" role="alert">
+                @successMessage
+            </div>
+        }
+
+        <!-- Error Message -->
+        @if (TempData["ErrorMessage"] is string errorMessage)
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+
     </div>
 
+    <!-- Footer -->
     <footer class="border-top footer text-muted">
+
         <div class="container">
-            &copy; 2026 - Asreyion.Server - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - Asreyion.Server -
+
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Privacy">
+                Privacy
+            </a>
         </div>
+
     </footer>
+
+    <!-- JavaScript -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

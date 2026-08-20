@@ -9,11 +9,32 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\RegisterController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\SessionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ManageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\RegisterViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ManageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\DbContexts\AuthenticationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Migrations\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Profile\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Register\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Session\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Register\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewImports.cshtml" />
   </ItemGroup>
 </Project>

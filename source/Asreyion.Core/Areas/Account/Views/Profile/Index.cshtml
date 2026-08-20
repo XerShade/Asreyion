@@ -1,0 +1,39 @@
+﻿@model Asreyion.Core.Areas.Account.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container">
+    <h1>Profile</h1>
+
+    <div class="card">
+        <div class="card-body">
+
+            <h2 class="card-title">
+                @Model.DisplayName
+            </h2>
+
+            <hr />
+
+            <dl class="row">
+                <dt class="col-sm-3">
+                    Username
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.UserName
+                </dd>
+
+                <dt class="col-sm-3">
+                    Member Since
+                </dt>
+
+                <dd class="col-sm-9">
+                    @Model.CreatedAt.ToString("MMMM d, yyyy")
+                </dd>
+            </dl>
+
+        </div>
+    </div>
+</div>

@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-
 builder.Services.AddDbContext<AuthenticationDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("Authentication"),
@@ -43,6 +41,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "areas",
