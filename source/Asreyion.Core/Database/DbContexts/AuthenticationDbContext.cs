@@ -1,4 +1,4 @@
-﻿using Asreyion.Core.Areas.Account.Data;
+﻿using Asreyion.Core.Areas.Account.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

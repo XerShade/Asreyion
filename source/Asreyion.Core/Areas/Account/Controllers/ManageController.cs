@@ -1,4 +1,4 @@
-﻿using Asreyion.Core.Areas.Account.Data;
+﻿using Asreyion.Core.Areas.Account.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asreyion.Core.Areas.Controllers;
 
 [Authorize, Area("Account")]
-public class SettingsController(UserManager<ApplicationUser> userManager) : Controller
+public class ManageController(UserManager<ApplicationUser> userManager) : Controller
 {
     private readonly UserManager<ApplicationUser> UserManager = userManager;
 
