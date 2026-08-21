@@ -1,0 +1,78 @@
+<!-- Top Header - Logo and Auth -->
+<nav class="navbar navbar-dark top-header">
+
+    <div class="container">
+
+        <!-- Logo/Brand -->
+        <a class="navbar-brand modern-brand"
+           asp-area=""
+           asp-controller="Home"
+           asp-action="Index">
+            <span class="brand-icon">◆</span>
+            <span class="brand-text">Asreyion</span>
+        </a>
+
+        <!-- Account Navigation -->
+        <div class="d-flex align-items-center gap-3">
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <!-- Profile -->
+                <a class="nav-link modern-nav-link modern-auth-link"
+                   asp-area="Account"
+                   asp-controller="Profile"
+                   asp-action="Index">
+                    <span class="nav-icon">👤</span>
+                    Profile
+                </a>
+
+                <!-- Settings -->
+                <a class="nav-link modern-nav-link modern-auth-link"
+                   asp-area="Account"
+                   asp-controller="Manage"
+                   asp-action="Index">
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+                <!-- Logout -->
+                <form asp-area="Account"
+                      asp-controller="Session"
+                      asp-action="Logout"
+                      method="post"
+                      class="d-inline">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="btn btn-outline-danger modern-btn-sm">
+                        <span class="nav-icon">↪</span>
+                        Logout
+                    </button>
+
+                </form>
+            }
+            else
+            {
+                <!-- Login -->
+                <a class="btn btn-outline-primary modern-btn-sm"
+                   asp-area="Account"
+                   asp-controller="Session"
+                   asp-action="Login">
+                    Login
+                </a>
+
+                <!-- Register -->
+                <a class="btn btn-primary modern-btn-sm"
+                   asp-area="Account"
+                   asp-controller="Register"
+                   asp-action="Index">
+                    Register
+                </a>
+            }
+
+        </div>
+
+    </div>
+
+</nav>
