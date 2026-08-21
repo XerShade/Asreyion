@@ -7,11 +7,18 @@
 
     // Wait for DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', function() {
+        // Immediately hide nested dropdowns before Bootstrap initializes
+        const allNestedMenus = document.querySelectorAll('.nested-dropdown-menu');
+        allNestedMenus.forEach(menu => {
+            menu.style.display = 'none';
+        });
+        
         initializeNavbar();
         initializeSmoothScroll();
         initializeAnimations();
         initializeFormEnhancements();
         initializeMobileMenu();
+        initializeDesktopDropdowns();
     });
 
     /**
@@ -151,13 +158,192 @@
             }
         });
 
-        // Close menu when clicking a link
-        const navLinks = navbarCollapse.querySelectorAll('.nav-link');
+        // Close menu when clicking a link (except dropdown toggles)
+        const navLinks = navbarCollapse.querySelectorAll('.nav-link:not(.dropdown-toggle)');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
                 if (navbarCollapse.classList.contains('show')) {
                     navbarToggler.click();
                 }
+            });
+        });
+
+        // Handle top-level dropdowns on mobile
+        const dropdownToggles = navbarCollapse.querySelectorAll('.nav-item.dropdown > .dropdown-toggle');
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth < 992) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const dropdown = this.parentElement;
+                    const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                    
+                    // Toggle current dropdown
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = '';
+                    } else {
+                        // Close other dropdowns first
+                        document.querySelectorAll('.nav-item.dropdown .dropdown-menu').forEach(menu => {
+                            if (menu !== dropdownMenu) {
+                                menu.style.display = '';
+                            }
+                        });
+                        dropdownMenu.style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // Handle nested dropdowns on mobile
+        const dropdownSubmenus = document.querySelectorAll('.dropdown-submenu');
+        dropdownSubmenus.forEach(submenu => {
+            const toggle = submenu.querySelector('.dropdown-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    submenu.classList.toggle('show');
+                });
+            }
+        });
+
+        // Handle dropdown item clicks on mobile
+        const dropdownItems = navbarCollapse.querySelectorAll('.dropdown-item:not(.dropdown-toggle)');
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (window.innerWidth < 992 && !this.classList.contains('dropdown-toggle')) {
+                    // Close the mobile menu after clicking a dropdown item
+                    if (navbarCollapse.classList.contains('show')) {
+                        setTimeout(() => {
+                            navbarToggler.click();
+                        }, 100);
+                    }
+                }
+            });
+        });
+    }
+
+    /**
+     * Initialize desktop dropdown behavior
+     */
+    function initializeDesktopDropdowns() {
+        // Hide all nested dropdowns on page load
+        const allNestedMenus = document.querySelectorAll('.nested-dropdown-menu');
+        allNestedMenus.forEach(menu => {
+            menu.style.display = 'none';
+        });
+        
+        // Store timeout references for clearing
+        const hideTimeouts = new Map();
+        
+        // Handle nested dropdowns on desktop - only show when hovering the specific item
+        const dropdownSubmenus = document.querySelectorAll('.dropdown-submenu');
+        
+        dropdownSubmenus.forEach(submenu => {
+            const submenuItem = submenu.querySelector('.dropdown-item');
+            const submenuMenu = submenu.querySelector('.nested-dropdown-menu');
+            
+            if (submenuItem && submenuMenu) {
+                // Ensure it's hidden initially
+                submenuMenu.style.display = 'none';
+                
+                // Show nested menu when hovering the specific item
+                submenuItem.addEventListener('mouseenter', function() {
+                    if (window.innerWidth >= 992) {
+                        // Clear any pending hide timeout
+                        if (hideTimeouts.has(submenuMenu)) {
+                            clearTimeout(hideTimeouts.get(submenuMenu));
+                            hideTimeouts.delete(submenuMenu);
+                        }
+                        submenuMenu.style.display = 'block';
+                        // Add hover class to keep parent highlighted
+                        submenuItem.classList.add('dropdown-item-active');
+                    }
+                });
+                
+                // Hide nested menu when leaving the specific item (with delay)
+                submenuItem.addEventListener('mouseleave', function() {
+                    if (window.innerWidth >= 992) {
+                        // Add delay to allow moving to nested menu
+                        const timeout = setTimeout(() => {
+                            submenuMenu.style.display = 'none';
+                            submenuItem.classList.remove('dropdown-item-active');
+                            hideTimeouts.delete(submenuMenu);
+                        }, 200);
+                        hideTimeouts.set(submenuMenu, timeout);
+                    }
+                });
+                
+                // Keep nested menu open when hovering over it
+                submenuMenu.addEventListener('mouseenter', function() {
+                    if (window.innerWidth >= 992) {
+                        // Clear any pending hide timeout
+                        if (hideTimeouts.has(submenuMenu)) {
+                            clearTimeout(hideTimeouts.get(submenuMenu));
+                            hideTimeouts.delete(submenuMenu);
+                        }
+                        submenuMenu.style.display = 'block';
+                        // Keep parent highlighted
+                        submenuItem.classList.add('dropdown-item-active');
+                    }
+                });
+                
+                // Hide nested menu when leaving it
+                submenuMenu.addEventListener('mouseleave', function() {
+                    if (window.innerWidth >= 992) {
+                        submenuMenu.style.display = 'none';
+                        submenuItem.classList.remove('dropdown-item-active');
+                    }
+                });
+            }
+        });
+        
+        // Handle parent dropdown hover states
+        const parentDropdownItems = document.querySelectorAll('.nav-item.dropdown');
+        parentDropdownItems.forEach(dropdown => {
+            const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+            const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                // Add hover class when parent dropdown is open
+                dropdownToggle.addEventListener('mouseenter', function() {
+                    if (window.innerWidth >= 992) {
+                        dropdownToggle.classList.add('nav-link-active');
+                    }
+                });
+                
+                dropdownMenu.addEventListener('mouseenter', function() {
+                    if (window.innerWidth >= 992) {
+                        dropdownToggle.classList.add('nav-link-active');
+                    }
+                });
+                
+                // Remove hover class when leaving
+                dropdownToggle.addEventListener('mouseleave', function() {
+                    if (window.innerWidth >= 992) {
+                        dropdownToggle.classList.remove('nav-link-active');
+                    }
+                });
+                
+                dropdownMenu.addEventListener('mouseleave', function() {
+                    if (window.innerWidth >= 992) {
+                        dropdownToggle.classList.remove('nav-link-active');
+                    }
+                });
+            }
+        });
+        
+        // Hide all nested dropdowns when leaving parent dropdown (with delay)
+        const parentDropdowns = document.querySelectorAll('.dropdown-menu');
+        parentDropdowns.forEach(dropdown => {
+            dropdown.addEventListener('mouseleave', function() {
+                const nestedMenus = dropdown.querySelectorAll('.nested-dropdown-menu');
+                nestedMenus.forEach(menu => {
+                    // Add delay to allow moving to nested menu
+                    setTimeout(() => {
+                        menu.style.display = 'none';
+                    }, 200);
+                });
             });
         });
     }

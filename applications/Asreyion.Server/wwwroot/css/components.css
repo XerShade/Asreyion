@@ -329,6 +329,7 @@
     border-radius: 8px;
     box-shadow: var(--shadow-lg);
     padding: 0.5rem;
+    min-width: 200px;
 }
 
 .dropdown-item {
@@ -336,6 +337,10 @@
     border-radius: 6px;
     padding: 0.5rem 1rem;
     transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
 }
 
 .dropdown-item:hover {
@@ -348,9 +353,94 @@
     color: var(--color-bg-primary);
 }
 
+.dropdown-item-active {
+    background-color: var(--color-bg-tertiary);
+    color: var(--color-primary);
+}
+
 .dropdown-divider {
     border-color: var(--color-border-primary);
     margin: 0.5rem 0;
+}
+
+/* Dropdown Arrows */
+.dropdown-arrow {
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+    opacity: 0.5;
+    transition: opacity var(--transition-fast);
+}
+
+.dropdown-toggle:hover .dropdown-arrow {
+    opacity: 1;
+}
+
+/* Desktop Hover Behavior */
+@media (min-width: 992px) {
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-toggle::after {
+        display: none;
+    }
+}
+
+/* Nested Dropdowns */
+.dropdown-submenu {
+    position: relative;
+}
+
+.nested-dropdown-menu {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    margin-left: 0.25rem;
+    margin-top: -0.5rem;
+    display: none;
+    z-index: 1001;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-primary);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    padding: 0.5rem;
+    min-width: 200px;
+}
+
+/* Mobile Nested Dropdowns */
+@media (max-width: 991.98px) {
+    .nested-dropdown-menu {
+        position: static;
+        left: auto;
+        top: auto;
+        margin-left: 0;
+        margin-top: 0;
+        margin-left: 1rem;
+        padding-left: 1rem;
+        border-left: 2px solid var(--color-primary);
+        display: none;
+    }
+
+    .dropdown-submenu.show .nested-dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-submenu > .dropdown-item::after {
+        content: '▼';
+        margin-left: auto;
+    }
+    
+    /* Make tap targets larger on mobile */
+    .dropdown-item {
+        padding: 0.75rem 1rem;
+        min-height: 44px;
+    }
+    
+    .dropdown-toggle {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
 }
 
 /* Pagination */

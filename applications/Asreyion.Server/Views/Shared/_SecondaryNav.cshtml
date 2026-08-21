@@ -31,13 +31,99 @@
                     </a>
                 </li>
 
+                <!-- Dropdown Example -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link modern-nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <span class="nav-icon">📄</span>
+                        Legal
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item"
+                               asp-area=""
+                               asp-controller="Home"
+                               asp-action="Privacy">
+                                Privacy Policy
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Terms of Service
+                            </a>
+                        </li>
+                        <!-- Nested Dropdown Example -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item"
+                               href="#"
+                               role="button"
+                               aria-expanded="false">
+                                Compliance
+                                <span class="dropdown-arrow">▶</span>
+                            </a>
+                            <ul class="nested-dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        GDPR
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        CCPA
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        HIPAA
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Another Dropdown Example -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link modern-nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <span class="nav-icon">�</span>
+                        Features
+                        <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Documentation
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                API Reference
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                Support
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link modern-nav-link"
-                       asp-area=""
-                       asp-controller="Home"
-                       asp-action="Privacy">
-                        <span class="nav-icon">🔒</span>
-                        Privacy
+                       href="#">
+                        <span class="nav-icon">📞</span>
+                        Contact
                     </a>
                 </li>
 

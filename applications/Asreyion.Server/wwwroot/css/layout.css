@@ -158,6 +158,15 @@
     transform: scaleY(1);
 }
 
+.nav-link-active {
+    color: var(--color-primary) !important;
+    background-color: rgba(255, 0, 255, 0.05);
+}
+
+.nav-link-active::before {
+    transform: scaleY(1);
+}
+
 .nav-icon {
     font-size: 1.1rem;
     opacity: 0.7;
