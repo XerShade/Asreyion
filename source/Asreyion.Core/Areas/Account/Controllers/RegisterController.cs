@@ -23,6 +23,10 @@ public class RegisterController(UserManager<ApplicationUser> userManager) : Cont
             return this.View(model);
         }
 
+        /* Temporarily disabled while security concerns are addressed and middleware is implemented. */
+        return this.View(new RegisterViewModel());
+
+        /*
         ApplicationUser user = new()
         {
             UserName = model.UserName,
@@ -47,5 +51,6 @@ public class RegisterController(UserManager<ApplicationUser> userManager) : Cont
         }
 
         return this.View(model);
+        */
     }
 }
