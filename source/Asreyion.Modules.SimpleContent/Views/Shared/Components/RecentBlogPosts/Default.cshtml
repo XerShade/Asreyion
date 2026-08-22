@@ -1,20 +1,23 @@
 ﻿@using Asreyion.Modules.SimpleContent.Models
 @model IReadOnlyList<PostModel>
 
-<section class="home-blog-preview">
-    <hr />
-    <h3>Latest Blog Posts</h3>
+<div class="card">
+    <div class="card-body">
 
-    @foreach (var post in Model)
-    {
-        <hr />
-        <article>
+        <h3 class="card-title">
+            Latest Blog Posts
+        </h3>
+
+        @foreach (var post in Model)
+        {
+            <hr />
             <h4>
                 <a asp-controller="Blog" asp-action="Post" asp-route-slug="@post.Slug">
                     @post.Title
                 </a>
             </h4>
             <small>Posted on: @post.Date.ToShortDateString(), by: @post.Author, in: <a asp-controller="Blog" asp-action="Category" asp-route-categorySlug="@post.Category">@post.Category</a></small>
-        </article>
-    }
-</section>
+        }
+
+    </div>
+</div>

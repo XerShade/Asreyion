@@ -6,7 +6,11 @@
     ViewData["Title"] = Model.Title + " - Blog";
 }
 
-<h1>@Model.Title</h1>
-<small>Posted on: @Model.Date.ToShortDateString(), by: @Model.Author, in: <a asp-controller="Blog" asp-action="Category" asp-route-categorySlug="@Model.Category">@Model.Category</a></small>
-<hr />
-<div>@Html.Raw(Model.Content)</div>
+<div class="card">
+    <div class="card-body">
+        <h1 class="card-title">@Model.Title</h1>
+        <small>Posted on: @Model.Date.ToShortDateString(), by: @Model.Author, in: <a asp-controller="Blog" asp-action="Category" asp-route-categorySlug="@Model.Category">@Model.Category</a></small>
+        <hr />
+        <div>@Html.Raw(Model.Content)</div>
+    </div>
+</div>

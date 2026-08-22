@@ -11,6 +11,9 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\SlugFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewComponents\BlogNavigationViewComponent.cs" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\Posts\2026-08-22-new-website-deployed.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="$(MSBuildThisFileDirectory)Content\Posts\2025-12-29-projects-planned-for-2026.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

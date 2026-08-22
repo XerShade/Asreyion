@@ -224,11 +224,6 @@ header {
     transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
 .card-header {
     background-color: var(--color-bg-tertiary);
     border-bottom-color: var(--color-border-primary);
