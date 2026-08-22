@@ -373,3 +373,242 @@ main {
     border-color: var(--color-primary) !important;
 }
 
+/* Control Panel Themes */
+:root {
+    --panel-primary: #8b5cf6;
+    --panel-primary-dark: #7c3aed;
+    --panel-secondary: #94a3b8;
+    --panel-success: #22c55e;
+    --panel-warning: #f59e0b;
+    --panel-danger: #ef4444;
+    --panel-info: #3b82f6;
+    --panel-bg: #0f172a;
+    --panel-surface: #1e293b;
+    --panel-surface-hover: #334155;
+    --panel-border: #334155;
+    --panel-text: #f1f5f9;
+    --panel-text-muted: #94a3b8;
+}
+
+/* Sidebar */
+
+.control-panel-sidebar {
+    background: var(--panel-surface);
+    border: 1px solid var(--panel-border);
+    border-radius: 0.5rem;
+}
+
+/* Navigation */
+
+.control-panel-nav-section-title {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--panel-text-muted);
+    letter-spacing: 0.05em;
+}
+
+.control-panel-nav-item {
+    color: var(--panel-text);
+}
+
+    .control-panel-nav-item:hover {
+        background: var(--panel-surface-hover);
+        color: var(--panel-text);
+    }
+
+    .control-panel-nav-item.active {
+        background: rgba(139, 92, 246, 0.1);
+        color: var(--panel-text);
+    }
+
+/* Cards */
+
+.control-panel-card {
+    background: var(--panel-surface);
+    border: 1px solid var(--panel-border);
+    color: var(--panel-text);
+}
+
+.control-panel-card-header {
+    border-bottom: 1px solid var(--panel-border);
+}
+
+/* Buttons */
+
+.control-panel-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.control-panel-btn-primary {
+    background: var(--panel-primary);
+    color: white;
+}
+
+    .control-panel-btn-primary:hover {
+        background: var(--panel-primary-dark);
+    }
+
+.control-panel-btn-secondary {
+    background: var(--panel-surface);
+    color: var(--panel-text);
+    border: 1px solid var(--panel-border);
+}
+
+    .control-panel-btn-secondary:hover {
+        background: var(--panel-surface-hover);
+    }
+
+.control-panel-btn-success {
+    background: var(--panel-success);
+    color: white;
+}
+
+    .control-panel-btn-success:hover {
+        background: #16a34a;
+    }
+
+.control-panel-btn-warning {
+    background: var(--panel-warning);
+    color: white;
+}
+
+    .control-panel-btn-warning:hover {
+        background: #d97706;
+    }
+
+.control-panel-btn-danger {
+    background: var(--panel-danger);
+    color: white;
+}
+
+    .control-panel-btn-danger:hover {
+        background: #dc2626;
+    }
+
+.control-panel-btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+/* Tables */
+
+.control-panel-table th,
+.control-panel-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--panel-border);
+    vertical-align: middle;
+}
+
+.control-panel-table th {
+    background: var(--panel-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--panel-text-muted);
+    white-space: nowrap;
+}
+
+.control-panel-table tr:hover {
+    background: var(--panel-surface-hover);
+}
+
+.control-panel-table-truncate {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Badges */
+
+.control-panel-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.control-panel-badge-success {
+    background: #166534;
+    color: #dcfce7;
+}
+
+.control-panel-badge-warning {
+    background: #92400e;
+    color: #fef3c7;
+}
+
+.control-panel-badge-danger {
+    background: #991b1b;
+    color: #fee2e2;
+}
+
+.control-panel-badge-info {
+    background: #1e40af;
+    color: #dbeafe;
+}
+
+.control-panel-badge-type {
+    background: var(--panel-primary);
+    color: white;
+}
+
+/* User cells */
+
+.control-panel-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.control-panel-user-avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--panel-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Scrollbars */
+
+.control-panel-sidebar::-webkit-scrollbar-track,
+.control-panel-main-content::-webkit-scrollbar-track,
+.control-panel-table-container::-webkit-scrollbar-track {
+    background: var(--panel-bg);
+}
+
+.control-panel-sidebar::-webkit-scrollbar-thumb,
+.control-panel-main-content::-webkit-scrollbar-thumb,
+.control-panel-table-container::-webkit-scrollbar-thumb {
+    background: var(--panel-border);
+    border-radius: 4px;
+}
+
+    .control-panel-sidebar::-webkit-scrollbar-thumb:hover,
+    .control-panel-main-content::-webkit-scrollbar-thumb:hover,
+    .control-panel-table-container::-webkit-scrollbar-thumb:hover {
+        background: var(--panel-text-muted);
+    }

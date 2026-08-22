@@ -49,4 +49,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\_ViewImports.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\_ViewImports.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\_Sidebar.cshtml" />
+  </ItemGroup>
 </Project>

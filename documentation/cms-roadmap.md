@@ -25,12 +25,12 @@ This roadmap outlines the step-by-step process to build a custom CMS with admin 
 ## Phase 3: Admin Dashboard
 **Goal:** Build protected admin interface
 
-- [ ] Create AdminController with dashboard view
-- [ ] Create admin layout (separate from main site layout)
-- [ ] Add role-based authorization (Admin role required)
-- [ ] Create admin navigation menu
+- [x] Create AdminController with dashboard view
+- [x] Create admin layout (separate from main site layout)
+- [x] Add role-based authorization (Admin role required)
+- [x] Create admin navigation menu
 - [ ] Add user management section (list users, manage roles)
-- [ ] Style admin dashboard with Bootstrap
+- [x] Style admin dashboard with Bootstrap
 
 ## Phase 4: Blog Post Management
 **Goal:** Enable content creation and management
@@ -60,7 +60,7 @@ This roadmap outlines the step-by-step process to build a custom CMS with admin 
 - [ ] Categories and tags system
 - [ ] Comments system
 - [ ] Media management (image uploads)
-- [ ] User profiles
+- [x] User profiles
 - [ ] Forum/discussion boards
 - [ ] Search functionality
 

@@ -1,0 +1,22 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<!-- Account Section -->
+<div class="control-panel-nav-section">
+
+    <div class="control-panel-nav-section-title">
+        Account
+    </div>
+
+    <a href="/Account/Manage"
+       class="control-panel-nav-item @(currentController == "Manage" && currentAction == "Index" ? "active" : "")">
+
+        <i class="control-panel-nav-item-icon fa-solid fa-user fa-fw"></i>
+
+        Account Settings
+
+    </a>
+
+</div>

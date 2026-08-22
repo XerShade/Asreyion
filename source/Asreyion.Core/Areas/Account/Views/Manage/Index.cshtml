@@ -4,74 +4,119 @@
     ViewData["Title"] = "Account Settings";
 }
 
-<div class="container">
-    <h1>Account Settings</h1>
+<div class="control-panel-layout">
 
-    @if (TempData["SuccessMessage"] is string successMessage)
-    {
-        <div class="alert alert-success" role="alert">
-            @successMessage
+    <!-- Sidebar -->
+    <aside class="control-panel-sidebar">
+        @await Html.PartialAsync("_Sidebar")
+    </aside>
+
+
+    <!-- Main content -->
+    <main class="control-panel-main-content">
+
+        <div class="control-panel-card">
+
+            <div class="control-panel-card-header">
+                <h1 class="control-panel-card-title">
+                    Account Settings
+                </h1>
+            </div>
+
+
+            <div class="control-panel-card-body">
+
+                @if (TempData["SuccessMessage"] is string successMessage)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @successMessage
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] is string errorMessage)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @errorMessage
+                    </div>
+                }
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"
+                     role="alert"></div>
+
+
+                <form asp-action="Update"
+                      asp-controller="Manage"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+
+                    <!-- Username -->
+                    <div class="mb-3">
+
+                        <label asp-for="UserName"
+                               class="form-label">
+                            Username
+                        </label>
+
+                        <input asp-for="UserName"
+                               class="form-control"
+                               readonly />
+
+                        <span asp-validation-for="UserName"
+                              class="text-danger"></span>
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="mb-3">
+
+                        <label asp-for="Email"
+                               class="form-label">
+                            Email
+                        </label>
+
+                        <input asp-for="Email"
+                               class="form-control"
+                               readonly />
+
+                        <span asp-validation-for="Email"
+                              class="text-danger"></span>
+
+                    </div>
+
+
+                    <!-- Display name -->
+                    <div class="mb-3">
+
+                        <label asp-for="DisplayName"
+                               class="form-label">
+                            Display Name
+                        </label>
+
+                        <input asp-for="DisplayName"
+                               class="form-control" />
+
+                        <span asp-validation-for="DisplayName"
+                              class="text-danger"></span>
+
+                    </div>
+
+
+                    <!-- Save changes -->
+                    <button type="submit"
+                            class="control-panel-btn control-panel-btn-primary">
+                        Save Changes
+                    </button>
+
+                </form>
+
+            </div>
+
         </div>
-    }
 
-    @if (TempData["ErrorMessage"] is string errorMessage)
-    {
-        <div class="alert alert-danger" role="alert">
-            @errorMessage
-        </div>
-    }
+    </main>
 
-    <div asp-validation-summary="ModelOnly"
-         class="alert alert-danger"
-         role="alert"></div>
-
-    <form asp-action="Update"
-          asp-controller="Manage"
-          method="post">
-
-        @Html.AntiForgeryToken()
-
-        <div class="mb-3">
-            <label asp-for="UserName" class="form-label">
-                Username
-            </label>
-
-            <input asp-for="UserName"
-                   class="form-control"
-                   readonly />
-
-            <span asp-validation-for="UserName"
-                  class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Email" class="form-label">
-                Email
-            </label>
-
-            <input asp-for="Email"
-                   class="form-control"
-                   readonly />
-
-            <span asp-validation-for="Email"
-                  class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="DisplayName" class="form-label">
-                Display Name
-            </label>
-
-            <input asp-for="DisplayName"
-                   class="form-control" />
-
-            <span asp-validation-for="DisplayName"
-                  class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-            Save Changes
-        </button>
-
-    </form>
 </div>
