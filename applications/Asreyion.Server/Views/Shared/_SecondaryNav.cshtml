@@ -21,119 +21,70 @@
             <!-- Main Navigation -->
             <ul class="navbar-nav mx-auto">
 
+                <!-- Home -->
                 <li class="nav-item">
                     <a class="nav-link modern-nav-link"
                        asp-area=""
                        asp-controller="Home"
                        asp-action="Index">
+
                         <i class="fa-solid fa-fw fa-house nav-icon"></i>
                         Home
                     </a>
                 </li>
 
-                <!-- Dropdown Example -->
+                <!-- Blog -->
+                @await Component.InvokeAsync("BlogNavigation")
+
+                <!-- About -->
                 <li class="nav-item dropdown">
+
                     <a class="nav-link modern-nav-link dropdown-toggle"
                        href="#"
                        role="button"
                        data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        <i class="fa-solid fa-fw fa-file-lines nav-icon"></i>
-                        Legal
+
+                        <i class="fa-solid fa-fw fa-circle-info nav-icon"></i>
+                        About
                         <i class="fa-solid fa-fw fa-chevron-down dropdown-arrow"></i>
                     </a>
+
                     <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Privacy">
-                                <i class="fa-solid fa-fw fa-shield-halved me-2"></i>
-                                Privacy Policy
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-fw fa-file-contract me-2"></i>
-                                Terms of Service
-                            </a>
-                        </li>
-                        <!-- Nested Dropdown Example -->
+
+                        <!-- Legal -->
                         <li class="dropdown-submenu">
+
                             <a class="dropdown-item"
                                href="#"
                                role="button"
                                aria-expanded="false">
+
                                 <i class="fa-solid fa-fw fa-scale-balanced me-2"></i>
-                                Compliance
+                                Legal
                                 <i class="fa-solid fa-fw fa-chevron-right dropdown-arrow"></i>
                             </a>
+
                             <ul class="nested-dropdown-menu">
+
+                                <!-- Privacy Policy -->
                                 <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa-solid fa-fw fa-globe me-2"></i>
-                                        GDPR
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Home"
+                                       asp-action="Privacy">
+
+                                        <i class="fa-solid fa-fw fa-shield-halved me-2"></i>
+                                        Privacy Policy
                                     </a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa-solid fa-fw fa-user-shield me-2"></i>
-                                        CCPA
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fa-solid fa-fw fa-heart-pulse me-2"></i>
-                                        HIPAA
-                                    </a>
-                                </li>
+
                             </ul>
-                        </li>
-                    </ul>
-                </li>
 
-                <!-- Another Dropdown Example -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link modern-nav-link dropdown-toggle"
-                       href="#"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        <i class="fa-solid fa-fw fa-cubes nav-icon"></i>
-                        Features
-                        <i class="fa-solid fa-fw fa-chevron-down dropdown-arrow"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-fw fa-book me-2"></i>
-                                Documentation
-                            </a>
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-fw fa-code me-2"></i>
-                                API Reference
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="fa-solid fa-fw fa-headset me-2"></i>
-                                Support
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link modern-nav-link"
-                       href="#">
-                        <i class="fa-solid fa-fw fa-phone nav-icon"></i>
-                        Contact
-                    </a>
+                    </ul>
+
                 </li>
 
             </ul>

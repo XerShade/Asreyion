@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\SlugFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewComponents\BlogNavigationViewComponent.cs" />
     <None Include="$(MSBuildThisFileDirectory)Content\Posts\2025-12-29-projects-planned-for-2026.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -21,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IContentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MarkdownContentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewComponents\RecentBlogPostsViewComponent.cs" />
+    <Content Include="$(MSBuildThisFileDirectory)Views\Shared\Components\BlogNavigation\Default.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Content\Posts\2025-12-29-blog-functionality-expanded.md">
