@@ -54,7 +54,13 @@ if (!app.Environment.IsDevelopment())
     _ = app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+bool enableHttps = builder.Configuration.GetValue<bool>("ENABLE_HTTPS");
+
+if (enableHttps)
+{
+    _ = app.UseHttpsRedirection();
+}
+
 app.UseRouting();
 
 app.UseAuthentication();
