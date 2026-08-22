@@ -1,0 +1,12 @@
+﻿@using Asreyion.Modules.SimpleContent.Models;
+@model PostModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model.Title + " - Blog";
+}
+
+<h1>@Model.Title</h1>
+<small>Posted on: @Model.Date.ToShortDateString(), by: @Model.Author, in: <a asp-controller="Blog" asp-action="Category" asp-route-categorySlug="@Model.Category">@Model.Category</a></small>
+<hr />
+<div>@Html.Raw(Model.Content)</div>

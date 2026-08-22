@@ -1,0 +1,35 @@
+﻿@using Asreyion.Modules.SimpleContent.Models;
+@model IReadOnlyList<PostModel>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Blog";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Blog</h1>
+    <p>Welcome to my blog posts, where I share my thoughts and experiences on a wide range of topics.</p>
+    <p>This section has very basic functionality, but it's a good start for a blog for now.</p>
+</div>
+
+@if(!string.IsNullOrEmpty((string)ViewData["Category"]))
+{
+    <h3>Category: @ViewData["Category"]</h3>
+}
+else
+{
+    <h3>All Posts</h3>
+}
+
+@foreach (var post in Model)
+{
+    <hr />
+    <article>
+        <h4>
+            <a asp-controller="Blog" asp-action="Post" asp-route-slug="@post.Slug">
+                @post.Title
+            </a>
+        </h4>
+        <small>Posted on: @post.Date.ToShortDateString(), by: @post.Author, in: <a asp-controller="Blog" asp-action="Category" asp-route-categorySlug="@post.Category">@post.Category</a></small>
+    </article>
+}

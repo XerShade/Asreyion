@@ -1,9 +1,28 @@
 using Asreyion.Core.Data;
 using Asreyion.Core.Database.DbContexts;
+using Asreyion.Modules.SimpleContent.Services;
+using Asreyion.Modules.SimpleContent.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    // Set the content root path to the directory of the executing assembly.
+    ContentRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
+
+    // Set the web root path to the directory of the executing assembly.
+    WebRootPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "wwwroot"),
+
+    // Set the command line arguments.
+    Args = args,
+
+    // Set the environment name.
+    EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production",
+
+    // Set the application name.
+    ApplicationName = Assembly.GetExecutingAssembly().GetName().Name ?? "Asreyion"
+});
 
 // Add services to the container.
 builder.Services.AddDbContext<AuthenticationDbContext>(options =>
@@ -21,17 +40,18 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<AuthenticationDbContext>()
     .AddDefaultTokenProviders();
 
-
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+builder.Services.AddTransient<IContentProvider, MarkdownContentProvider>();
+
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    _ = app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    _ = app.UseHsts();
 }
 
 app.UseHttpsRedirection();
