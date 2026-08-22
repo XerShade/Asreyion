@@ -1,0 +1,120 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+ 
+<!-- Dashboard Section -->
+<div class="moderation-nav-section">
+    <div class="moderation-nav-section-title">Overview</div>
+ 
+    <a href="/Moderation/Dashboard" class="moderation-nav-item @(currentController == "Dashboard" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        Dashboard
+    </a>
+</div>
+ 
+<!-- Content Moderation Section -->
+<div class="moderation-nav-section">
+    <div class="moderation-nav-section-title">Content</div>
+ 
+    <a href="/Moderation/Content/Reports" class="moderation-nav-item @(currentController == "Content" && currentAction == "Reports" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        Content Reports
+    </a>
+ 
+    <a href="/Moderation/Content/Queue" class="moderation-nav-item @(currentController == "Content" && currentAction == "Queue" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+        Moderation Queue
+    </a>
+ 
+    <a href="/Moderation/Content/Approved" class="moderation-nav-item @(currentController == "Content" && currentAction == "Approved" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Approved Content
+    </a>
+ 
+    <a href="/Moderation/Content/Removed" class="moderation-nav-item @(currentController == "Content" && currentAction == "Removed" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
+        Removed Content
+    </a>
+</div>
+ 
+<!-- User Moderation Section -->
+<div class="moderation-nav-section">
+    <div class="moderation-nav-section-title">Users</div>
+ 
+    <a href="/Moderation/Users/Reports" class="moderation-nav-item @(currentController == "Users" && currentAction == "Reports" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+        User Reports
+    </a>
+ 
+    <a href="/Moderation/Users/Flagged" class="moderation-nav-item @(currentController == "Users" && currentAction == "Flagged" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/>
+        </svg>
+        Flagged Users
+    </a>
+ 
+    <a href="/Moderation/Users/Warned" class="moderation-nav-item @(currentController == "Users" && currentAction == "Warned" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        Warned Users
+    </a>
+ 
+    <a href="/Moderation/Users/Banned" class="moderation-nav-item @(currentController == "Users" && currentAction == "Banned" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+        </svg>
+        Banned Users
+    </a>
+</div>
+ 
+<!-- Actions Section -->
+<div class="moderation-nav-section">
+    <div class="moderation-nav-section-title">Actions</div>
+ 
+    <a href="/Moderation/Actions/History" class="moderation-nav-item @(currentController == "Actions" && currentAction == "History" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Action History
+    </a>
+ 
+    <a href="/Moderation/Actions/Appeals" class="moderation-nav-item @(currentController == "Actions" && currentAction == "Appeals" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
+        </svg>
+        Appeals
+    </a>
+</div>
+ 
+<!-- Settings Section -->
+<div class="moderation-nav-section">
+    <div class="moderation-nav-section-title">Settings</div>
+ 
+    <a href="/Moderation/Settings/Rules" class="moderation-nav-item @(currentController == "Settings" && currentAction == "Rules" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+        </svg>
+        Moderation Rules
+    </a>
+ 
+    <a href="/Moderation/Settings/Automod" class="moderation-nav-item @(currentController == "Settings" && currentAction == "Automod" ? "active" : "")">
+        <svg class="moderation-nav-item-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        </svg>
+        Auto-Moderation
+    </a>
+</div>

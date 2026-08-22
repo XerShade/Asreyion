@@ -26,14 +26,70 @@
                     Profile
                 </a>
 
-                <!-- Settings -->
-                <a class="nav-link modern-nav-link modern-auth-link"
-                   asp-area="Account"
-                   asp-controller="Manage"
-                   asp-action="Index">
-                    <i class="fa-solid fa-gear nav-icon"></i>
-                    Settings
-                </a>
+                <!-- Settings Dropdown -->
+                <div class="dropdown">
+
+                    <button class="nav-link modern-nav-link modern-auth-link dropdown-toggle"
+                            type="button"
+                            id="settingsDropdown"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <i class="fa-solid fa-gear nav-icon"></i>
+                        Settings
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end modern-dropdown"
+                        aria-labelledby="settingsDropdown">
+
+                        <!-- User Dashboard -->
+                        <li>
+                            <a class="dropdown-item"
+                               asp-area="Account"
+                               asp-controller="Manage"
+                               asp-action="Index">
+                                <i class="fa-solid fa-user-gear me-2"></i>
+                                Account Settings
+                            </a>
+                        </li>
+
+                        @if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+                        {
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Moderator"))
+                        {
+                            <!-- Moderation Dashboard -->
+                            <li>
+                                <a class="dropdown-item"
+                                   asp-area="Moderation"
+                                   asp-controller="Dashboard"
+                                   asp-action="Index">
+                                    <i class="fa-solid fa-shield-halved me-2"></i>
+                                    Moderation Dashboard
+                                </a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <!-- Administration Dashboard -->
+                            <li>
+                                <a class="dropdown-item"
+                                   asp-area="Administration"
+                                   asp-controller="Dashboard"
+                                   asp-action="Index">
+                                    <i class="fa-solid fa-screwdriver-wrench me-2"></i>
+                                    Administration Dashboard
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
 
                 <!-- Logout -->
                 <form asp-area="Account"

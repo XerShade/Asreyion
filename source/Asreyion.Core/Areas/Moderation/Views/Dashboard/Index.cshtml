@@ -1,0 +1,540 @@
+@model Asreyion.Core.Areas.Moderation.Models.ModerationDashboardViewModel
+
+@{
+    ViewData["Title"] = "Moderation Dashboard";
+}
+
+<div class="moderation-page-layout">
+
+    <!-- ==================== Sidebar ==================== -->
+    <aside class="moderation-sidebar">
+        @await Html.PartialAsync("_Sidebar")
+    </aside>
+
+
+    <!-- ==================== Main Content ==================== -->
+    <main class="moderation-main-content">
+
+        <!-- ==================== Statistics Cards ==================== -->
+        <div class="moderation-grid moderation-grid-4">
+
+            <div class="moderation-stat-card moderation-stat-card-warning">
+                <div class="moderation-stat-icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+
+                <div class="moderation-stat-value">
+                    @Model.PendingReports
+                </div>
+
+                <div class="moderation-stat-label">
+                    Pending Reports
+                </div>
+
+                <div class="moderation-stat-change">
+                    Requires attention
+                </div>
+            </div>
+
+
+            <div class="moderation-stat-card moderation-stat-card-success">
+                <div class="moderation-stat-icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+
+                <div class="moderation-stat-value">
+                    @Model.ReportsReviewedToday
+                </div>
+
+                <div class="moderation-stat-label">
+                    Reviewed Today
+                </div>
+
+                <div class="moderation-stat-change positive">
+                    Keep up the good work
+                </div>
+            </div>
+
+
+            <div class="moderation-stat-card moderation-stat-card-danger">
+                <div class="moderation-stat-icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+
+                <div class="moderation-stat-value">
+                    @Model.FlaggedUsers
+                </div>
+
+                <div class="moderation-stat-label">
+                    Flagged Users
+                </div>
+
+                <div class="moderation-stat-change">
+                    Review required
+                </div>
+            </div>
+
+
+            <div class="moderation-stat-card moderation-stat-card-info">
+                <div class="moderation-stat-icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+
+                <div class="moderation-stat-value">
+                    @Model.ActiveActions
+                </div>
+
+                <div class="moderation-stat-label">
+                    Active Actions
+                </div>
+
+                <div class="moderation-stat-change">
+                    In progress
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ==================== Recent Content Reports ==================== -->
+        <div class="moderation-card">
+
+            <div class="moderation-card-header">
+                <h3 class="moderation-card-title">
+                    Recent Content Reports
+                </h3>
+
+                <div class="moderation-card-actions">
+                    <a href="/Moderation/Content/Reports"
+                       class="moderation-btn moderation-btn-secondary">
+                        View All
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="moderation-table-container">
+                <table class="moderation-table">
+
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Content Preview</th>
+                            <th>Reporter</th>
+                            <th>Author</th>
+                            <th>Reason</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var report in Model.RecentContentReports)
+                        {
+                            <tr>
+
+                                <td>
+                                    <span class="moderation-badge moderation-badge-type">
+                                        @report.ContentType
+                                    </span>
+                                </td>
+
+                                <td class="moderation-table-truncate">
+                                    @report.ContentPreview
+                                </td>
+
+                                <td>
+                                    @report.ReporterUsername
+                                </td>
+
+                                <td>
+                                    @report.AuthorUsername
+                                </td>
+
+                                <td>
+                                    @report.Reason
+                                </td>
+
+                                <td>
+                                    <span class="moderation-badge @report.PriorityClass">
+                                        @report.Priority
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="moderation-badge @report.StatusClass">
+                                        @report.Status
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @report.CreatedAt.ToString("MMM dd, HH:mm")
+                                </td>
+
+                                <td>
+                                    <div class="moderation-action-buttons">
+
+                                        <button class="moderation-btn moderation-btn-sm moderation-btn-success"
+                                                title="Approve">
+                                            <svg width="14"
+                                                 height="14"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </button>
+
+
+                                        <button class="moderation-btn moderation-btn-sm moderation-btn-danger"
+                                                title="Remove">
+                                            <svg width="14"
+                                                 height="14"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+
+
+                                        <button class="moderation-btn moderation-btn-sm moderation-btn-secondary"
+                                                title="View Details">
+                                            <svg width="14"
+                                                 height="14"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </button>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+
+        <!-- ==================== Recent User Reports ==================== -->
+        <div class="moderation-card">
+
+            <div class="moderation-card-header">
+                <h3 class="moderation-card-title">
+                    Recent User Reports
+                </h3>
+
+                <div class="moderation-card-actions">
+                    <a href="/Moderation/Users/Reports"
+                       class="moderation-btn moderation-btn-secondary">
+                        View All
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="moderation-table-container">
+                <table class="moderation-table">
+
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Reporter</th>
+                            <th>Reason</th>
+                            <th>Reports</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var report in Model.RecentUserReports)
+                        {
+                            <tr>
+
+                                <td>
+                                    <div class="moderation-user-cell">
+
+                                        <div class="moderation-user-avatar">
+                                            @report.Username.Substring(0, 2).ToUpper()
+                                        </div>
+
+                                        <span>
+                                            @report.Username
+                                        </span>
+
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @report.ReporterUsername
+                                </td>
+
+                                <td>
+                                    @report.Reason
+                                </td>
+
+                                <td>
+                                    @report.ReportCount
+                                </td>
+
+                                <td>
+                                    <span class="moderation-badge @report.StatusClass">
+                                        @report.Status
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="moderation-action-buttons">
+
+                                        <button class="moderation-btn moderation-btn-sm moderation-btn-warning"
+                                                title="Warn">
+                                            <svg width="14"
+                                                 height="14"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                        </button>
+
+
+                                        <button class="moderation-btn moderation-btn-sm moderation-btn-danger"
+                                                title="Ban">
+                                            <svg width="14"
+                                                 height="14"
+                                                 fill="none"
+                                                 stroke="currentColor"
+                                                 viewBox="0 0 24 24">
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2"
+                                                      d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                            </svg>
+                                        </button>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+
+        <!-- ==================== Moderation Queue ==================== -->
+        <div class="moderation-card">
+
+            <div class="moderation-card-header">
+                <h3 class="moderation-card-title">
+                    Moderation Queue
+                </h3>
+
+                <div class="moderation-card-actions">
+                    <a href="/Moderation/Content/Queue"
+                       class="moderation-btn moderation-btn-secondary">
+                        View All
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="moderation-queue-list">
+
+                @foreach (var item in Model.ModerationQueue)
+                {
+                    <div class="moderation-queue-item">
+
+                        <div class="moderation-queue-item-main">
+
+                            <div class="moderation-queue-item-type">
+                                @item.Type
+                            </div>
+
+                            <div class="moderation-queue-item-description">
+                                @item.Description
+                            </div>
+
+                        </div>
+
+
+                        <div class="moderation-queue-item-meta">
+
+                            <span class="moderation-badge @item.PriorityClass">
+                                @item.Priority
+                            </span>
+
+                            <span class="moderation-queue-item-time">
+                                @item.TimeInQueue
+                            </span>
+
+                            @if (!string.IsNullOrEmpty(item.AssignedModerator))
+                            {
+                                <span class="moderation-queue-item-assignee">
+                                    Assigned: @item.AssignedModerator
+                                </span>
+                            }
+
+                        </div>
+
+
+                        <div class="moderation-queue-item-actions">
+
+                            <button class="moderation-btn moderation-btn-sm moderation-btn-primary">
+                                Claim
+                            </button>
+
+                            <button class="moderation-btn moderation-btn-sm moderation-btn-secondary">
+                                Skip
+                            </button>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================== Recent Moderation Actions ==================== -->
+        <div class="moderation-card">
+
+            <div class="moderation-card-header">
+
+                <h3 class="moderation-card-title">
+                    Recent Moderation Actions
+                </h3>
+
+                <div class="moderation-card-actions">
+
+                    <a href="/Moderation/Actions/History"
+                       class="moderation-btn moderation-btn-secondary">
+                        View History
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="moderation-actions-list">
+
+                @foreach (var action in Model.RecentActions)
+                {
+                    <div class="moderation-action-item">
+
+                        <div class="moderation-action-item-icon">
+
+                            <svg width="20"
+                                 height="20"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 viewBox="0 0 24 24">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div class="moderation-action-item-content">
+
+                            <div class="moderation-action-item-title">
+                                @action.ModeratorUsername - @action.ActionType
+                            </div>
+
+                            <div class="moderation-action-item-target">
+                                @action.Target
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(action.Notes))
+                            {
+                                <div class="moderation-action-item-notes">
+                                    @action.Notes
+                                </div>
+                            }
+
+                        </div>
+
+
+                        <div class="moderation-action-item-time">
+                            @action.Timestamp.ToString("MMM dd, HH:mm")
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+@section Scripts {
+    <script>
+        // Auto-refresh dashboard data every 30 seconds
+        setInterval(() => {
+            console.log('Refreshing moderation dashboard data...');
+
+            // Add your refresh logic here
+        }, 30000);
+    </script>
+}
