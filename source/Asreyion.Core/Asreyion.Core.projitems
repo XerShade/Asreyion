@@ -30,6 +30,7 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Profile\Index.cshtml" />
+    <None Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Register\Index.cshtml.disabled" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Session\Login.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Dashboard\Index.cshtml" />
