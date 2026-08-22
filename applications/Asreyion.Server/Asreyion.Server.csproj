@@ -21,6 +21,12 @@
     <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="10.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\css\admin.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
   <Import Project="..\..\source\Asreyion.Core\Asreyion.Core.projitems" Label="Shared" />
 
 </Project>

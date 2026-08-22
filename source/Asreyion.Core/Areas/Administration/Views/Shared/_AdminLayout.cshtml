@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Administration</title>
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-sidebar-header">
+                <h1>Asreyion Admin</h1>
+            </div>
+            
+            <nav class="admin-sidebar-nav">
+                @await Html.PartialAsync("_Sidebar", ViewData["SidebarModel"])
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <div class="admin-header-left">
+                    <button class="admin-header-action" id="sidebarToggle" style="display: none;">
+                        ☰
+                    </button>
+                    <h2 class="admin-header-title">@ViewData["Title"] ?? "Dashboard"</h2>
+                </div>
+                
+                <div class="admin-header-right">
+                    @await Html.PartialAsync("_HeaderActions", ViewData["HeaderActionsModel"])
+                </div>
+            </header>
+
+            <!-- Content -->
+            <div class="admin-content">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sidebar toggle for mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('adminSidebar');
+
+        if (window.innerWidth <= 768) {
+            sidebarToggle.style.display = 'block';
+        }
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,185 @@
+@model Asreyion.Core.Areas.Administration.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<!-- Statistics Cards -->
+<div class="admin-grid admin-grid-4">
+    <div class="admin-stat-card">
+        <div class="admin-stat-value">@Model.TotalUsers</div>
+        <div class="admin-stat-label">Total Users</div>
+        <div class="admin-stat-change positive">
+            @Model.UserGrowth.ToString("0.0%") from last month
+        </div>
+    </div>
+    
+    <div class="admin-stat-card">
+        <div class="admin-stat-value">@Model.ActiveSessions</div>
+        <div class="admin-stat-label">Active Sessions</div>
+        <div class="admin-stat-change positive">
+            @Model.SessionGrowth.ToString("0.0%") from last hour
+        </div>
+    </div>
+    
+    <div class="admin-stat-card">
+        <div class="admin-stat-value">@Model.TotalPages</div>
+        <div class="admin-stat-label">Total Pages</div>
+        <div class="admin-stat-change">
+            @Model.PageChange from last week
+        </div>
+    </div>
+    
+    <div class="admin-stat-card">
+        <div class="admin-stat-value">@Model.SystemHealth</div>
+        <div class="admin-stat-label">System Health</div>
+        <div class="admin-stat-change @Model.HealthStatusClass">
+            @Model.HealthStatus
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="admin-card" style="margin-top: 1.5rem;">
+    <div class="admin-card-header">
+        <h3 class="admin-card-title">Recent Activity</h3>
+        <div class="admin-card-actions">
+            <a href="/Administration/System/Logs" class="admin-btn admin-btn-secondary">View All</a>
+        </div>
+    </div>
+    
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var activity in Model.RecentActivities)
+            {
+                <tr>
+                    <td>@activity.Timestamp.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@activity.UserName</td>
+                    <td>@activity.Action</td>
+                    <td>
+                        <span class="admin-badge @activity.StatusClass">@activity.Status</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Quick Actions and System Status -->
+<div class="admin-grid admin-grid-2">
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <h3 class="admin-card-title">Quick Actions</h3>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <a href="/Administration/Users/Create" class="admin-btn admin-btn-primary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Add New User
+            </a>
+            
+            <a href="/Administration/Content/Pages/Create" class="admin-btn admin-btn-secondary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Create New Page
+            </a>
+            
+            <a href="/Administration/System/Settings" class="admin-btn admin-btn-secondary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                System Settings
+            </a>
+            
+            <a href="/Administration/System/Modules" class="admin-btn admin-btn-secondary">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+                Manage Modules
+            </a>
+        </div>
+    </div>
+    
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <h3 class="admin-card-title">System Status</h3>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Database Connection</span>
+                <span class="admin-badge @Model.DatabaseStatusClass">@Model.DatabaseStatus</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Cache Server</span>
+                <span class="admin-badge @Model.CacheStatusClass">@Model.CacheStatus</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>File Storage</span>
+                <span class="admin-badge @Model.StorageStatusClass">@Model.StorageStatus</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>API Gateway</span>
+                <span class="admin-badge @Model.ApiStatusClass">@Model.ApiStatus</span>
+            </div>
+            
+            <hr style="border: none; border-top: 1px solid var(--admin-border); margin: 0.5rem 0;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.875rem; color: var(--admin-text-muted);">Uptime</span>
+                <span style="font-weight: 600;">@Model.Uptime</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.875rem; color: var(--admin-text-muted);">Version</span>
+                <span style="font-weight: 600;">@Model.Version</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Dashboard Widgets -->
+@if (Model.CustomWidgets != null)
+{
+    foreach (var widget in Model.CustomWidgets)
+    {
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title">@widget.Title</h3>
+                <div class="admin-card-actions">
+                    @foreach (var action in widget.Actions)
+                    {
+                        <a href="@action.Url" class="admin-btn admin-btn-secondary">@action.Label</a>
+                    }
+                </div>
+            </div>
+            
+            @Html.Raw(widget.Content)
+        </div>
+    }
+}
+
+@section Scripts {
+    <script>
+        // Auto-refresh dashboard data every 30 seconds
+        setInterval(() => {
+            // Add your refresh logic here
+            console.log('Refreshing dashboard data...');
+        }, 30000);
+    </script>
+}
