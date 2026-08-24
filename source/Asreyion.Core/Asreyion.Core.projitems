@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\SessionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ManageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />

@@ -117,6 +117,32 @@
 
         </div>
 
+        <div class="control-panel-card">
+            <div class="control-panel-card-body">
+
+                <h1 class="control-panel-card-title">
+                    External Logins
+                </h1>
+
+                <form asp-area="Account"
+                      asp-controller="Manage"
+                      asp-action="ConnectExternalLogin"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            name="provider"
+                            value="Google"
+                            class="btn btn-outline-danger">
+                        Connect Google
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
     </main>
 
 </div>

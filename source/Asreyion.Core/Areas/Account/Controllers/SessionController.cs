@@ -9,9 +9,11 @@ namespace Asreyion.Core.Areas.Account.Controllers;
 
 [Area("Account")]
 public class SessionController(
-    SignInManager<ApplicationUser> signInManager) : Controller
+    SignInManager<ApplicationUser> signInManager,
+    UserManager<ApplicationUser> userManager) : Controller
 {
     private readonly SignInManager<ApplicationUser> SignInManager = signInManager;
+    private readonly UserManager<ApplicationUser> UserManager = userManager;
 
     [HttpGet, AllowAnonymous]
     public IActionResult Login(string? returnUrl = null)
@@ -40,13 +42,7 @@ public class SessionController(
 
         if (result.Succeeded)
         {
-            return !string.IsNullOrWhiteSpace(model.ReturnUrl) &&
-                this.Url.IsLocalUrl(model.ReturnUrl)
-                ? this.Redirect(model.ReturnUrl)
-                : this.RedirectToAction(
-                "Index",
-                "Home",
-                new { area = "" });
+            return this.RedirectToLocal(model.ReturnUrl);
         }
 
         if (result.IsLockedOut)
@@ -65,6 +61,98 @@ public class SessionController(
         return this.View(model);
     }
 
+    [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
+    public IActionResult ExternalLogin(
+        string provider,
+        string? returnUrl = null)
+    {
+        if (string.IsNullOrWhiteSpace(provider))
+        {
+            return this.RedirectToAction(
+                nameof(this.Login),
+                new { returnUrl });
+        }
+
+        string? callbackUrl = this.Url.Action(
+            nameof(this.ExternalLoginCallback),
+            "Session",
+            new
+            {
+                area = "Account",
+                returnUrl
+            });
+
+        if (string.IsNullOrWhiteSpace(callbackUrl))
+        {
+            return this.StatusCode(500);
+        }
+
+        Microsoft.AspNetCore.Authentication.AuthenticationProperties properties =
+            this.SignInManager.ConfigureExternalAuthenticationProperties(
+                provider,
+                callbackUrl);
+
+        return this.Challenge(properties, provider);
+    }
+    
+    [HttpGet, AllowAnonymous]
+    public async Task<IActionResult> ExternalLoginCallback(
+        string? returnUrl = null,
+        string? remoteError = null)
+    {
+        if (!string.IsNullOrWhiteSpace(remoteError))
+        {
+            this.TempData["ExternalLoginError"] =
+                $"External authentication failed: {remoteError}";
+
+            return this.RedirectToAction(
+                nameof(this.Login),
+                new { returnUrl });
+        }
+
+        ExternalLoginInfo? info =
+            await this.SignInManager.GetExternalLoginInfoAsync();
+
+        if (info == null)
+        {
+            this.TempData["ExternalLoginError"] =
+                "Unable to retrieve external login information.";
+
+            return this.RedirectToAction(
+                nameof(this.Login),
+                new { returnUrl });
+        }
+
+        SignInResult result =
+            await this.SignInManager.ExternalLoginSignInAsync(
+                info.LoginProvider,
+                info.ProviderKey,
+                isPersistent: true);
+
+        if (result.Succeeded)
+        {
+            return this.RedirectToLocal(returnUrl);
+        }
+
+        if (result.IsLockedOut)
+        {
+            this.TempData["ExternalLoginError"] =
+                "This account is currently locked.";
+
+            return this.RedirectToAction(
+                nameof(this.Login),
+                new { returnUrl });
+        }
+
+        return this.View(
+            "ExternalLoginConfirmation",
+            new ExternalLoginConfirmationViewModel
+            {
+                ReturnUrl = returnUrl,
+                Provider = info.LoginProvider
+            });
+    }
+
     [HttpPost, Authorize, ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
@@ -75,4 +163,13 @@ public class SessionController(
             "Home",
             new { area = "" });
     }
+
+    private IActionResult RedirectToLocal(string? returnUrl) 
+        => !string.IsNullOrWhiteSpace(returnUrl) &&
+            this.Url.IsLocalUrl(returnUrl)
+            ? this.Redirect(returnUrl)
+            : this.RedirectToAction(
+            "Index",
+            "Home",
+            new { area = "" });
 }

@@ -63,6 +63,35 @@
         </button>
 
     </form>
+
+    <div class="my-4">
+        <div class="d-flex align-items-center">
+            <hr class="flex-grow-1" />
+            <span class="px-3 text-muted">or</span>
+            <hr class="flex-grow-1" />
+        </div>
+    </div>
+
+    <div>
+        <h2 class="h5 mb-3">Sign in with</h2>
+
+        <form asp-area="Account"
+              asp-controller="Session"
+              asp-action="ExternalLogin"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input asp-for="ReturnUrl" type="hidden" />
+
+            <button type="submit"
+                    name="provider"
+                    value="Google"
+                    class="btn btn-outline-danger w-100">
+                Continue with Google
+            </button>
+        </form>
+    </div>
 </div>
 
 @section Scripts
