@@ -380,7 +380,9 @@ main {
     --panel-bg: #0f172a;
     --panel-surface: #1e293b;
     --panel-surface-hover: #334155;
+    --panel-surface-dark: #0f172a;
     --panel-border: #334155;
+    --panel-border-dark: #1e293b;
     --panel-text: #f1f5f9;
     --panel-text-muted: #94a3b8;
 }
@@ -423,6 +425,12 @@ main {
 .control-panel-card {
     background: var(--panel-surface);
     border: 1px solid var(--panel-border);
+    color: var(--panel-text);
+}
+
+.control-panel-card-inset {
+    background: var(--panel-surface-dark);
+    border: 1px solid var(--panel-border-dark);
     color: var(--panel-text);
 }
 

@@ -135,17 +135,9 @@
                     var isConnected = connectedProviders.Contains(provider);
                     var login = Model.ExternalLogins?.FirstOrDefault(l => l.LoginProvider == provider);
 
-                    <div class="d-flex justify-content-between align-items-center mb-3 p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1 p-3 rounded control-panel-card-inset">
                         <div>
-                            <span class="fw-bold">@provider</span>
-                            @if (isConnected)
-                            {
-                                <span class="badge bg-success ms-2">Connected</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary ms-2">Not Connected</span>
-                            }
+                            <span class="fw-bold"><i class="fab fa-fw fa-@provider.ToLower()"></i> @provider</span>
                         </div>
 
                         @if (isConnected && login != null)

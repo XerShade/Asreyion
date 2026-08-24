@@ -3,7 +3,11 @@
 @await Html.PartialAsync("_Head")
 <body>
 
-    @await Html.PartialAsync("_Navbar")
+    <!-- Modern Header -->
+    <header class="modern-header">
+        @await Html.PartialAsync("_TopHeader")
+        @await Html.PartialAsync("_SecondaryNav")
+    </header>
 
     <!-- Main Content -->
     <div class="container">
