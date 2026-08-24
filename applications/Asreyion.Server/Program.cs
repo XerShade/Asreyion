@@ -2,6 +2,7 @@ using Asreyion.Core.Data;
 using Asreyion.Core.Database.DbContexts;
 using Asreyion.Modules.SimpleContent.Services;
 using Asreyion.Modules.SimpleContent.Services.Interfaces;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -22,6 +23,14 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationO
 
     // Set the application name.
     ApplicationName = Assembly.GetExecutingAssembly().GetName().Name ?? "Asreyion"
+});
+
+// Configure the options to read Forwarded Headers.
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownIPNetworks.Clear();
+    options.KnownProxies.Clear();
 });
 
 // Add services to the container.
@@ -73,6 +82,8 @@ if (enableHttps)
 }
 
 app.UseRouting();
+
+app.UseForwardedHeaders();
 
 app.UseAuthentication();
 app.UseAuthorization();
