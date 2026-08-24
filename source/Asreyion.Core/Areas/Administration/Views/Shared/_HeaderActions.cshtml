@@ -5,16 +5,12 @@
 }
 
 <a href="/" class="admin-header-action" title="View Site">
-    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-    </svg>
+    <i class="fa-solid fa-external-link fa-fw"></i>
     View Site
 </a>
 
 <a href="/Administration/Profile" class="admin-header-action" title="Profile">
-    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-    </svg>
+    <i class="fa-solid fa-user fa-fw"></i>
     Profile
 </a>
 
@@ -25,9 +21,7 @@
         <a href="@action.Url" class="admin-header-action" title="@action.Title">
             @if (!string.IsNullOrEmpty(action.IconSvg))
             {
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    @Html.Raw(action.IconSvg)
-                </svg>
+                <i class="@action.IconSvg fa-fw"></i>
             }
             @action.Label
         </a>
@@ -35,8 +29,6 @@
 }
 
 <a href="/Account/Logout" class="admin-header-action" title="Logout">
-    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-    </svg>
+    <i class="fa-solid fa-right-from-bracket fa-fw"></i>
     Logout
 </a>

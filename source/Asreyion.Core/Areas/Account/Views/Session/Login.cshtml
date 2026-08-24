@@ -7,104 +7,107 @@
 <div class="container">
     <h1>Login</h1>
 
-    <div class="mb-4">
-        <h2 class="h5 mb-3">Sign in with</h2>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="h5 mb-3">Sign in with</h2>
 
-        <form asp-area="Account"
-              asp-controller="Session"
-              asp-action="ExternalLogin"
-              method="post">
-
-            @Html.AntiForgeryToken()
-
-            <input asp-for="ReturnUrl" type="hidden" />
-
-            <button type="submit"
-                    name="provider"
-                    value="Google"
-                    class="btn btn-outline-danger w-100 btn-lg">
-                Continue with Google
-            </button>
-        </form>
-    </div>
-
-    <div class="mb-4">
-        <div class="d-flex align-items-center">
-            <hr class="flex-grow-1" />
-            <span class="px-3 text-muted">or</span>
-            <hr class="flex-grow-1" />
-        </div>
-    </div>
-
-    <div>
-        <h2 class="h5 mb-3">
-            Staff Login
-            <small class="text-muted fs-6">(Admins & Moderators)</small>
-        </h2>
-
-        <button class="btn btn-link p-0 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#passwordLoginForm">
-            Show password login form
-        </button>
-
-        <div class="collapse" id="passwordLoginForm">
             <form asp-area="Account"
                   asp-controller="Session"
-                  asp-action="Login"
+                  asp-action="ExternalLogin"
                   method="post">
 
                 @Html.AntiForgeryToken()
 
                 <input asp-for="ReturnUrl" type="hidden" />
 
-                <div asp-validation-summary="ModelOnly"
-                     class="alert alert-danger"
-                     role="alert"></div>
-
-                <div class="mb-3">
-                    <label asp-for="UserName" class="form-label">
-                        Username
-                    </label>
-
-                    <input asp-for="UserName"
-                           class="form-control"
-                           autocomplete="username" />
-
-                    <span asp-validation-for="UserName"
-                          class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="Password" class="form-label">
-                        Password
-                    </label>
-
-                    <input asp-for="Password"
-                           class="form-control"
-                           type="password"
-                           autocomplete="current-password" />
-
-                    <span asp-validation-for="Password"
-                          class="text-danger"></span>
-                </div>
-
-                <div class="form-check mb-3">
-                    <input asp-for="RememberMe"
-                           class="form-check-input"
-                           type="checkbox" />
-
-                    <label asp-for="RememberMe"
-                           class="form-check-label">
-                        Remember me
-                    </label>
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    Login
+                <button type="submit"
+                        name="provider"
+                        value="Google"
+                        class="btn btn-outline-danger w-100 btn-lg">
+                    Continue with Google
                 </button>
-
             </form>
         </div>
     </div>
+
+    @if (Model.IsLocalLoginEnabled)
+    {
+        <div class="mb-4">
+            <div class="d-flex align-items-center">
+                <hr class="flex-grow-1" />
+                <span class="px-3 text-muted">or</span>
+                <hr class="flex-grow-1" />
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <h2 class="h5 mb-3">
+                        Staff Login
+                        <small class="text-muted fs-6">(Admins & Moderators)</small>
+                    </h2>
+
+                    <form asp-area="Account"
+                          asp-controller="Session"
+                          asp-action="Login"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input asp-for="ReturnUrl" type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger"
+                             role="alert"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="UserName" class="form-label">
+                                Username
+                            </label>
+
+                            <input asp-for="UserName"
+                                   class="form-control"
+                                   autocomplete="username" />
+
+                            <span asp-validation-for="UserName"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">
+                                Password
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   type="password"
+                                   autocomplete="current-password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="RememberMe"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="RememberMe"
+                                   class="form-check-label">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 @section Scripts
