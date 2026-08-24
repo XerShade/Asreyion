@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asreyion.Core.Areas.Controllers;
+namespace Asreyion.Core.Areas.Account.Controllers;
 
 [Area("Account")]
 [Authorize]

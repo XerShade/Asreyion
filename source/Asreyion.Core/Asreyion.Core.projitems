@@ -9,13 +9,12 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\RegisterController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\SessionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ExternalLoginLinkingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ManageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\RegisterViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Models\ModerationDashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationUser.cs" />
@@ -31,8 +30,6 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Profile\Index.cshtml" />
-    <None Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Register\Index.cshtml.disabled" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Register\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Session\Login.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Dashboard\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Shared\_AdminLayout.cshtml" />
@@ -40,6 +37,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Shared\_Sidebar.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\Dashboard\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\Shared\_Sidebar.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Session\ExternalLoginConfirmation.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Session\ExternalLoginLinking.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\_Sidebar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewStart.cshtml" />
@@ -50,8 +50,5 @@
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewImports.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\_ViewImports.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\_ViewImports.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\_Sidebar.cshtml" />
   </ItemGroup>
 </Project>

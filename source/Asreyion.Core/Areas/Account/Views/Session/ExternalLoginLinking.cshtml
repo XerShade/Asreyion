@@ -1,0 +1,75 @@
+@model Asreyion.Core.Areas.Account.Models.ExternalLoginLinkingViewModel
+
+@{
+    ViewData["Title"] = "Link External Account";
+}
+
+<div class="container">
+    <h1>Link your account</h1>
+    <p class="text-muted">
+        You've successfully authenticated with <strong>@Model.Provider</strong>.
+        Please enter your username and password to link this external account to your existing account.
+    </p>
+
+    <div class="mb-3">
+        <a asp-area="Account"
+           asp-controller="Session"
+           asp-action="ExternalLoginConfirmation"
+           asp-route-returnUrl="@Model.ReturnUrl"
+           class="btn btn-outline-secondary">
+            Create New Account Instead
+        </a>
+    </div>
+
+    <form asp-area="Account"
+          asp-controller="Session"
+          asp-action="ExternalLoginLinking"
+          method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input asp-for="ReturnUrl" type="hidden" />
+        <input asp-for="Provider" type="hidden" />
+
+        <div asp-validation-summary="ModelOnly"
+             class="alert alert-danger"
+             role="alert"></div>
+
+        <div class="mb-3">
+            <label asp-for="UserName" class="form-label">
+                Username
+            </label>
+
+            <input asp-for="UserName"
+                   class="form-control"
+                   autocomplete="username" />
+
+            <span asp-validation-for="UserName"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">
+                Password
+            </label>
+
+            <input asp-for="Password"
+                   class="form-control"
+                   type="password"
+                   autocomplete="current-password" />
+
+            <span asp-validation-for="Password"
+                  class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Link Account
+        </button>
+
+    </form>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

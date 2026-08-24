@@ -110,7 +110,7 @@ public class SessionController(
                 new { returnUrl });
         }
 
-        ExternalLoginInfo? info =
+        Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
             await this.SignInManager.GetExternalLoginInfoAsync();
 
         if (info == null)
@@ -144,13 +144,154 @@ public class SessionController(
                 new { returnUrl });
         }
 
+        string? email = info.Principal.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+        string? displayName = info.Principal.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ??
+                             info.Principal.FindFirst(System.Security.Claims.ClaimTypes.GivenName)?.Value;
+
         return this.View(
             "ExternalLoginConfirmation",
             new ExternalLoginConfirmationViewModel
             {
                 ReturnUrl = returnUrl,
-                Provider = info.LoginProvider
+                Provider = info.LoginProvider,
+                Email = email ?? string.Empty,
+                DisplayName = displayName ?? string.Empty
             });
+    }
+
+    [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.View(model);
+        }
+
+        Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
+            await this.SignInManager.GetExternalLoginInfoAsync();
+
+        if (info == null)
+        {
+            this.TempData["ExternalLoginError"] =
+                "Unable to retrieve external login information.";
+
+            return this.RedirectToAction(nameof(this.Login));
+        }
+
+        ApplicationUser user = new()
+        {
+            UserName = model.UserName,
+            Email = model.Email,
+            DisplayName = model.DisplayName,
+            IsActive = true
+        };
+
+        IdentityResult result =
+            await this.UserManager.CreateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                this.ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return this.View(model);
+        }
+
+        result = await this.UserManager.AddLoginAsync(user, info);
+
+        if (!result.Succeeded)
+        {
+            await this.UserManager.DeleteAsync(user);
+
+            foreach (IdentityError error in result.Errors)
+            {
+                this.ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return this.View(model);
+        }
+
+        await this.SignInManager.SignInAsync(user, isPersistent: true);
+
+        return this.RedirectToLocal(model.ReturnUrl);
+    }
+
+    [HttpGet, AllowAnonymous]
+    public async Task<IActionResult> ExternalLoginLinking(string? returnUrl = null)
+    {
+        Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
+            await this.SignInManager.GetExternalLoginInfoAsync();
+
+        if (info == null)
+        {
+            this.TempData["ExternalLoginError"] =
+                "Unable to retrieve external login information.";
+
+            return this.RedirectToAction(nameof(this.Login));
+        }
+
+        return this.View("ExternalLoginLinking", new ExternalLoginLinkingViewModel
+        {
+            Provider = info.LoginProvider,
+            ReturnUrl = returnUrl
+        });
+    }
+
+    [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ExternalLoginLinking(ExternalLoginLinkingViewModel model)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.View(model);
+        }
+
+        Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
+            await this.SignInManager.GetExternalLoginInfoAsync();
+
+        if (info == null)
+        {
+            this.TempData["ExternalLoginError"] =
+                "Unable to retrieve external login information.";
+
+            return this.RedirectToAction(nameof(this.Login));
+        }
+
+        ApplicationUser? existingUser = await this.UserManager.FindByNameAsync(model.UserName);
+
+        if (existingUser == null)
+        {
+            this.ModelState.AddModelError(string.Empty, "User not found. Please check your username.");
+            return this.View(model);
+        }
+
+        bool passwordValid = await this.UserManager.CheckPasswordAsync(existingUser, model.Password);
+
+        if (!passwordValid)
+        {
+            this.ModelState.AddModelError(string.Empty, "Invalid password.");
+            return this.View(model);
+        }
+
+        IdentityResult result = await this.UserManager.AddLoginAsync(existingUser, info);
+
+        if (!result.Succeeded)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                this.ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return this.View(model);
+        }
+
+        await this.SignInManager.SignInAsync(existingUser, isPersistent: true);
+
+        this.TempData["SuccessMessage"] =
+            $"{info.LoginProvider} has been successfully linked to your account.";
+
+        return this.RedirectToLocal(model.ReturnUrl);
     }
 
     [HttpPost, Authorize, ValidateAntiForgeryToken]

@@ -1,4 +1,5 @@
 ﻿@model Asreyion.Core.Areas.Account.Models.ManageViewModel
+@using System.Linq
 
 @{
     ViewData["Title"] = "Account Settings";
@@ -124,20 +125,62 @@
                     External Logins
                 </h1>
 
-                <form asp-area="Account"
-                      asp-controller="Manage"
-                      asp-action="ConnectExternalLogin"
-                      method="post">
+                @{
+                    var availableProviders = new[] { "Google" };
+                    var connectedProviders = Model.ExternalLogins?.Select(l => l.LoginProvider).ToList() ?? new List<string>();
+                }
 
-                    @Html.AntiForgeryToken()
+                @foreach (var provider in availableProviders)
+                {
+                    var isConnected = connectedProviders.Contains(provider);
+                    var login = Model.ExternalLogins?.FirstOrDefault(l => l.LoginProvider == provider);
 
-                    <button type="submit"
-                            name="provider"
-                            value="Google"
-                            class="btn btn-outline-danger">
-                        Connect Google
-                    </button>
-                </form>
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3">
+                        <div>
+                            <span class="fw-bold">@provider</span>
+                            @if (isConnected)
+                            {
+                                <span class="badge bg-success ms-2">Connected</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary ms-2">Not Connected</span>
+                            }
+                        </div>
+
+                        @if (isConnected && login != null)
+                        {
+                            <form asp-area="Account"
+                                  asp-controller="Manage"
+                                  asp-action="DisconnectExternalLogin"
+                                  method="post"
+                                  class="mb-0">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="provider" value="@login.LoginProvider" />
+                                <input type="hidden" name="providerKey" value="@login.ProviderKey" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    Disconnect
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-area="Account"
+                                  asp-controller="Manage"
+                                  asp-action="ConnectExternalLogin"
+                                  method="post"
+                                  class="mb-0">
+                                @Html.AntiForgeryToken()
+                                <button type="submit"
+                                        name="provider"
+                                        value="@provider"
+                                        class="btn btn-sm btn-outline-danger">
+                                    Connect
+                                </button>
+                            </form>
+                        }
+                    </div>
+                }
 
             </div>
 

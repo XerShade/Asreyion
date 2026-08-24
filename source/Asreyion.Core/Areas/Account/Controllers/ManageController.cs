@@ -3,8 +3,9 @@ using Asreyion.Core.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
-namespace Asreyion.Core.Areas.Controllers;
+namespace Asreyion.Core.Areas.Account.Controllers;
 
 [Area("Account"), Authorize]
 public class ManageController(
@@ -23,11 +24,14 @@ public class ManageController(
             return this.NotFound();
         }
 
+        IList<UserLoginInfo> externalLogins = await this.UserManager.GetLoginsAsync(user);
+
         ManageViewModel model = new()
         {
             DisplayName = user.DisplayName,
             Email = user.Email ?? throw new NullReferenceException("Email cannot be null."),
-            UserName = user.UserName ?? throw new NullReferenceException("UserName cannot be null.")
+            UserName = user.UserName ?? throw new NullReferenceException("UserName cannot be null."),
+            ExternalLogins = externalLogins
         };
 
         return this.View(model);
@@ -64,6 +68,9 @@ public class ManageController(
         {
             this.ModelState.AddModelError(string.Empty, error.Description);
         }
+
+        IList<UserLoginInfo> externalLogins = await this.UserManager.GetLoginsAsync(user);
+        model.ExternalLogins = externalLogins;
 
         return this.View("Index", model);
     }
@@ -153,13 +160,24 @@ public class ManageController(
             return this.Challenge();
         }
 
-        ExternalLoginInfo? info =
+        Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
             await this.SignInManager.GetExternalLoginInfoAsync();
 
         if (info is null)
         {
             this.TempData["ErrorMessage"] =
                 "Unable to retrieve external login information.";
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        IList<UserLoginInfo> existingLogins = await this.UserManager.GetLoginsAsync(user);
+        bool hasProvider = existingLogins.Any(l => l.LoginProvider == info.LoginProvider);
+
+        if (hasProvider)
+        {
+            this.TempData["ErrorMessage"] =
+                $"You already have a {info.LoginProvider} account connected.";
 
             return this.RedirectToAction(nameof(this.Index));
         }
@@ -184,6 +202,52 @@ public class ManageController(
 
         this.TempData["SuccessMessage"] =
             $"{info.LoginProvider} has been connected to your account.";
+
+        return this.RedirectToAction(nameof(this.Index));
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> DisconnectExternalLogin(string provider, string providerKey)
+    {
+        if (string.IsNullOrWhiteSpace(provider) || string.IsNullOrWhiteSpace(providerKey))
+        {
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        ApplicationUser? user =
+            await this.UserManager.GetUserAsync(this.User);
+
+        if (user == null)
+        {
+            return this.NotFound();
+        }
+
+        IList<UserLoginInfo> logins = await this.UserManager.GetLoginsAsync(user);
+
+        if (logins.Count == 1 && await this.UserManager.HasPasswordAsync(user) == false)
+        {
+            this.TempData["ErrorMessage"] =
+                "You cannot disconnect your only external login without first setting a password.";
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        IdentityResult result =
+            await this.UserManager.RemoveLoginAsync(user, provider, providerKey);
+
+        if (!result.Succeeded)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                this.TempData["ErrorMessage"] = error.Description;
+                break;
+            }
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        this.TempData["SuccessMessage"] =
+            $"{provider} has been disconnected from your account.";
 
         return this.RedirectToAction(nameof(this.Index));
     }
