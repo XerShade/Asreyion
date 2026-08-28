@@ -9,6 +9,7 @@
     <Import_RootNamespace>Asreyion.Modules.SimpleContent</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\SimpleContentModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\SlugFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewComponents\BlogNavigationViewComponent.cs" />
     <Content Include="$(MSBuildThisFileDirectory)Content\Posts\2026-08-24-account-signin-and-registration-is-live.md">

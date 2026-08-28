@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Models\ModerationDashboardViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\HostConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ManageController.cs" />
@@ -26,6 +27,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\DashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\DbContexts\AuthenticationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Migrations\**\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\AssemblyModuleDiscovery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\AuthenticationModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\DatabaseConfigurationModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\ICoreModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDependencySorter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDiscovery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\ModuleDependencySorter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\ProxyConfigurationModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\RoutingModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\AssemblyTypeDiscovery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Util\Interfaces\ITypeDiscovery.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\Index.cshtml" />

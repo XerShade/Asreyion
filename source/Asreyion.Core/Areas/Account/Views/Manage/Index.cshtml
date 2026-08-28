@@ -1,5 +1,7 @@
 ﻿@model Asreyion.Core.Areas.Account.Models.ManageViewModel
 @using System.Linq
+@using Asreyion.Core.Features.Authentication.Providers.Interfaces;
+@inject IEnumerable<IAuthenticationProvider> AuthProviders
 
 @{
     ViewData["Title"] = "Account Settings";
@@ -126,18 +128,17 @@
                 </h1>
 
                 @{
-                    var availableProviders = new[] { "Google" };
                     var connectedProviders = Model.ExternalLogins?.Select(l => l.LoginProvider).ToList() ?? new List<string>();
                 }
 
-                @foreach (var provider in availableProviders)
+                @foreach (var provider in AuthProviders)
                 {
-                    var isConnected = connectedProviders.Contains(provider);
-                    var login = Model.ExternalLogins?.FirstOrDefault(l => l.LoginProvider == provider);
+                    var isConnected = connectedProviders.Contains(provider.Name);
+                    var login = Model.ExternalLogins?.FirstOrDefault(l => l.LoginProvider == provider.Name);
 
                     <div class="d-flex justify-content-between align-items-center mb-1 p-3 rounded control-panel-card-inset">
                         <div>
-                            <span class="fw-bold"><i class="fab fa-fw fa-@provider.ToLower()"></i> @provider</span>
+                            <span class="fw-bold"><i class="fab fa-fw fa-@provider.Name.ToLower()"></i> @provider.Name</span>
                         </div>
 
                         @if (isConnected && login != null)
@@ -165,7 +166,7 @@
                                 @Html.AntiForgeryToken()
                                 <button type="submit"
                                         name="provider"
-                                        value="@provider"
+                                        value="@provider.Name"
                                         class="btn btn-sm btn-outline-danger">
                                     Connect
                                 </button>
