@@ -1,7 +1,7 @@
 ﻿using Asreyion.Core.Modules.Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
 
-namespace Asreyion.Core.Modules;
+namespace Asreyion.Core.Mvc.Modules;
 
 public class ProxyConfigurationModule : ICoreModule
 {

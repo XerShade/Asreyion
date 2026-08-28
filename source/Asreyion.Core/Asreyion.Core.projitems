@@ -16,15 +16,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Models\ModerationDashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\HostConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Data\ApplicationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ManageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\AdminHeaderActionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\AdminSidebarViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\DashboardViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Database\DbContexts\AuthenticationDbContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Database\Migrations\**\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\AuthenticationDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Migrations\**\*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\DiscordAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
@@ -32,13 +32,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\SessionController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AssemblyModuleDiscovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Modules\AuthenticationModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\DatabaseConfigurationModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Modules\DatabaseConfigurationModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\ICoreModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDependencySorter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDiscovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\ModuleDependencySorter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\ProxyConfigurationModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\RoutingModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\ProxyConfigurationModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\RoutingModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Attributes\FeatureAreaAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Conventions\FeatureAreaConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\ViewLocationExpanders\FeatureViewLocationExpander.cs" />
@@ -75,5 +75,7 @@
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Modules\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\Database\Modules\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Mvc\Modules\" />
   </ItemGroup>
 </Project>

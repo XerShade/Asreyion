@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Asreyion.Core.Data;
+namespace Asreyion.Core.Features.Database.Data;
 
 public class ApplicationUser : IdentityUser
 {

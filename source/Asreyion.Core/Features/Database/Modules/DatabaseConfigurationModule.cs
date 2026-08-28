@@ -1,8 +1,8 @@
-﻿using Asreyion.Core.Database.DbContexts;
+﻿using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Core.Modules.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Asreyion.Core.Modules;
+namespace Asreyion.Core.Features.Database.Modules;
 
 public class DatabaseConfigurationModule : ICoreModule
 {

@@ -2,7 +2,7 @@
 using Asreyion.Core.Mvc.Conventions;
 using Asreyion.Core.Mvc.ViewLocationExpanders;
 
-namespace Asreyion.Core.Modules;
+namespace Asreyion.Core.Mvc.Modules;
 
 public class RoutingModule : ICoreModule
 {

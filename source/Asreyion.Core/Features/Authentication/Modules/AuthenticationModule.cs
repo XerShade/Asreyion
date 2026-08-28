@@ -1,8 +1,9 @@
-﻿using Asreyion.Core.Data;
-using Asreyion.Core.Database.DbContexts;
-using Asreyion.Core.Features.Authentication.Providers.Interfaces;
-using Asreyion.Core.Modules;
+﻿using Asreyion.Core.Features.Authentication.Providers.Interfaces;
+using Asreyion.Core.Features.Database.Data;
+using Asreyion.Core.Features.Database.DbContexts;
+using Asreyion.Core.Features.Database.Modules;
 using Asreyion.Core.Modules.Interfaces;
+using Asreyion.Core.Mvc.Modules;
 using Asreyion.Core.Util;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
