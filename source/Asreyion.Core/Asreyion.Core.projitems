@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\DashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\DbContexts\AuthenticationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Migrations\**\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\DiscordAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AssemblyModuleDiscovery.cs" />
