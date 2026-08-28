@@ -1,4 +1,4 @@
-@model Asreyion.Core.Areas.Account.Models.ExternalLoginConfirmationViewModel
+@model Asreyion.Core.Features.Authentication.Models.ExternalLoginConfirmationViewModel
 
 @{
     ViewData["Title"] = "Confirm External Login";
@@ -13,7 +13,7 @@
     </p>
 
     <div class="mb-3">
-        <a asp-area="Account"
+        <a asp-area="Authentication"
            asp-controller="Session"
            asp-action="ExternalLoginLinking"
            asp-route-returnUrl="@Model.ReturnUrl"
@@ -22,7 +22,7 @@
         </a>
     </div>
 
-    <form asp-area="Account"
+    <form asp-area="Authentication"
           asp-controller="Session"
           asp-action="ExternalLoginConfirmation"
           method="post">

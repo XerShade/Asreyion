@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Asreyion.Core.Areas.Account.Models;
+namespace Asreyion.Core.Features.Authentication.Models;
 
 public sealed class ExternalLoginConfirmationViewModel
 {

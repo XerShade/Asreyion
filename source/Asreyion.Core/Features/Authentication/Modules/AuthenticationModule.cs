@@ -1,12 +1,13 @@
 ﻿using Asreyion.Core.Data;
 using Asreyion.Core.Database.DbContexts;
 using Asreyion.Core.Features.Authentication.Providers.Interfaces;
+using Asreyion.Core.Modules;
 using Asreyion.Core.Modules.Interfaces;
 using Asreyion.Core.Util;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace Asreyion.Core.Modules;
+namespace Asreyion.Core.Features.Authentication.Modules;
 
 public class AuthenticationModule : ICoreModule
 {

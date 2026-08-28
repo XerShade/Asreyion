@@ -1,4 +1,4 @@
-﻿@model Asreyion.Core.Areas.Account.Models.LoginViewModel
+﻿@model Asreyion.Core.Features.Authentication.Models.LoginViewModel;
 @using Asreyion.Core.Features.Authentication.Providers.Interfaces;
 @inject IEnumerable<IAuthenticationProvider> AuthProviders
 
@@ -13,7 +13,7 @@
         <div class="card-body">
             <h2 class="h5 mb-3">Sign in with:</h2>
 
-            <form asp-area="Account"
+            <form asp-area="Authentication"
                   asp-controller="Session"
                   asp-action="ExternalLogin"
                   method="post">
@@ -53,7 +53,7 @@
                         <small class="text-muted fs-6">(Admins & Moderators)</small>
                     </h2>
 
-                    <form asp-area="Account"
+                    <form asp-area="Authentication"
                           asp-controller="Session"
                           asp-action="Login"
                           method="post">

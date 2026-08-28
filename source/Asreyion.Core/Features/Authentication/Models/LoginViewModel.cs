@@ -1,4 +1,4 @@
-﻿namespace Asreyion.Core.Areas.Account.Models;
+﻿namespace Asreyion.Core.Features.Authentication.Models;
 
 public class LoginViewModel
 {

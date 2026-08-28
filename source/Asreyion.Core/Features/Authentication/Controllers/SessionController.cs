@@ -1,19 +1,22 @@
-﻿using Asreyion.Core.Areas.Account.Models;
-using Asreyion.Core.Data;
+﻿using Asreyion.Core.Data;
+using Asreyion.Core.Features.Authentication.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
-namespace Asreyion.Core.Areas.Account.Controllers;
+namespace Asreyion.Core.Features.Authentication.Controllers;
 
-[Area("Account")]
 public class SessionController(
     SignInManager<ApplicationUser> signInManager,
     UserManager<ApplicationUser> userManager) : Controller
 {
     private readonly SignInManager<ApplicationUser> SignInManager = signInManager;
     private readonly UserManager<ApplicationUser> UserManager = userManager;
+
+    [HttpGet, AllowAnonymous]
+    public IActionResult Index() 
+        => this.RedirectToAction("Login");
 
     [HttpGet, AllowAnonymous]
     public IActionResult Login(string? returnUrl = null)
@@ -78,7 +81,7 @@ public class SessionController(
             "Session",
             new
             {
-                area = "Account",
+                area = "Authentication",
                 returnUrl
             });
 
@@ -94,7 +97,7 @@ public class SessionController(
 
         return this.Challenge(properties, provider);
     }
-    
+
     [HttpGet, AllowAnonymous]
     public async Task<IActionResult> ExternalLoginCallback(
         string? returnUrl = null,
@@ -305,7 +308,7 @@ public class SessionController(
             new { area = "" });
     }
 
-    private IActionResult RedirectToLocal(string? returnUrl) 
+    private IActionResult RedirectToLocal(string? returnUrl)
         => !string.IsNullOrWhiteSpace(returnUrl) &&
             this.Url.IsLocalUrl(returnUrl)
             ? this.Redirect(returnUrl)
