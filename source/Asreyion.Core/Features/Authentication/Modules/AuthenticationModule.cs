@@ -1,5 +1,5 @@
 ﻿using Asreyion.Core.Features.Authentication.Providers.Interfaces;
-using Asreyion.Core.Features.Database.Data;
+using Asreyion.Core.Features.Authentication.Data;
 using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Core.Features.Database.Modules;
 using Asreyion.Core.Modules.Interfaces;

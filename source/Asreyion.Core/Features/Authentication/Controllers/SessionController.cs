@@ -1,5 +1,5 @@
 ﻿using Asreyion.Core.Features.Authentication.Models;
-using Asreyion.Core.Features.Database.Data;
+using Asreyion.Core.Features.Authentication.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

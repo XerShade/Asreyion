@@ -16,7 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Models\ModerationDashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\HostConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Data\ApplicationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ManageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Controllers\DashboardController.cs" />

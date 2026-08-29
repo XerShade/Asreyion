@@ -1,4 +1,4 @@
-﻿using Asreyion.Core.Features.Database.Data;
+﻿using Asreyion.Core.Features.Authentication.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
