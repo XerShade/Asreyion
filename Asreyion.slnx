@@ -11,6 +11,7 @@
     <Project Path="applications/Asreyion.Server/Asreyion.Server.csproj" Id="198f0bd9-588a-489d-a4ff-9b9af5f28e88" />
   </Folder>
   <Folder Name="/Source/">
+    <Project Path="source/Asreyion.Core.Theme/Asreyion.Core.Theme.csproj" Id="54810989-4d71-4a66-8eaa-70bb50063784" />
     <Project Path="source/Asreyion.Core/Asreyion.Core.shproj" Id="638b0180-3bdc-4480-b6d5-eea6f57c7e55" />
     <Project Path="source/Asreyion.Modules.SimpleContent/Asreyion.Modules.SimpleContent.shproj" Id="b9ff2d58-c7d5-4235-a969-f33b37b58f01" />
   </Folder>

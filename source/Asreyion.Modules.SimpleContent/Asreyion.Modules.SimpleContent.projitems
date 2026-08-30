@@ -23,7 +23,6 @@
     </None>
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\BlogController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\HomeController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ErrorViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PostMetaModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PostModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IContentProvider.cs" />
