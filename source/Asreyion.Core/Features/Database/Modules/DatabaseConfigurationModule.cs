@@ -18,10 +18,18 @@ public class DatabaseConfigurationModule : ICoreModule
     { }
 
     /// <inheritdoc />
-    public void OnConfigureServices(IServiceCollection services, IConfiguration configuration) 
-        => services.AddDbContext<AuthenticationDbContext>(options =>
-            options.UseMySql(
-                configuration.GetConnectionString("Authentication"),
-                ServerVersion.AutoDetect(configuration.GetConnectionString("Authentication"))
-            ));
+    public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)
+    {
+        _ = services.AddDbContext<AuthenticationDbContext>(options =>
+                options.UseMySql(
+                    configuration.GetConnectionString("Authentication"),
+                    ServerVersion.AutoDetect(configuration.GetConnectionString("Authentication"))
+                ));
+
+        _ = services.AddDbContext<DataDbContext>(options =>
+                options.UseMySql(
+                    configuration.GetConnectionString("Data"),
+                    ServerVersion.AutoDetect(configuration.GetConnectionString("Data"))
+                ));
+    }
 }

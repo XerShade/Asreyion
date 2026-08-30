@@ -24,12 +24,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\AdminSidebarViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\DashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\AuthenticationDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\DataDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Migrations\**\*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\LoginViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\DiscordAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\SessionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Models\NavigationTreeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Modules\NavigationServiceModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\Interfaces\INavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\NavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Components\NavigationView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AssemblyModuleDiscovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Modules\AuthenticationModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Modules\DatabaseConfigurationModule.cs" />
@@ -60,6 +68,10 @@
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\Login.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\_ViewImports.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\Navigation\Views\_ViewImports.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewStart.cshtml" />
@@ -77,5 +89,8 @@
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Database\Modules\" />
     <Folder Include="$(MSBuildThisFileDirectory)Mvc\Modules\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Features\Navigation\Views\Components\NavigationView.cshtml" />
   </ItemGroup>
 </Project>

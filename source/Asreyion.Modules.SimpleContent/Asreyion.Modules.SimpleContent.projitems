@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Modules\SimpleContentModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utilities\SlugFormatter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewComponents\BlogNavigationViewComponent.cs" />
     <Content Include="$(MSBuildThisFileDirectory)Content\Posts\2026-08-24-account-signin-and-registration-is-live.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -28,7 +27,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\IContentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\MarkdownContentProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewComponents\RecentBlogPostsViewComponent.cs" />
-    <Content Include="$(MSBuildThisFileDirectory)Views\Shared\Components\BlogNavigation\Default.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Content\Posts\2025-12-29-blog-functionality-expanded.md">

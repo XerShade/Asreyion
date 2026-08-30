@@ -1,0 +1,125 @@
+﻿@model List<Asreyion.Core.Features.Navigation.Models.NavigationTreeViewModel>
+
+<!-- Secondary Navigation - Main Links -->
+<nav class="secondary-nav navbar navbar-expand-lg navbar-dark">
+
+    <div class="container">
+
+        <!-- Mobile Menu Button -->
+        <button class="navbar-toggler modern-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#secondaryNavContent"
+                aria-controls="secondaryNavContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="toggler-icon"></span>
+            <span class="toggler-icon"></span>
+            <span class="toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="secondaryNavContent">
+
+            <!-- Main Navigation -->
+            <ul class="navbar-nav mx-auto">
+                @foreach (var item in Model)
+                {
+                    if (item.Children.Any())
+                    {
+                        <!-- Top Level Dynamic Dropdown Root Item -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link modern-nav-link dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                @if (!string.IsNullOrEmpty(item.Icon))
+                                {
+                                    <i class="fa-solid fa-fw fa-@item.Icon nav-icon"></i>
+                                }
+                                @item.Label
+                                <i class="fa-solid fa-fw fa-chevron-down dropdown-arrow"></i>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                @{ await RenderSubtree(item.Children); }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <!-- Top Level Dynamic Standard Link -->
+                        <li class="nav-item">
+                            <a class="nav-link modern-nav-link"
+                               asp-area="@item.Area"
+                               asp-controller="@item.Controller"
+                               asp-action="@item.Action"
+                               asp-all-route-data="@item.RouteValues">
+                                @if (!string.IsNullOrEmpty(item.Icon))
+                                {
+                                    <i class="fa-solid fa-fw fa-@item.Icon nav-icon"></i>
+                                }
+                                @item.Label
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+@{
+    // Local recursive template block expression for rendering sub-dropdown fragments safely
+    async Task RenderSubtree(List<Asreyion.Core.Features.Navigation.Models.NavigationTreeViewModel> items)
+    {
+        foreach (var item in items)
+        {
+            if (item.ItemType == "Divider")
+            {
+                <li><hr class="dropdown-divider"></li>
+            }
+            else if (item.ItemType == "Header")
+            {
+                <li><h6 class="dropdown-header">@item.Label</h6></li>
+            }
+            else if (item.Children.Any())
+            {
+                <!-- Multi-Level Infinite Submenu Branch -->
+                <li class="dropdown-submenu">
+                    <a class="dropdown-item" href="#" role="button" aria-expanded="false">
+                        @if (!string.IsNullOrEmpty(item.Icon))
+                        {
+                            <i class="fa-solid fa-fw fa-@item.Icon me-2"></i>
+                        }
+                        @item.Label
+                        <i class="fa-solid fa-fw fa-chevron-right dropdown-arrow"></i>
+                    </a>
+                    <ul class="nested-dropdown-menu">
+                        @{ await RenderSubtree(item.Children); }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <!-- Final Target Link Leaf Element Node -->
+                <li>
+                    <a class="dropdown-item"
+                       asp-area="@item.Area"
+                       asp-controller="@item.Controller"
+                       asp-action="@item.Action"
+                       asp-all-route-data="@item.RouteValues">
+                        @if (!string.IsNullOrEmpty(item.Icon))
+                        {
+                            <i class="fa-solid fa-fw fa-@item.Icon me-2"></i>
+                        }
+                        @item.Label
+                    </a>
+                </li>
+            }
+        }
+    }
+}

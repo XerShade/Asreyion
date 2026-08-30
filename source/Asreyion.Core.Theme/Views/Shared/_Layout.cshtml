@@ -6,7 +6,7 @@
     <!-- Modern Header -->
     <header class="modern-header">
         @await Html.PartialAsync("_TopHeader")
-        @await Html.PartialAsync("_SecondaryNav")
+        @await Component.InvokeAsync("NavigationView", new { menuName = "Primary" })
     </header>
 
     <!-- Main Content -->
