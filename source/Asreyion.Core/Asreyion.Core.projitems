@@ -31,6 +31,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\SessionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Database\DbContexts\DataDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenuItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Models\NavigationTreeViewModel.cs" />

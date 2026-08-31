@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Asreyion.Core.Features.Database.DbContexts;
 
-public class AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options)
+public partial class AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options)
         : IdentityDbContext<ApplicationUser>(options)
 {
 
