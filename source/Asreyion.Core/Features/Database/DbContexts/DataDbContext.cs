@@ -8,8 +8,6 @@ public partial class DataDbContext(DbContextOptions<DataDbContext> options) : Db
     {
         base.OnModelCreating(modelBuilder);
 
-        this.OnModelCreatingPartial(modelBuilder);
+        _ = modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataDbContext).Assembly);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

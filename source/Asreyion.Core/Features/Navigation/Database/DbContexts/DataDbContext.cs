@@ -1,8 +1,8 @@
 ﻿using Asreyion.Core.Features.Navigation.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 
-// Must be set to the same namespace as the base DataDbContext
 namespace Asreyion.Core.Features.Database.DbContexts;
 
 public partial class DataDbContext
@@ -10,22 +10,26 @@ public partial class DataDbContext
     public DbSet<NavigationMenu> NavigationMenus { get; set; }
     public DbSet<NavigationMenuItem> NavigationMenuItems { get; set; }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
+    private class NavigationMenuConfiguration : IEntityTypeConfiguration<NavigationMenu>
     {
-        _ = modelBuilder.Entity<NavigationMenu>()
-            .Property(e => e.Items)
-            .HasColumnType("json");
+        public void Configure(EntityTypeBuilder<NavigationMenu> builder)
+            => builder.Property(e => e.Items)
+                .HasColumnType("json");
+    }
 
-        _ = modelBuilder.Entity<NavigationMenuItem>()
-            .Property(e => e.Children)
-            .HasColumnType("json");
+    private class NavigationMenuItemConfiguration : IEntityTypeConfiguration<NavigationMenuItem>
+    {
+        public void Configure(EntityTypeBuilder<NavigationMenuItem> builder)
+        {
+            _ = builder.Property(e => e.Children)
+                .HasColumnType("json");
 
-        _ = modelBuilder.Entity<NavigationMenuItem>()
-          .Property(e => e.RouteValues)
-          .HasColumnType("json")
-          .HasConversion(
-              v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-              v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null) ?? new Dictionary<string, string>()
-          );
+            _ = builder.Property(e => e.RouteValues)
+                .HasColumnType("json")
+                .HasConversion(
+                    v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+                    v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null) ?? new Dictionary<string, string>()
+                );
+        }
     }
 }
