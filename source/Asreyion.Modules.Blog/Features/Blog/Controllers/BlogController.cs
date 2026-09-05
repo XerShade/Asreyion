@@ -28,7 +28,7 @@ public class BlogController(DataDbContext dbContext) : Controller
         }
     }
 
-    [HttpGet("Post/{slug}")]
+    [HttpGet("Blog/Post/{slug}")]
     public async Task<IActionResult> Post(string slug, CancellationToken cancellationToken)
     {
         try
