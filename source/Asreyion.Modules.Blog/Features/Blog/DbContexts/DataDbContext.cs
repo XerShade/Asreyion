@@ -1,4 +1,4 @@
-﻿using Asreyion.Modules.Blog.Data;
+﻿using Asreyion.Modules.Blog.Features.Blog.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

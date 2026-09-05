@@ -1,11 +1,11 @@
 using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Core.Theme.Models;
-using Asreyion.Modules.Blog.Data;
+using Asreyion.Modules.Blog.Features.Blog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace Asreyion.Content.StaticContent.Controllers;
+namespace Asreyion.Content.StaticContent.Content.Controllers;
 
 public class HomeController(DataDbContext dbContext) : Controller
 {

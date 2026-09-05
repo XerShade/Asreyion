@@ -156,7 +156,7 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.ToTable("NavigationMenuItems", (string)null);
                 });
 
-            modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogCategory", b =>
+            modelBuilder.Entity("Asreyion.Modules.Blog.Features.Blog.Data.BlogCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -189,7 +189,7 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.ToTable("BlogCategories", (string)null);
                 });
 
-            modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogPost", b =>
+            modelBuilder.Entity("Asreyion.Modules.Blog.Features.Blog.Data.BlogPost", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -229,7 +229,7 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.ToTable("BlogPosts", (string)null);
                 });
 
-            modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogTag", b =>
+            modelBuilder.Entity("Asreyion.Modules.Blog.Features.Blog.Data.BlogTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -279,9 +279,9 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.ToTable("BlogPostBlogTag", (string)null);
                 });
 
-            modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogCategory", b =>
+            modelBuilder.Entity("Asreyion.Modules.Blog.Features.Blog.Data.BlogCategory", b =>
                 {
-                    b.HasOne("Asreyion.Modules.Blog.Data.BlogCategory", "Parent")
+                    b.HasOne("Asreyion.Modules.Blog.Features.Blog.Data.BlogCategory", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -289,7 +289,7 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogPost", b =>
+            modelBuilder.Entity("Asreyion.Modules.Blog.Features.Blog.Data.BlogPost", b =>
                 {
                     b.HasOne("Asreyion.Core.Features.Authentication.Data.ApplicationUser", "Author")
                         .WithMany()
@@ -302,13 +302,13 @@ namespace Asreyion.Server.Migrations.DataDb
 
             modelBuilder.Entity("BlogCategoryBlogPost", b =>
                 {
-                    b.HasOne("Asreyion.Modules.Blog.Data.BlogCategory", null)
+                    b.HasOne("Asreyion.Modules.Blog.Features.Blog.Data.BlogCategory", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Asreyion.Modules.Blog.Data.BlogPost", null)
+                    b.HasOne("Asreyion.Modules.Blog.Features.Blog.Data.BlogPost", null)
                         .WithMany()
                         .HasForeignKey("PostsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -317,20 +317,20 @@ namespace Asreyion.Server.Migrations.DataDb
 
             modelBuilder.Entity("BlogPostBlogTag", b =>
                 {
-                    b.HasOne("Asreyion.Modules.Blog.Data.BlogPost", null)
+                    b.HasOne("Asreyion.Modules.Blog.Features.Blog.Data.BlogPost", null)
                         .WithMany()
                         .HasForeignKey("PostsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Asreyion.Modules.Blog.Data.BlogTag", null)
+                    b.HasOne("Asreyion.Modules.Blog.Features.Blog.Data.BlogTag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogCategory", b =>
+            modelBuilder.Entity("Asreyion.Modules.Blog.Features.Blog.Data.BlogCategory", b =>
                 {
                     b.Navigation("Children");
                 });

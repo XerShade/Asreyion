@@ -1,9 +1,9 @@
 ﻿using Asreyion.Core.Features.Database.DbContexts;
-using Asreyion.Modules.Blog.Data;
+using Asreyion.Modules.Blog.Features.Blog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Asreyion.Modules.Blog.Controllers;
+namespace Asreyion.Modules.Blog.Features.Blog.Controllers;
 
 [Area("Blog")]
 public class BlogController(DataDbContext dbContext) : Controller

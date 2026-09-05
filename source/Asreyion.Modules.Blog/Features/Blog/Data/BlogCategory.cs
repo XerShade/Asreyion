@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Asreyion.Modules.Blog.Data;
+namespace Asreyion.Modules.Blog.Features.Blog.Data;
 
 public class BlogCategory
 {
