@@ -4,6 +4,7 @@ using Asreyion.Core.Features.Database.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Asreyion.Server.Migrations.DataDb
 {
     [DbContext(typeof(DataDbContext))]
-    partial class DataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260905015730_AddBlogDataTypes")]
+    partial class AddBlogDataTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,7 +87,7 @@ namespace Asreyion.Server.Migrations.DataDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationUser", (string)null);
+                    b.ToTable("ApplicationUser");
                 });
 
             modelBuilder.Entity("Asreyion.Core.Features.Navigation.Data.NavigationMenu", b =>
@@ -105,7 +108,7 @@ namespace Asreyion.Server.Migrations.DataDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("NavigationMenus", (string)null);
+                    b.ToTable("NavigationMenus");
                 });
 
             modelBuilder.Entity("Asreyion.Core.Features.Navigation.Data.NavigationMenuItem", b =>
@@ -153,7 +156,7 @@ namespace Asreyion.Server.Migrations.DataDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("NavigationMenuItems", (string)null);
+                    b.ToTable("NavigationMenuItems");
                 });
 
             modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogCategory", b =>
@@ -186,7 +189,7 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogCategories", (string)null);
+                    b.ToTable("BlogCategories");
                 });
 
             modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogPost", b =>
@@ -226,7 +229,7 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("BlogPosts", (string)null);
+                    b.ToTable("BlogPosts");
                 });
 
             modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogTag", b =>
@@ -246,7 +249,7 @@ namespace Asreyion.Server.Migrations.DataDb
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("BlogTags", (string)null);
+                    b.ToTable("BlogTags");
                 });
 
             modelBuilder.Entity("BlogCategoryBlogPost", b =>
@@ -261,7 +264,7 @@ namespace Asreyion.Server.Migrations.DataDb
 
                     b.HasIndex("PostsId");
 
-                    b.ToTable("BlogCategoryBlogPost", (string)null);
+                    b.ToTable("BlogCategoryBlogPost");
                 });
 
             modelBuilder.Entity("BlogPostBlogTag", b =>
@@ -276,7 +279,7 @@ namespace Asreyion.Server.Migrations.DataDb
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("BlogPostBlogTag", (string)null);
+                    b.ToTable("BlogPostBlogTag");
                 });
 
             modelBuilder.Entity("Asreyion.Modules.Blog.Data.BlogCategory", b =>

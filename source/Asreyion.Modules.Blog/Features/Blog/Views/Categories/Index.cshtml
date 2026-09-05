@@ -1,0 +1,23 @@
+﻿@model IReadOnlyList<BlogPost>
+
+@{
+    var category = ViewBag.Category as BlogCategory;
+
+    ViewData["Title"] = category?.Name ?? "Category";
+}
+
+<div class="card">
+    <div class="card-body">
+
+        <h2 class="card-title">
+            Category: @category?.Name
+        </h2>
+
+        <p class="lead">
+            @category?.Description
+        </p>
+
+        <partial name="_PostList" model="Model" />
+
+    </div>
+</div>

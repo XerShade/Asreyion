@@ -50,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\RoutingModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Attributes\FeatureAreaAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Conventions\FeatureAreaConvention.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\ViewLocationExpanders\ContentViewLocationExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\ViewLocationExpanders\FeatureViewLocationExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\AssemblyTypeDiscovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\Interfaces\ITypeDiscovery.cs" />

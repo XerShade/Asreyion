@@ -69,9 +69,18 @@ public class PostMetaModel
         // Check if the categories are empty.
         if (this.Categories.Count == 0)
         {
-            // If they are, add "Uncategorized".
             this.Categories.Add("Uncategorized");
         }
+
+        this.Categories = this.Categories
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        this.Tags = this.Tags
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
 
         // Return the model.
         return this;

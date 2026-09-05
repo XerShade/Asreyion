@@ -33,5 +33,8 @@ public class RoutingModule : ICoreModule
             .AddControllersWithViews(options =>
                 options.Conventions.Add(new FeatureAreaConvention()))
             .AddRazorOptions(options =>
-                options.ViewLocationExpanders.Add(new FeatureViewLocationExpander()));
+            {
+                options.ViewLocationExpanders.Add(new FeatureViewLocationExpander());
+                options.ViewLocationExpanders.Add(new ContentViewLocationExpander());
+            });
 }

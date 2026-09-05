@@ -1,0 +1,19 @@
+﻿@model IReadOnlyList<BlogPost>
+
+@{
+    var tag = ViewBag.Tag as BlogTag;
+
+    ViewData["Title"] = tag?.Name ?? "Tag";
+}
+
+<div class="card">
+    <div class="card-body">
+
+        <h2 class="card-title">
+            Tag: @tag?.Name
+        </h2>
+
+        <partial name="_PostList" model="Model" />
+
+    </div>
+</div>

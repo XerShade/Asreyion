@@ -1,0 +1,67 @@
+﻿@model BlogPost
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container">
+
+    <article class="blog-post mx-auto" style="max-width: 900px;">
+
+        <div class="card mb-2">
+            <div class="card-body">
+                <h2 class="card-title">@Model.Title</h2>
+                <small>
+                    Posted on: @Model.Created.ToShortDateString(), 
+                    @if (Model.Modified > Model.Created)
+                    {
+                        <span>
+                            , updated: @Model.Modified.ToString("MMMM d, yyyy")
+                        </span>
+                    }
+                    @if (Model.Author is not null)
+                    {
+                        <span>by: @Model.Author.UserName</Span>
+                    }
+                    in: 
+                    @foreach (var category in Model.Categories)
+                    {
+                        <a asp-area="Blog"
+                           asp-controller="Categories"
+                           asp-action="Index"
+                           asp-route-slug="@category.Slug"
+                           class="badge text-bg-secondary text-decoration-none me-1">
+                            @category.Name
+                        </a>
+                    } 
+                    <br />
+                    Tags: 
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <a asp-area="Blog"
+                           asp-controller="Tags"
+                           asp-action="Index"
+                           asp-route-slug="@tag.Name"
+                           class="badge text-bg-secondary text-decoration-none me-1">
+                            @tag.Name
+                        </a>
+                    }
+                </small>
+                <hr />
+                <div class="p2 card-body-inset-highlight">@Html.Raw(Model.Body)</div>
+            </div>
+        </div>
+
+        <!-- Back to Blog -->
+        <div class="mb-4">
+            <a asp-area="Blog"
+               asp-controller="Blog"
+               asp-action="Index"
+               class="btn btn-outline-primary">
+                ← Back to Blog
+            </a>
+        </div>
+
+    </article>
+
+</div>

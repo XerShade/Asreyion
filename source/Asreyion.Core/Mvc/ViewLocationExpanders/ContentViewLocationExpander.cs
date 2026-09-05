@@ -2,7 +2,7 @@
 
 namespace Asreyion.Core.Mvc.ViewLocationExpanders;
 
-public class FeatureViewLocationExpander : IViewLocationExpander
+public class ContentViewLocationExpander : IViewLocationExpander
 {
     public void PopulateValues(ViewLocationExpanderContext context)
     {
@@ -33,15 +33,15 @@ public class FeatureViewLocationExpander : IViewLocationExpander
         if (!string.IsNullOrEmpty(areaName))
         {
             // Pattern requested: Features/{Area}/Views/{Controller}/{Action}.cshtml
-            newLocations.Add($"/Features/{targetAreaFolder}/Views/{{1}}/{{0}}.cshtml");
-            newLocations.Add($"/Features/{targetAreaFolder}/Views/Shared/{{0}}.cshtml");
-            newLocations.Add($"/Features/{targetAreaFolder}/{{0}}.cshtml");
+            newLocations.Add($"/Content/Views/{targetAreaFolder}/{{1}}/{{0}}.cshtml");
+            newLocations.Add($"/Content/Views/{targetAreaFolder}/Shared/{{0}}.cshtml");
+            newLocations.Add($"/Content/{targetAreaFolder}/{{0}}.cshtml");
         }
         else
         {
             // Fallback layout when there is no Area at all
-            newLocations.Add($"/Features/{targetAreaFolder}/Views/{{0}}.cshtml");
-            newLocations.Add($"/Features/Views/Shared/{{0}}.cshtml");
+            newLocations.Add($"/Content/Views/{targetAreaFolder}/{{0}}.cshtml");
+            newLocations.Add($"/Content/Views/Shared/{{0}}.cshtml");
         }
 
         return newLocations.Concat(viewLocations);

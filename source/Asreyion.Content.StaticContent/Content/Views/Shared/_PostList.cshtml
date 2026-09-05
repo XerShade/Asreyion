@@ -1,0 +1,88 @@
+﻿@model IReadOnlyList<BlogPost>
+
+@if (Model.Count == 0)
+{
+    <p>No posts have been published.</p>
+}
+else
+{
+    @foreach (var post in Model)
+    {
+        <hr />
+
+        <article>
+            <h4>
+                <a asp-area="Blog"
+                   asp-controller="Blog"
+                   asp-action="Post"
+                   asp-route-slug="@post.Slug">
+                    @post.Title
+                </a>
+            </h4>
+
+            <small>
+                Posted on: @post.Created.ToString("MMMM d, yyyy")
+
+                @if (post.Modified > post.Created)
+                {
+                    <span>
+                        , updated: @post.Modified.ToString("MMMM d, yyyy")
+                    </span>
+                }
+
+                @if (post.Author is not null)
+                {
+                    <span>
+                        by: @post.Author.UserName
+                    </span>
+                }
+
+                @if (post.Categories.Count > 0)
+                {
+                    <span>
+                        in:
+                        @foreach (var category in post.Categories)
+                        {
+                            <a asp-area="Blog"
+                               asp-controller="Categories"
+                               asp-action="Index"
+                               asp-route-slug="@category.Slug"
+                               class="badge text-bg-secondary text-decoration-none me-1">
+                                @category.Name
+                            </a>
+                        }
+                    </span>
+                }
+
+                @if (post.Tags.Count > 0)
+                {
+                    <br />
+
+                    <span>
+                        Tags:
+
+                        @foreach (var tag in post.Tags)
+                        {
+                            <a asp-area="Blog"
+                               asp-controller="Tags"
+                               asp-action="Index"
+                               asp-route-slug="@tag.Name"
+                               class="badge text-bg-secondary text-decoration-none me-1">
+                                @tag.Name
+                            </a>
+                        }
+                    </span>
+                }
+            </small>
+
+            <div>
+                <a asp-area="Blog"
+                   asp-controller="Blog"
+                   asp-action="Post"
+                   asp-route-slug="@post.Slug">
+                    Read more →
+                </a>
+            </div>
+        </article>
+    }
+}

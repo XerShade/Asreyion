@@ -37,6 +37,8 @@
 
   <Import Project="..\..\source\Asreyion.Core\Asreyion.Core.projitems" Label="Shared" />
 
-  <Import Project="..\..\source\Asreyion.Modules.SimpleContent\Asreyion.Modules.SimpleContent.projitems" Label="Shared" />
+  <Import Project="..\..\source\Asreyion.Modules.Blog\Asreyion.Modules.Blog.projitems" Label="Shared" />
+
+  <Import Project="..\..\source\Asreyion.Content.StaticContent\Asreyion.Content.StaticContent.projitems" Label="Shared" />
 
 </Project>
