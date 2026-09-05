@@ -14,15 +14,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ManageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Controllers\DashboardController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Models\ModerationDashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\HostConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ManageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Controllers\DashboardController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\AdminHeaderActionsViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\AdminSidebarViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Models\DashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\AuthenticationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\DataDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Migrations\**\*.cs" />

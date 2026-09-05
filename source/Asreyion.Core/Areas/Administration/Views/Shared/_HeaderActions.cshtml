@@ -1,34 +1,31 @@
-@model Asreyion.Core.Areas.Administration.Models.AdminHeaderActionsViewModel
-
-@{
-    var headerActionsModel = ViewData["HeaderActionsModel"] as AdminHeaderActionsViewModel ?? new AdminHeaderActionsViewModel();
-}
-
-<a href="/" class="admin-header-action" title="View Site">
+<a class="admin-header-action" target="_blank"
+   asp-area=""
+   asp-controller="Home"
+   asp-action="Index">
     <i class="fa-solid fa-external-link fa-fw"></i>
     View Site
 </a>
 
-<a href="/Administration/Profile" class="admin-header-action" title="Profile">
-    <i class="fa-solid fa-user fa-fw"></i>
+<a class="admin-header-action" target="_blank"
+   asp-area="Account"
+   asp-controller="Profile"
+   asp-action="Index">
+    <i class="fa-solid fa-user nav-icon"></i>
     Profile
 </a>
 
-@if (headerActionsModel?.CustomActions != null)
-{
-    foreach (var action in headerActionsModel.CustomActions)
-    {
-        <a href="@action.Url" class="admin-header-action" title="@action.Title">
-            @if (!string.IsNullOrEmpty(action.IconSvg))
-            {
-                <i class="@action.IconSvg fa-fw"></i>
-            }
-            @action.Label
-        </a>
-    }
-}
+<form asp-area="Authentication"
+      asp-controller="Session"
+      asp-action="Logout"
+      method="post"
+      class="d-inline">
 
-<a href="/Account/Logout" class="admin-header-action" title="Logout">
-    <i class="fa-solid fa-right-from-bracket fa-fw"></i>
-    Logout
-</a>
+    @Html.AntiForgeryToken()
+
+    <button type="submit"
+            class="btn btn-outline-danger modern-btn-sm admin-header-action">
+        <i class="fa-solid fa-right-from-bracket nav-icon"></i>
+        Logout
+    </button>
+
+</form>
