@@ -1,4 +1,5 @@
-﻿using Asreyion.Core.Features.Navigation.Models;
+﻿using Asreyion.Core.Features.Navigation.Data;
+using Asreyion.Core.Features.Navigation.Models;
 using Asreyion.Core.Features.Navigation.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,34 +11,30 @@ public class NavigationView(INavigationService navService) : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(string menuName = "Primary")
     {
-        var menu = await navService.GetNavigationMenuByNameAsync(menuName);
+        NavigationMenu? menu = await navService.GetNavigationMenuByNameAsync(menuName);
         if (menu == null || menu.Items == null || menu.Items.Count == 0)
         {
-            return View(this.ViewPath, new List<NavigationTreeViewModel>());
+            return this.View(this.ViewPath, new List<NavigationTreeViewModel>());
         }
 
-        // Single DB round-trip fetch optimization: Load all map nodes at once into RAM memory
-        var allItemsFromDb = await navService.GetAllMenuItemsAsync();
-        var itemCache = allItemsFromDb.ToDictionary(x => x.Id);
+        List<NavigationMenuItem> allItemsFromDb = await navService.GetAllMenuItemsAsync();
 
-        // Build hierarchical node projection
-        var rootNodes = new List<NavigationTreeViewModel>();
-        foreach (var id in menu.Items)
+        List<NavigationMenuItem> rootItems = [.. allItemsFromDb
+            .Where(x => menu.Items.Contains(x.Id) && x.ParentId == null)
+            .OrderBy(x => x.Order)];
+
+        List<NavigationTreeViewModel> rootNodes = [];
+        foreach (NavigationMenuItem? rootItem in rootItems)
         {
-            if (itemCache.TryGetValue(id, out var rootItem))
-            {
-                rootNodes.Add(BuildTreeRecursively(rootItem, itemCache));
-            }
+            rootNodes.Add(this.BuildTreeRecursively(rootItem));
         }
 
-        return View(this.ViewPath, rootNodes.OrderBy(x => x.Order).ToList());
+        return this.View(this.ViewPath, rootNodes.OrderBy(x => x.Order).ToList());
     }
 
-    private NavigationTreeViewModel BuildTreeRecursively(
-        Data.NavigationMenuItem currentItem,
-        Dictionary<int, Data.NavigationMenuItem> cache)
+    private NavigationTreeViewModel BuildTreeRecursively(Data.NavigationMenuItem currentItem)
     {
-        var node = new NavigationTreeViewModel
+        NavigationTreeViewModel node = new()
         {
             Id = currentItem.Id,
             Label = currentItem.Label,
@@ -50,14 +47,11 @@ public class NavigationView(INavigationService navService) : ViewComponent
             RouteValues = currentItem.RouteValues ?? []
         };
 
-        if (currentItem.Children != null)
+        if (currentItem.Children != null && currentItem.Children.Count > 0)
         {
-            foreach (var childId in currentItem.Children)
+            foreach (NavigationMenuItem childItem in currentItem.Children)
             {
-                if (cache.TryGetValue(childId, out var childItem))
-                {
-                    node.Children.Add(BuildTreeRecursively(childItem, cache));
-                }
+                node.Children.Add(this.BuildTreeRecursively(childItem));
             }
             node.Children = node.Children.OrderBy(x => x.Order).ToList();
         }

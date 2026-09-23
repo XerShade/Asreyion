@@ -13,7 +13,7 @@ public class TagsController(DataDbContext dbContext) : Controller
     {
         try
         {
-            BlogTag? tag = await dbContext.BlogTags
+            BlogTag? tag = await dbContext.Set<BlogTag>()
             .AsNoTracking()
             .Include(t => t.Posts)
             .FirstOrDefaultAsync(

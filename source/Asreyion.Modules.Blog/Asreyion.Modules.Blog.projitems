@@ -15,7 +15,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\BlogCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\BlogPost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\BlogTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\DbContexts\DataDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\Configurations\BlogCategoryConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\Configurations\BlogPostConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\Configurations\BlogTagConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\Blog\Index.cshtml" />

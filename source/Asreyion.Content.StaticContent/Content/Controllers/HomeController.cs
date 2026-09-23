@@ -13,7 +13,7 @@ public class HomeController(DataDbContext dbContext) : Controller
     {
         try
         {
-            List<BlogPost> posts = [.. dbContext.BlogPosts
+            List<BlogPost> posts = [.. dbContext.Set<BlogPost>()
                 .AsNoTracking()
                 .Include(p => p.Author)
                 .Include(p => p.Categories)

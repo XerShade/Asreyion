@@ -13,7 +13,7 @@ public class CategoriesController(DataDbContext dbContext) : Controller
     {
         try
         {
-            BlogCategory? category = await dbContext.BlogCategories
+            BlogCategory? category = await dbContext.Set<BlogCategory>()
             .AsNoTracking()
             .Include(c => c.Posts)
                 .ThenInclude(p => p.Author)

@@ -12,7 +12,7 @@ public class BlogController(DataDbContext dbContext) : Controller
     {
         try
         {
-            List<BlogPost> posts = await dbContext.BlogPosts
+            List<BlogPost> posts = await dbContext.Set<BlogPost>()
                 .AsNoTracking()
                 .Include(p => p.Author)
                 .Include(p => p.Categories)
@@ -33,7 +33,7 @@ public class BlogController(DataDbContext dbContext) : Controller
     {
         try
         {
-            BlogPost? post = await dbContext.BlogPosts
+            BlogPost? post = await dbContext.Set<BlogPost>()
             .AsNoTracking()
             .Include(p => p.Author)
             .Include(p => p.Categories)

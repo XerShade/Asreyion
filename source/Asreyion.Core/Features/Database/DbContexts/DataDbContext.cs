@@ -2,7 +2,7 @@
 
 namespace Asreyion.Core.Features.Database.DbContexts;
 
-public partial class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(options)
+public class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
