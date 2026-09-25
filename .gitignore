@@ -422,3 +422,7 @@ docker-compose.override.yml
 
 # Ignore application store/ folder.
 [Ss]tore/
+
+# Ignore Production and Development config files.
+*.Development.json
+*.Production.json
