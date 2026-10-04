@@ -27,6 +27,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\SessionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Definitions\IOnRenderHtmlHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookRegistrationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\HookEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookSubscriber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Modules\HookEngineModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Tags\HookTagHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\Configurations\NavigationMenuConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\Configurations\NavigationMenuItemConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenu.cs" />

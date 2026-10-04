@@ -1,4 +1,4 @@
-namespace Asreyion.Core.Theme.Models;
+namespace Asreyion.Server.Models;
 
 public class ErrorViewModel
 {

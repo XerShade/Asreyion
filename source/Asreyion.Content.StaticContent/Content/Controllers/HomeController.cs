@@ -1,5 +1,5 @@
 using Asreyion.Core.Features.Database.DbContexts;
-using Asreyion.Core.Theme.Models;
+using Asreyion.Server.Models;
 using Asreyion.Modules.Blog.Features.Blog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
