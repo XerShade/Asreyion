@@ -9,35 +9,23 @@
     <Import_RootNamespace>Asreyion.Modules.Blog</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Controllers\BlogController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Controllers\CategoriesController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Controllers\TagsController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\BlogCategory.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\BlogPost.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\BlogTag.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\Configurations\BlogCategoryConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\Configurations\BlogPostConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Blog\Data\Configurations\BlogTagConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\BlogController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\CategoriesController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\TagsController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\BlogCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\BlogPost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\BlogTag.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Configurations\BlogCategoryConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Configurations\BlogPostConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Configurations\BlogTagConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\Blog\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\Blog\Post.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\Categories\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\Tags\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Views\Blog\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Views\Blog\Post.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Views\Categories\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Views\Tags\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\_ViewImports.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\_ViewStart.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Features\Blog\Views\Shared\_PostList.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Views\Shared\_PostList.cshtml" />
   </ItemGroup>
 </Project>

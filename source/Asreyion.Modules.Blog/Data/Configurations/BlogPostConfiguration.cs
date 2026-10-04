@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Asreyion.Modules.Blog.Features.Blog.Data.Configurations;
+namespace Asreyion.Modules.Blog.Data.Configurations;
 
 public class BlogPostConfiguration : IEntityTypeConfiguration<BlogPost>
 {

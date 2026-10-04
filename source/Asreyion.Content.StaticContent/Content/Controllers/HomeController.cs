@@ -1,6 +1,6 @@
 using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Server.Models;
-using Asreyion.Modules.Blog.Features.Blog.Data;
+using Asreyion.Modules.Blog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
