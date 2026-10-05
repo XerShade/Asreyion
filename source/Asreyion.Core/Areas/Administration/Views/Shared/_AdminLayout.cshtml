@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
     <title>@ViewData["Title"] - Administration</title>
+    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/admin.css" />
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -13,15 +15,16 @@
     <hook name="admin-head-styles" />
 </head>
 <body>
+    <a href="#admin-main-content" class="skip-link">Skip to main content</a>
     <hook name="admin-body-start" />
     <div class="admin-container">
         <!-- Sidebar -->
-        <aside class="admin-sidebar" id="adminSidebar">
+        <aside class="admin-sidebar" id="adminSidebar" aria-label="Administration Sidebar">
             <div class="admin-sidebar-header">
-                <h1><i class="fa-solid fa-shield-halved me-2"></i>Asreyion Admin</h1>
+                <h1><i class="fa-solid fa-shield-halved me-2" aria-hidden="true"></i>Asreyion Admin</h1>
             </div>
             
-            <nav class="admin-sidebar-nav">
+            <nav class="admin-sidebar-nav" aria-label="Admin Navigation">
                 <hook name="admin-sidebar-top" />
                 @await Html.PartialAsync("_Sidebar", ViewData["SidebarModel"])
                 <hook name="admin-sidebar-bottom" />
@@ -29,12 +32,12 @@
         </aside>
 
         <!-- Main Content -->
-        <main class="admin-main">
+        <main class="admin-main" id="admin-main-content" tabindex="-1">
             <!-- Header -->
-            <header class="admin-header">
+            <header class="admin-header" role="banner">
                 <div class="admin-header-left">
-                    <button class="admin-header-action" id="sidebarToggle" style="display: none;">
-                        <i class="fa-solid fa-bars"></i>
+                    <button class="admin-header-action" id="sidebarToggle" style="display: none;" aria-expanded="false" aria-controls="adminSidebar" aria-label="Toggle admin sidebar navigation">
+                        <i class="fa-solid fa-bars" aria-hidden="true"></i>
                     </button>
                     <h2 class="admin-header-title">@(ViewData["Title"] ?? "Dashboard")</h2>
                     <hook name="admin-header-left" />
@@ -56,7 +59,7 @@
     </div>
 
     <script>
-        // Sidebar toggle for mobile
+        // Sidebar toggle for mobile with ARIA state updates
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('adminSidebar');
 
@@ -65,7 +68,8 @@
         }
 
         sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
+            const isOpen = sidebar.classList.toggle('open');
+            sidebarToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         });
 
         // Close sidebar when clicking outside on mobile
@@ -73,6 +77,7 @@
             if (window.innerWidth <= 768) {
                 if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
                     sidebar.classList.remove('open');
+                    sidebarToggle.setAttribute('aria-expanded', 'false');
                 }
             }
         });
@@ -84,6 +89,7 @@
             } else {
                 sidebarToggle.style.display = 'none';
                 sidebar.classList.remove('open');
+                sidebarToggle.setAttribute('aria-expanded', 'false');
             }
         });
     </script>

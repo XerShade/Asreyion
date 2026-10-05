@@ -1,4 +1,4 @@
-﻿@model IReadOnlyList<BlogPost>
+@model IReadOnlyList<BlogPost>
 
 @{
     var tag = ViewBag.Tag as BlogTag;
@@ -6,14 +6,15 @@
     ViewData["Title"] = tag?.Name ?? "Tag";
 }
 
-<div class="card">
-    <div class="card-body">
+<div class="card border border-secondary shadow-sm mb-4">
+    <div class="card-header bg-tertiary border-bottom border-secondary p-4">
+        <h1 class="card-title h3 text-white fw-bold mb-0 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-hashtag text-primary" aria-hidden="true"></i>
+            Tag: #@tag?.Name
+        </h1>
+    </div>
 
-        <h2 class="card-title">
-            Tag: @tag?.Name
-        </h2>
-
+    <div class="card-body p-4">
         <partial name="_PostList" model="Model" />
-
     </div>
 </div>

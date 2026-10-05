@@ -1,64 +1,77 @@
-﻿@model BlogPost
+@model BlogPost
 
 @{
     ViewData["Title"] = Model.Title;
 }
 
-<div class="container">
+<div class="container py-4">
 
-    <article class="blog-post mx-auto" style="max-width: 900px;">
+    <article class="blog-post mx-auto max-w-4xl">
 
-        <div class="card mb-2">
-            <div class="card-body">
-                <h2 class="card-title">@Model.Title</h2>
-                <small>
-                    Posted on: @Model.Created.ToShortDateString(), 
+        <div class="card border border-secondary shadow-sm mb-4">
+            <div class="card-header bg-tertiary border-bottom border-secondary p-4">
+                <h1 class="h2 text-white fw-bold mb-3">@Model.Title</h1>
+                <div class="post-meta text-muted small d-flex flex-wrap align-items-center gap-2">
+                    <span><i class="fa-solid fa-calendar me-1" aria-hidden="true"></i> @Model.Created.ToString("MMMM d, yyyy")</span>
+                    
                     @if (Model.Modified > Model.Created)
                     {
-                        <span>
-                            , updated: @Model.Modified.ToString("MMMM d, yyyy")
-                        </span>
+                        <span>• Updated: @Model.Modified.ToString("MMMM d, yyyy")</span>
                     }
+
                     @if (Model.Author is not null)
                     {
-                        <span>by: @Model.Author.UserName</Span>
+                        <span>• <i class="fa-solid fa-user me-1" aria-hidden="true"></i> @Model.Author.UserName</span>
                     }
-                    in: 
-                    @foreach (var category in Model.Categories)
+
+                    @if (Model.Categories.Count > 0)
                     {
-                        <a asp-area="Blog"
-                           asp-controller="Categories"
-                           asp-action="Index"
-                           asp-route-slug="@category.Slug"
-                           class="badge text-bg-secondary text-decoration-none me-1">
-                            @category.Name
-                        </a>
-                    } 
-                    <br />
-                    Tags: 
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <a asp-area="Blog"
-                           asp-controller="Tags"
-                           asp-action="Index"
-                           asp-route-slug="@tag.Name"
-                           class="badge text-bg-secondary text-decoration-none me-1">
-                            @tag.Name
-                        </a>
+                        <span class="ms-2">
+                            in:
+                            @foreach (var category in Model.Categories)
+                            {
+                                <a asp-area="Blog"
+                                   asp-controller="Categories"
+                                   asp-action="Index"
+                                   asp-route-slug="@category.Slug"
+                                   class="badge bg-outline-primary text-decoration-none me-1">
+                                    <i class="fa-solid fa-folder me-1" aria-hidden="true"></i>@category.Name
+                                </a>
+                            }
+                        </span>
                     }
-                </small>
-                <hr />
-                <div class="p2 card-body-inset-highlight">@Html.Raw(Model.Body)</div>
+                </div>
+
+                @if (Model.Tags.Count > 0)
+                {
+                    <div class="post-tags mt-3">
+                        <span class="text-muted small me-2"><i class="fa-solid fa-tags me-1" aria-hidden="true"></i>Tags:</span>
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <a asp-area="Blog"
+                               asp-controller="Tags"
+                               asp-action="Index"
+                               asp-route-slug="@tag.Name"
+                               class="badge bg-secondary text-decoration-none me-1">
+                                #@tag.Name
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="card-body p-4 p-md-5 leading-relaxed text-secondary">
+                @Html.Raw(Model.Body)
             </div>
         </div>
 
-        <!-- Back to Blog -->
+        <!-- Back to Blog Navigation -->
         <div class="mb-4">
             <a asp-area="Blog"
                asp-controller="Blog"
                asp-action="Index"
-               class="btn btn-outline-primary">
-                ← Back to Blog
+               class="btn btn-outline-primary modern-btn-sm d-inline-flex align-items-center gap-2">
+                <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Blog
             </a>
         </div>
 

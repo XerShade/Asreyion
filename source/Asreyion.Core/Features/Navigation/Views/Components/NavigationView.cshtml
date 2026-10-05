@@ -1,7 +1,7 @@
-﻿@model List<Asreyion.Core.Features.Navigation.Models.NavigationTreeViewModel>
+@model List<Asreyion.Core.Features.Navigation.Models.NavigationTreeViewModel>
 
 <!-- Secondary Navigation - Main Links -->
-<nav class="secondary-nav navbar navbar-expand-lg navbar-dark">
+<nav class="secondary-nav navbar navbar-expand-lg navbar-dark" aria-label="Main Navigation">
 
     <div class="container">
 
@@ -12,7 +12,7 @@
                 data-bs-target="#secondaryNavContent"
                 aria-controls="secondaryNavContent"
                 aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle main navigation menu">
             <span class="toggler-icon"></span>
             <span class="toggler-icon"></span>
             <span class="toggler-icon"></span>
@@ -32,13 +32,14 @@
                                href="#"
                                role="button"
                                data-bs-toggle="dropdown"
-                               aria-expanded="false">
+                               aria-expanded="false"
+                               aria-haspopup="true">
                                 @if (!string.IsNullOrEmpty(item.Icon))
                                 {
-                                    <i class="fa-solid fa-fw fa-@item.Icon nav-icon"></i>
+                                    <i class="fa-solid fa-fw fa-@item.Icon nav-icon" aria-hidden="true"></i>
                                 }
                                 @item.Label
-                                <i class="fa-solid fa-fw fa-chevron-down dropdown-arrow"></i>
+                                <i class="fa-solid fa-fw fa-chevron-down dropdown-arrow" aria-hidden="true"></i>
                             </a>
 
                             <ul class="dropdown-menu">
@@ -57,7 +58,7 @@
                                asp-all-route-data="@item.RouteValues">
                                 @if (!string.IsNullOrEmpty(item.Icon))
                                 {
-                                    <i class="fa-solid fa-fw fa-@item.Icon nav-icon"></i>
+                                    <i class="fa-solid fa-fw fa-@item.Icon nav-icon" aria-hidden="true"></i>
                                 }
                                 @item.Label
                             </a>
@@ -90,13 +91,13 @@
             {
                 <!-- Multi-Level Infinite Submenu Branch -->
                 <li class="dropdown-submenu">
-                    <a class="dropdown-item" href="#" role="button" aria-expanded="false">
+                    <a class="dropdown-item" href="#" role="button" aria-expanded="false" aria-haspopup="true">
                         @if (!string.IsNullOrEmpty(item.Icon))
                         {
-                            <i class="fa-solid fa-fw fa-@item.Icon me-2"></i>
+                            <i class="fa-solid fa-fw fa-@item.Icon me-2" aria-hidden="true"></i>
                         }
                         @item.Label
-                        <i class="fa-solid fa-fw fa-chevron-right dropdown-arrow"></i>
+                        <i class="fa-solid fa-fw fa-chevron-right dropdown-arrow" aria-hidden="true"></i>
                     </a>
                     <ul class="nested-dropdown-menu">
                         @{ await RenderSubtree(item.Children); }
@@ -114,7 +115,7 @@
                        asp-all-route-data="@item.RouteValues">
                         @if (!string.IsNullOrEmpty(item.Icon))
                         {
-                            <i class="fa-solid fa-fw fa-@item.Icon me-2"></i>
+                            <i class="fa-solid fa-fw fa-@item.Icon me-2" aria-hidden="true"></i>
                         }
                         @item.Label
                     </a>

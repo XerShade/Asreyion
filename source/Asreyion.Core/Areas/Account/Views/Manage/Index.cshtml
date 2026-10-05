@@ -1,4 +1,4 @@
-﻿@model Asreyion.Core.Areas.Account.Models.ManageViewModel
+@model Asreyion.Core.Areas.Account.Models.ManageViewModel
 @using System.Linq
 @using Asreyion.Core.Features.Authentication.Providers.Interfaces;
 @inject IEnumerable<IAuthenticationProvider> AuthProviders
@@ -10,36 +10,36 @@
 <div class="control-panel-layout">
 
     <!-- Sidebar -->
-    <aside class="control-panel-sidebar">
+    <aside class="control-panel-sidebar" aria-label="Account Settings Navigation">
         @await Html.PartialAsync("_Sidebar")
     </aside>
-
 
     <!-- Main content -->
     <main class="control-panel-main-content">
 
-        <div class="control-panel-card">
-
+        <section class="control-panel-card mb-4">
             <div class="control-panel-card-header">
-                <h1 class="control-panel-card-title">
+                <h1 class="control-panel-card-title h4 mb-0 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-user-gear text-primary" aria-hidden="true"></i>
                     Account Settings
                 </h1>
             </div>
-
 
             <div class="control-panel-card-body">
 
                 @if (TempData["SuccessMessage"] is string successMessage)
                 {
-                    <div class="alert alert-success" role="alert">
-                        @successMessage
+                    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+                        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                        <span>@successMessage</span>
                     </div>
                 }
 
                 @if (TempData["ErrorMessage"] is string errorMessage)
                 {
-                    <div class="alert alert-danger" role="alert">
-                        @errorMessage
+                    <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                        <span>@errorMessage</span>
                     </div>
                 }
 
@@ -47,19 +47,15 @@
                      class="alert alert-danger"
                      role="alert"></div>
 
-
                 <form asp-action="Update"
                       asp-controller="Manage"
                       method="post">
 
                     @Html.AntiForgeryToken()
 
-
                     <!-- Username -->
                     <div class="mb-3">
-
-                        <label asp-for="UserName"
-                               class="form-label">
+                        <label asp-for="UserName" class="form-label text-secondary fw-semibold">
                             Username
                         </label>
 
@@ -68,17 +64,13 @@
                                readonly />
 
                         <span asp-validation-for="UserName"
-                              class="text-danger"></span>
-
+                              class="text-danger small mt-1 d-block"></span>
                     </div>
-
 
                     <!-- Email -->
                     <div class="mb-3">
-
-                        <label asp-for="Email"
-                               class="form-label">
-                            Email
+                        <label asp-for="Email" class="form-label text-secondary fw-semibold">
+                            Email Address
                         </label>
 
                         <input asp-for="Email"
@@ -86,46 +78,43 @@
                                readonly />
 
                         <span asp-validation-for="Email"
-                              class="text-danger"></span>
-
+                              class="text-danger small mt-1 d-block"></span>
                     </div>
-
 
                     <!-- Display name -->
                     <div class="mb-3">
-
-                        <label asp-for="DisplayName"
-                               class="form-label">
+                        <label asp-for="DisplayName" class="form-label text-secondary fw-semibold">
                             Display Name
                         </label>
 
                         <input asp-for="DisplayName"
-                               class="form-control" />
+                               class="form-control"
+                               placeholder="Enter your public display name" />
 
                         <span asp-validation-for="DisplayName"
-                              class="text-danger"></span>
-
+                              class="text-danger small mt-1 d-block"></span>
                     </div>
-
 
                     <!-- Save changes -->
                     <button type="submit"
-                            class="control-panel-btn control-panel-btn-primary">
+                            class="btn btn-primary modern-btn-sm d-inline-flex align-items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
                         Save Changes
                     </button>
 
                 </form>
 
             </div>
+        </section>
 
-        </div>
-
-        <div class="control-panel-card">
+        <section class="control-panel-card">
+            <div class="control-panel-card-header">
+                <h2 class="control-panel-card-title h5 mb-0 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-link text-primary" aria-hidden="true"></i>
+                    External Connected Accounts
+                </h2>
+            </div>
             <div class="control-panel-card-body">
-
-                <h1 class="control-panel-card-title">
-                    External Logins
-                </h1>
 
                 @{
                     var connectedProviders = Model.ExternalLogins?.Select(l => l.LoginProvider).ToList() ?? new List<string>();
@@ -136,9 +125,10 @@
                     var isConnected = connectedProviders.Contains(provider.Name);
                     var login = Model.ExternalLogins?.FirstOrDefault(l => l.LoginProvider == provider.Name);
 
-                    <div class="d-flex justify-content-between align-items-center mb-1 p-3 rounded control-panel-card-inset">
-                        <div>
-                            <span class="fw-bold"><i class="fab fa-fw fa-@provider.Name.ToLower()"></i> @provider.Name</span>
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 rounded control-panel-card-inset">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fab fa-fw fa-@provider.Name.ToLower() text-primary fs-5" aria-hidden="true"></i>
+                            <span class="fw-bold text-white">@provider.Name</span>
                         </div>
 
                         @if (isConnected && login != null)
@@ -152,7 +142,7 @@
                                 <input type="hidden" name="provider" value="@login.LoginProvider" />
                                 <input type="hidden" name="providerKey" value="@login.ProviderKey" />
                                 <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    Disconnect
+                                    <i class="fa-solid fa-unlink me-1" aria-hidden="true"></i> Disconnect
                                 </button>
                             </form>
                         }
@@ -167,8 +157,8 @@
                                 <button type="submit"
                                         name="provider"
                                         value="@provider.Name"
-                                        class="btn btn-sm btn-outline-danger">
-                                    Connect
+                                        class="btn btn-sm btn-outline-primary">
+                                    <i class="fa-solid fa-link me-1" aria-hidden="true"></i> Connect
                                 </button>
                             </form>
                         }
@@ -176,8 +166,7 @@
                 }
 
             </div>
-
-        </div>
+        </section>
 
     </main>
 

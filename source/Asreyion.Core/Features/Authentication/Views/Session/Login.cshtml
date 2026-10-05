@@ -1,4 +1,4 @@
-﻿@model Asreyion.Core.Features.Authentication.Models.LoginViewModel;
+@model Asreyion.Core.Features.Authentication.Models.LoginViewModel;
 @using Asreyion.Core.Features.Authentication.Providers.Interfaces;
 @inject IEnumerable<IAuthenticationProvider> AuthProviders
 
@@ -6,12 +6,18 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="container">
-    <h1>Login</h1>
+<section class="container py-4 max-w-lg mx-auto">
+    <div class="mb-4 text-center">
+        <h1 class="display-5 fw-bold text-white mb-2">Sign In</h1>
+        <p class="text-secondary">Access your account or log in with staff credentials</p>
+    </div>
 
-    <div class="card">
-        <div class="card-body">
-            <h2 class="h5 mb-3">Sign in with:</h2>
+    <div class="card border border-secondary shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h2 class="h5 mb-3 text-white d-flex align-items-center gap-2">
+                <i class="fa-solid fa-right-to-bracket text-primary" aria-hidden="true"></i>
+                Sign in with:
+            </h2>
 
             <form asp-area="Authentication"
                   asp-controller="Session"
@@ -22,98 +28,106 @@
 
                 <input asp-for="ReturnUrl" type="hidden" />
 
-                @foreach (var provider in AuthProviders)
-                {
-                    <button type="submit"
-                            name="provider"
-                            value="@provider.Name"
-                            class="btn btn-outline-danger w-100 btn-lg m-1">
-                        <i class="fab fa-@provider.Name.ToLower()"></i> Continue with @provider.Name
-                    </button>
-                }
+                <div class="d-grid gap-2">
+                    @foreach (var provider in AuthProviders)
+                    {
+                        <button type="submit"
+                                name="provider"
+                                value="@provider.Name"
+                                class="btn btn-outline-primary w-100 modern-btn-sm d-flex align-items-center justify-content-center gap-2">
+                            <i class="fab fa-@provider.Name.ToLower()" aria-hidden="true"></i> Continue with @provider.Name
+                        </button>
+                    }
+                </div>
             </form>
         </div>
     </div>
 
     @if (Model.IsLocalLoginEnabled)
     {
-        <div class="mb-4">
+        <div class="my-4">
             <div class="d-flex align-items-center">
-                <hr class="flex-grow-1" />
+                <hr class="flex-grow-1 border-secondary" />
                 <span class="px-3 text-muted">or</span>
-                <hr class="flex-grow-1" />
+                <hr class="flex-grow-1 border-secondary" />
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-body">
-                <div>
-                    <h2 class="h5 mb-3">
+        <div class="card border border-secondary shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h5 mb-3 text-white d-flex align-items-center justify-content-between">
+                    <span>
+                        <i class="fa-solid fa-user-lock text-primary me-2" aria-hidden="true"></i>
                         Staff Login
-                        <small class="text-muted fs-6">(Admins & Moderators)</small>
-                    </h2>
+                    </span>
+                    <small class="text-muted fs-6 font-normal">(Admins & Moderators)</small>
+                </h2>
 
-                    <form asp-area="Authentication"
-                          asp-controller="Session"
-                          asp-action="Login"
-                          method="post">
+                <form asp-area="Authentication"
+                      asp-controller="Session"
+                      asp-action="Login"
+                      method="post">
 
-                        @Html.AntiForgeryToken()
+                    @Html.AntiForgeryToken()
 
-                        <input asp-for="ReturnUrl" type="hidden" />
+                    <input asp-for="ReturnUrl" type="hidden" />
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="alert alert-danger"
-                             role="alert"></div>
+                    <div asp-validation-summary="ModelOnly"
+                         class="alert alert-danger mb-3"
+                         role="alert"></div>
 
-                        <div class="mb-3">
-                            <label asp-for="UserName" class="form-label">
-                                Username
-                            </label>
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label text-secondary fw-semibold">
+                            Username
+                        </label>
 
-                            <input asp-for="UserName"
-                                   class="form-control"
-                                   autocomplete="username" />
+                        <input asp-for="UserName"
+                               class="form-control"
+                               autocomplete="username"
+                               placeholder="Enter your username" />
 
-                            <span asp-validation-for="UserName"
-                                  class="text-danger"></span>
-                        </div>
+                        <span asp-validation-for="UserName"
+                              class="text-danger small mt-1 d-block"></span>
+                    </div>
 
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label">
-                                Password
-                            </label>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label text-secondary fw-semibold">
+                            Password
+                        </label>
 
-                            <input asp-for="Password"
-                                   class="form-control"
-                                   type="password"
-                                   autocomplete="current-password" />
+                        <input asp-for="Password"
+                               class="form-control"
+                               type="password"
+                               autocomplete="current-password"
+                               placeholder="Enter your password" />
 
-                            <span asp-validation-for="Password"
-                                  class="text-danger"></span>
-                        </div>
+                        <span asp-validation-for="Password"
+                              class="text-danger small mt-1 d-block"></span>
+                    </div>
 
-                        <div class="form-check mb-3">
-                            <input asp-for="RememberMe"
-                                   class="form-check-input"
-                                   type="checkbox" />
+                    <div class="form-check mb-4">
+                        <input asp-for="RememberMe"
+                               class="form-check-input"
+                               type="checkbox"
+                               id="RememberMeInput" />
 
-                            <label asp-for="RememberMe"
-                                   class="form-check-label">
-                                Remember me
-                            </label>
-                        </div>
+                        <label asp-for="RememberMe"
+                               for="RememberMeInput"
+                               class="form-check-label text-secondary">
+                            Remember me on this device
+                        </label>
+                    </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            Login
-                        </button>
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+                        Login
+                    </button>
 
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     }
-</div>
+</section>
 
 @section Scripts
 {

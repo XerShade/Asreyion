@@ -1,4 +1,4 @@
-﻿@model IReadOnlyList<BlogPost>
+@model IReadOnlyList<BlogPost>
 
 @{
     var category = ViewBag.Category as BlogCategory;
@@ -6,18 +6,22 @@
     ViewData["Title"] = category?.Name ?? "Category";
 }
 
-<div class="card">
-    <div class="card-body">
-
-        <h2 class="card-title">
+<div class="card border border-secondary shadow-sm mb-4">
+    <div class="card-header bg-tertiary border-bottom border-secondary p-4">
+        <h1 class="card-title h3 text-white fw-bold mb-2 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-folder-open text-primary" aria-hidden="true"></i>
             Category: @category?.Name
-        </h2>
+        </h1>
 
-        <p class="lead">
-            @category?.Description
-        </p>
+        @if (!string.IsNullOrWhiteSpace(category?.Description))
+        {
+            <p class="lead text-secondary mb-0">
+                @category.Description
+            </p>
+        }
+    </div>
 
+    <div class="card-body p-4">
         <partial name="_PostList" model="Model" />
-
     </div>
 </div>

@@ -1,10 +1,10 @@
-<footer class="modern-footer">
+<footer class="modern-footer" role="contentinfo">
     <div class="container">
         <div class="footer-content">
             <!-- Brand Section -->
             <div class="footer-section footer-brand">
                 <div class="footer-brand-logo">
-                    <i class="fa-solid fa-diamond brand-icon"></i>
+                    <i class="fa-solid fa-diamond brand-icon" aria-hidden="true"></i>
                     <span class="brand-text">XerShade's Corner</span>
                 </div>
                 <p class="footer-tagline">Building the future of web experiences with modern design and cutting-edge technology.</p>
@@ -13,72 +13,76 @@
             <!-- Quick Links Section -->
             <div class="footer-section footer-links">
                 <h4 class="footer-heading">Quick Links</h4>
-                <ul class="footer-nav">
-                    <li>
-                        <a asp-area=""
-                           asp-controller="Home"
-                           asp-action="Index">
-                            <i class="fa-solid fa-house me-2"></i>
-                            Home
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area=""
-                           asp-controller="Home"
-                           asp-action="About">
-                            <i class="fa-solid fa-circle-info me-2"></i>
-                            About
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area=""
-                           asp-controller="Home"
-                           asp-action="Contact">
-                            <i class="fa-solid fa-envelope me-2"></i>
-                            Contact
-                        </a>
-                    </li>
-                </ul>
+                <nav aria-label="Footer Quick Links">
+                    <ul class="footer-nav">
+                        <li>
+                            <a asp-area=""
+                               asp-controller="Home"
+                               asp-action="Index">
+                                <i class="fa-solid fa-house me-2" aria-hidden="true"></i>
+                                Home
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area=""
+                               asp-controller="Home"
+                               asp-action="About">
+                                <i class="fa-solid fa-circle-info me-2" aria-hidden="true"></i>
+                                About
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area=""
+                               asp-controller="Home"
+                               asp-action="Contact">
+                                <i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
             <!-- Legal Section -->
             <div class="footer-section footer-legal">
                 <h4 class="footer-heading">Legal</h4>
-                <ul class="footer-nav">
-                    <li>
-                        <a asp-area=""
-                           asp-controller="Home"
-                           asp-action="Terms">
-                            <i class="fa-solid fa-file-contract me-2"></i>
-                            Terms of Service
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area=""
-                           asp-controller="Home"
-                           asp-action="Privacy">
-                            <i class="fa-solid fa-shield-halved me-2"></i>
-                            Privacy Policy
-                        </a>
-                    </li>
-                </ul>
+                <nav aria-label="Footer Legal Links">
+                    <ul class="footer-nav">
+                        <li>
+                            <a asp-area=""
+                               asp-controller="Home"
+                               asp-action="Terms">
+                                <i class="fa-solid fa-file-contract me-2" aria-hidden="true"></i>
+                                Terms of Service
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-area=""
+                               asp-controller="Home"
+                               asp-action="Privacy">
+                                <i class="fa-solid fa-shield-halved me-2" aria-hidden="true"></i>
+                                Privacy Policy
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
             <!-- Social Section -->
             <div class="footer-section footer-social">
                 <h4 class="footer-heading">Connect</h4>
                 <div class="social-links">
-                    <a href="https://github.com" class="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-github"></i>
+                    <a href="https://github.com" class="social-link" aria-label="GitHub (opens in a new tab)" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-github" aria-hidden="true"></i>
                     </a>
-                    <a href="https://twitter.com" class="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-x-twitter"></i>
+                    <a href="https://twitter.com" class="social-link" aria-label="Twitter (opens in a new tab)" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
                     </a>
-                    <a href="https://linkedin.com" class="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-linkedin-in"></i>
+                    <a href="https://linkedin.com" class="social-link" aria-label="LinkedIn (opens in a new tab)" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
                     </a>
-                    <a href="https://discord.com" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
-                        <i class="fa-brands fa-discord"></i>
+                    <a href="https://discord.com" class="social-link" aria-label="Discord (opens in a new tab)" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-discord" aria-hidden="true"></i>
                     </a>
                 </div>
             </div>

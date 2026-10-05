@@ -21,18 +21,9 @@
     --admin-transition-normal: 250ms ease;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+.admin-body-scope {
     background-color: var(--admin-bg);
     color: var(--admin-text);
-    line-height: 1.6;
-    overflow-x: hidden;
 }
 
 .admin-container {

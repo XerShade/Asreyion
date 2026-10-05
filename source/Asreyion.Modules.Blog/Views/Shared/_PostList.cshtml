@@ -1,88 +1,87 @@
-﻿@model IReadOnlyList<BlogPost>
+@model IReadOnlyList<BlogPost>
 
 @if (Model.Count == 0)
 {
-    <p>No posts have been published.</p>
+    <div class="p-4 text-center text-muted">
+        <i class="fa-solid fa-inbox fs-3 mb-2" aria-hidden="true"></i>
+        <p class="mb-0">No posts have been published yet.</p>
+    </div>
 }
 else
 {
-    @foreach (var post in Model)
-    {
-        <hr />
+    <div class="post-list d-flex flex-column gap-4">
+        @foreach (var post in Model)
+        {
+            <article class="p-4 rounded-3 bg-tertiary border border-secondary shadow-sm">
+                <h3 class="h4 mb-2">
+                    <a asp-area="Blog"
+                       asp-controller="Posts"
+                       asp-action="Index"
+                       asp-route-slug="@post.Slug"
+                       class="text-white text-decoration-none hover-primary">
+                        @post.Title
+                    </a>
+                </h3>
 
-        <article>
-            <h4>
-                <a asp-area="Blog"
-                   asp-controller="Posts"
-                   asp-action="Index"
-                   asp-route-slug="@post.Slug">
-                    @post.Title
-                </a>
-            </h4>
+                <div class="post-meta text-muted small mb-3 d-flex flex-wrap align-items-center gap-2">
+                    <span><i class="fa-solid fa-calendar me-1" aria-hidden="true"></i> @post.Created.ToString("MMMM d, yyyy")</span>
 
-            <small>
-                Posted on: @post.Created.ToString("MMMM d, yyyy")
+                    @if (post.Modified > post.Created)
+                    {
+                        <span>• Updated: @post.Modified.ToString("MMMM d, yyyy")</span>
+                    }
 
-                @if (post.Modified > post.Created)
-                {
-                    <span>
-                        , updated: @post.Modified.ToString("MMMM d, yyyy")
-                    </span>
-                }
+                    @if (post.Author is not null)
+                    {
+                        <span>• <i class="fa-solid fa-user me-1" aria-hidden="true"></i> @post.Author.UserName</span>
+                    }
 
-                @if (post.Author is not null)
-                {
-                    <span>
-                        by: @post.Author.UserName
-                    </span>
-                }
-
-                @if (post.Categories.Count > 0)
-                {
-                    <span>
-                        in:
-                        @foreach (var category in post.Categories)
-                        {
-                            <a asp-area="Blog"
-                               asp-controller="Categories"
-                               asp-action="Index"
-                               asp-route-slug="@category.Slug"
-                               class="badge text-bg-secondary text-decoration-none me-1">
-                                @category.Name
-                            </a>
-                        }
-                    </span>
-                }
+                    @if (post.Categories.Count > 0)
+                    {
+                        <span class="ms-2">
+                            in:
+                            @foreach (var category in post.Categories)
+                            {
+                                <a asp-area="Blog"
+                                   asp-controller="Categories"
+                                   asp-action="Index"
+                                   asp-route-slug="@category.Slug"
+                                   class="badge bg-outline-primary text-decoration-none me-1">
+                                    <i class="fa-solid fa-folder me-1" aria-hidden="true"></i>@category.Name
+                                </a>
+                            }
+                        </span>
+                    }
+                </div>
 
                 @if (post.Tags.Count > 0)
                 {
-                    <br />
-
-                    <span>
-                        Tags:
-
+                    <div class="post-tags mb-3">
+                        <span class="text-muted small me-2"><i class="fa-solid fa-tags me-1" aria-hidden="true"></i>Tags:</span>
                         @foreach (var tag in post.Tags)
                         {
                             <a asp-area="Blog"
                                asp-controller="Tags"
                                asp-action="Index"
                                asp-route-slug="@tag.Name"
-                               class="badge text-bg-secondary text-decoration-none me-1">
-                                @tag.Name
+                               class="badge bg-secondary text-decoration-none me-1">
+                                #@tag.Name
                             </a>
                         }
-                    </span>
+                    </div>
                 }
-            </small>
 
-            <div>
-                <a asp-area="Blog"
-                   asp-controller="Posts"
-                   asp-action="Index"
-                   asp-route-slug="@post.Slug">
-                    Read more →
-                </a>
-            </div>
-        </article>
-    }
+                <div>
+                    <a asp-area="Blog"
+                       asp-controller="Posts"
+                       asp-action="Index"
+                       asp-route-slug="@post.Slug"
+                       class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1"
+                       aria-label="Read full post: @post.Title">
+                        Read post <i class="fa-solid fa-arrow-right fs-xs" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </article>
+        }
+    </div>
 }

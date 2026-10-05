@@ -1,16 +1,19 @@
-<a class="admin-header-action" target="_blank"
+<a class="admin-header-action d-inline-flex align-items-center gap-1"
+   target="_blank"
+   rel="noopener noreferrer"
    asp-area=""
    asp-controller="Home"
-   asp-action="Index">
-    <i class="fa-solid fa-external-link fa-fw"></i>
+   asp-action="Index"
+   aria-label="View public site (opens in a new tab)">
+    <i class="fa-solid fa-arrow-up-right-from-square fa-fw" aria-hidden="true"></i>
     View Site
 </a>
 
-<a class="admin-header-action" target="_blank"
+<a class="admin-header-action d-inline-flex align-items-center gap-1"
    asp-area="Account"
    asp-controller="Profile"
    asp-action="Index">
-    <i class="fa-solid fa-user nav-icon"></i>
+    <i class="fa-solid fa-user nav-icon" aria-hidden="true"></i>
     Profile
 </a>
 
@@ -23,8 +26,9 @@
     @Html.AntiForgeryToken()
 
     <button type="submit"
-            class="btn btn-outline-danger modern-btn-sm admin-header-action">
-        <i class="fa-solid fa-right-from-bracket nav-icon"></i>
+            class="btn btn-outline-danger modern-btn-sm admin-header-action d-inline-flex align-items-center gap-1"
+            aria-label="Log out of admin panel">
+        <i class="fa-solid fa-right-from-bracket nav-icon" aria-hidden="true"></i>
         Logout
     </button>
 

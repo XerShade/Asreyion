@@ -1,21 +1,22 @@
-﻿@model IReadOnlyList<BlogPost>
+@model IReadOnlyList<BlogPost>
 
 @{
     ViewData["Title"] = "Blog";
 }
 
-<div class="card">
-    <div class="card-body">
-
-        <h1 class="card-title">
-            Blog
+<div class="card border border-secondary shadow-sm mb-4">
+    <div class="card-header bg-tertiary border-bottom border-secondary p-4">
+        <h1 class="card-title h3 text-white fw-bold mb-2 d-flex align-items-center gap-2">
+            <i class="fa-solid fa-newspaper text-primary" aria-hidden="true"></i>
+            Blog & Developer Updates
         </h1>
 
-        <p class="lead">
-            News, updates, development notes, and other things.
+        <p class="lead text-secondary mb-0">
+            News, articles, development logs, and updates.
         </p>
+    </div>
 
+    <div class="card-body p-4">
         <partial name="_PostList" model="Model" />
-
     </div>
 </div>

@@ -2,11 +2,14 @@
 <html lang="en">
 @await Html.PartialAsync("_Head")
 <body>
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <hook name="body-start" />
 
     <hook name="header-before" />
     <!-- Modern Header -->
-    <header class="modern-header">
+    <header class="modern-header" role="banner">
         @await Html.PartialAsync("_TopHeader")
         @await Component.InvokeAsync("NavigationView", new { menuName = "Primary" })
     </header>
@@ -15,7 +18,7 @@
     <!-- Main Content -->
     <div class="container">
         <hook name="main-before" />
-        <main role="main" class="pb-3">
+        <main id="main-content" role="main" class="pb-3" tabindex="-1">
             @RenderBody()
         </main>
         <hook name="main-after" />
