@@ -1,26 +1,34 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 @await Html.PartialAsync("_Head")
 <body>
+    <hook name="body-start" />
 
+    <hook name="header-before" />
     <!-- Modern Header -->
     <header class="modern-header">
         @await Html.PartialAsync("_TopHeader")
         @await Component.InvokeAsync("NavigationView", new { menuName = "Primary" })
     </header>
+    <hook name="header-after" />
 
     <!-- Main Content -->
     <div class="container">
+        <hook name="main-before" />
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <hook name="main-after" />
     </div>
 
+    <hook name="footer-before" />
     @await Html.PartialAsync("_Footer")
+    <hook name="footer-after" />
 
     @await Html.PartialAsync("_Scripts")
 
     @await RenderSectionAsync("Scripts", required: false)
 
+    <hook name="body-end" />
 </body>
 </html>

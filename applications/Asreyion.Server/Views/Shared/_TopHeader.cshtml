@@ -11,9 +11,11 @@
             <i class="fa-solid fa-diamond brand-icon"></i>
             <span class="brand-text">XerShade's Corner</span>
         </a>
+        <hook name="top-header-left" />
 
         <!-- Account Navigation -->
         <div class="d-flex align-items-center gap-3">
+            <hook name="top-header-right" />
 
             @if (User.Identity?.IsAuthenticated == true)
             {
@@ -86,6 +88,8 @@
                                 </a>
                             </li>
                         }
+
+                        <hook name="settings-dropdown-items" />
 
                     </ul>
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -42,6 +42,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Modules\NavigationServiceModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\Interfaces\INavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\NavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\INavigationBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\NavigationBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\NavigationItemDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Hooks\IOnBuildNavigationHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Components\NavigationView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\AssemblyModuleDiscovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Modules\AuthenticationModule.cs" />
