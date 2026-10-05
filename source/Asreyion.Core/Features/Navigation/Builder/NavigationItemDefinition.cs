@@ -88,6 +88,12 @@ public class NavigationItemDefinition
         return this;
     }
 
+    public NavigationItemDefinition WithItemType(string itemType)
+    {
+        this.ItemType = itemType;
+        return this;
+    }
+
     public NavigationItemDefinition WithOrder(int order)
     {
         this.Order = order;

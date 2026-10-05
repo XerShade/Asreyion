@@ -8,6 +8,7 @@ namespace Asreyion.Modules.Blog.Controllers;
 [Area("Blog")]
 public class BlogController(DataDbContext dbContext) : Controller
 {
+    [HttpGet("Blog")]
     public async Task<IActionResult> Index(CancellationToken cancellationToken)
     {
         try
@@ -24,29 +25,7 @@ public class BlogController(DataDbContext dbContext) : Controller
         }
         catch
         {
-            return this.RedirectToAction("Index");
-        }
-    }
-
-    [HttpGet("Blog/Post/{slug}")]
-    public async Task<IActionResult> Post(string slug, CancellationToken cancellationToken)
-    {
-        try
-        {
-            BlogPost? post = await dbContext.Set<BlogPost>()
-            .AsNoTracking()
-            .Include(p => p.Author)
-            .Include(p => p.Categories)
-            .Include(p => p.Tags)
-            .FirstOrDefaultAsync(
-                p => p.Slug == slug,
-                cancellationToken);
-
-            return post is null ? this.NotFound() : this.View(post);
-        }
-        catch
-        {
-            return this.RedirectToAction("Index");
+            return this.StatusCode(500);
         }
     }
 }

@@ -13,8 +13,8 @@ else
         <article>
             <h4>
                 <a asp-area="Blog"
-                   asp-controller="Blog"
-                   asp-action="Post"
+                   asp-controller="Posts"
+                   asp-action="Index"
                    asp-route-slug="@post.Slug">
                     @post.Title
                 </a>
@@ -77,8 +77,8 @@ else
 
             <div>
                 <a asp-area="Blog"
-                   asp-controller="Blog"
-                   asp-action="Post"
+                   asp-controller="Posts"
+                   asp-action="Index"
                    asp-route-slug="@post.Slug">
                     Read more →
                 </a>

@@ -8,7 +8,7 @@ namespace Asreyion.Modules.Blog.Controllers;
 [Area("Blog")]
 public class CategoriesController(DataDbContext dbContext) : Controller
 {
-    [HttpGet("Blog/Categories/{slug}")]
+    [HttpGet("Blog/Category/{slug}")]
     public async Task<IActionResult> Index(string slug, CancellationToken cancellationToken)
     {
         try
@@ -36,7 +36,7 @@ public class CategoriesController(DataDbContext dbContext) : Controller
         }
         catch
         {
-            return this.RedirectToAction("Index");
+            return this.StatusCode(500);
         }
     }
 }

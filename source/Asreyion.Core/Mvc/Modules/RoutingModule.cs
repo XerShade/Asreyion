@@ -1,6 +1,5 @@
 ﻿using Asreyion.Core.Modules.Interfaces;
 using Asreyion.Core.Mvc.Conventions;
-using Asreyion.Core.Mvc.ViewLocationExpanders;
 using System.Reflection;
 
 namespace Asreyion.Core.Mvc.Modules;
@@ -33,10 +32,6 @@ public class RoutingModule : ICoreModule
         => services
             .AddControllersWithViews(options =>
                 options.Conventions.Add(new FeatureAreaConvention()))
-            .AddRazorOptions(options =>
-            {
-                options.ViewLocationExpanders.Add(new FeatureViewLocationExpander());
-                options.ViewLocationExpanders.Add(new ContentViewLocationExpander());
-            })
+            .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
             .AddApplicationPart(Assembly.GetExecutingAssembly());
 }

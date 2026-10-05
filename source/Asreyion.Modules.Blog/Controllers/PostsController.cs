@@ -6,30 +6,23 @@ using Microsoft.EntityFrameworkCore;
 namespace Asreyion.Modules.Blog.Controllers;
 
 [Area("Blog")]
-public class TagsController(DataDbContext dbContext) : Controller
+public class PostsController(DataDbContext dbContext) : Controller
 {
-    [HttpGet("Blog/Tag/{slug}")]
+    [HttpGet("Blog/Post/{slug}")]
     public async Task<IActionResult> Index(string slug, CancellationToken cancellationToken)
     {
         try
         {
-            BlogTag? tag = await dbContext.Set<BlogTag>()
+            BlogPost? post = await dbContext.Set<BlogPost>()
             .AsNoTracking()
-            .Include(t => t.Posts)
+            .Include(p => p.Author)
+            .Include(p => p.Categories)
+            .Include(p => p.Tags)
             .FirstOrDefaultAsync(
-                t => t.Name == slug,
+                p => p.Slug == slug,
                 cancellationToken);
 
-            if (tag is null)
-            {
-                return this.NotFound();
-            }
-
-            List<BlogPost> posts = [.. tag.Posts.OrderByDescending(p => p.Created)];
-
-            this.ViewBag.Tag = tag;
-
-            return this.View(posts);
+            return post is null ? this.NotFound() : this.View(post);
         }
         catch
         {

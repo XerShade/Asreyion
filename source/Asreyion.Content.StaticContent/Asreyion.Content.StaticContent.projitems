@@ -15,7 +15,6 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Content\Views\Home\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Content\Views\Home\Privacy.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Content\Views\Shared\_PostList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Content\Views\_ViewImports.cshtml">
