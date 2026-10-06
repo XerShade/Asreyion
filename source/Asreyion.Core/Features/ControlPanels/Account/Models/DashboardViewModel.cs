@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
-namespace Asreyion.Core.Areas.Account.Models;
+namespace Asreyion.Core.Features.ControlPanels.Account.Models;
 
 public class DashboardViewModel
 {

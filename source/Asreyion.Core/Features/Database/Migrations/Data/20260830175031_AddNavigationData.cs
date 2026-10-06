@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Asreyion.Server.Migrations.DataDb
+namespace Asreyion.Core.Features.Database.Migrations.Data
 {
     /// <inheritdoc />
     public partial class AddNavigationData : Migration

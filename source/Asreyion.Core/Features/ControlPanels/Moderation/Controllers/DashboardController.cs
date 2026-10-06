@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Asreyion.Core.Areas.Moderation.Controllers;
+namespace Asreyion.Core.Features.ControlPanels.Moderation.Controllers;
 
 [Area("Moderation")]
 public class DashboardController : Controller

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Asreyion.Server.Migrations
+namespace Asreyion.Core.Features.Database.Migrations.Authentication
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

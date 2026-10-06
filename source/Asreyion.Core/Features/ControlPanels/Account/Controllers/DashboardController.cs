@@ -1,10 +1,10 @@
-﻿using Asreyion.Core.Areas.Account.Models;
+using Asreyion.Core.Features.ControlPanels.Account.Models;
 using Asreyion.Core.Features.Authentication.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asreyion.Core.Areas.Account.Controllers;
+namespace Asreyion.Core.Features.ControlPanels.Account.Controllers;
 
 [Area("Account"), Authorize]
 public class DashboardController(
