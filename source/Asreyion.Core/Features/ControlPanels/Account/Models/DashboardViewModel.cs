@@ -2,7 +2,7 @@
 
 namespace Asreyion.Core.Areas.Account.Models;
 
-public class ManageViewModel
+public class DashboardViewModel
 {
     public string? UserName { get; set; }
 

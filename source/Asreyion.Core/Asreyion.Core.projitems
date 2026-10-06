@@ -11,14 +11,15 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginLinkingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ManageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Models\DashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Moderation\Controllers\DashboardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Hooks\ViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\HostConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ManageController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Areas\Administration\Controllers\DashboardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Controllers\DashboardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\AuthenticationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\DataDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Migrations\**\*.cs" />
@@ -54,6 +55,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDependencySorter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDiscovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\ModuleDependencySorter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationPopulateHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\ProxyConfigurationModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\RoutingModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Attributes\FeatureAreaAttribute.cs" />
@@ -63,20 +66,22 @@
     <Compile Include="$(MSBuildThisFileDirectory)Util\Interfaces\ITypeDiscovery.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\Dashboard\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Profile\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Dashboard\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Shared\_HeaderActions.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\Shared\_Sidebar.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\Dashboard\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\Shared\_Sidebar.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Manage\_Sidebar.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Dashboard\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_HeaderActions.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_Sidebar.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\Dashboard\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\Shared\_Sidebar.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\Dashboard\_Sidebar.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\ExternalLoginConfirmation.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\ExternalLoginLinking.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\Login.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\_ViewImports.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\_ViewStart.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\Navigation\Views\_ViewImports.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -84,18 +89,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewStart.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\_ViewStart.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewImports.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Administration\Views\_ViewImports.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Areas\Moderation\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\_ViewImports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Modules\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Database\Modules\" />
     <Folder Include="$(MSBuildThisFileDirectory)Mvc\Modules\" />
   </ItemGroup>

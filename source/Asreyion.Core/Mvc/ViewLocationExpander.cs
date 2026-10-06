@@ -1,60 +1,69 @@
-﻿using Microsoft.AspNetCore.Mvc.Razor;
+﻿using Asreyion.Core.Features.Hooks.Interfaces;
+using Asreyion.Core.Mvc.Hooks;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Asreyion.Core.Mvc;
 
 public class ViewLocationExpander : IViewLocationExpander
 {
-    private static readonly string[] ViewRootFolders = ["Features", "Content"];
+    /// <summary>
+    /// Gets a reference to the hook engine.
+    /// </summary>
+    private IHookEngine? HookEngine { get; set; } = default!;
 
+    /// <inheritdoc />
     public virtual void PopulateValues(ViewLocationExpanderContext context)
     {
-        _ = context.Values["area"] = context.AreaName ?? string.Empty;
+        // Acquire the hook engine if it hasn't been acquired yet.
+        this.HookEngine ??= context.ActionContext.HttpContext.RequestServices.GetRequiredService<IHookEngine>();
 
-        context.Values["feature"] = context.ActionContext.RouteData.Values.TryGetValue("feature", out object? featureObj) &&
-            featureObj is string featureName &&
-            !string.IsNullOrWhiteSpace(featureName)
-            ? featureName
-            : string.Empty;
+        // Execute the hook, and wait for it to complete.
+        Task hookTask = this.HookEngine.ExecuteAsync<IViewLocationPopulateHook>(h => h.OnPopulateAsync(context));
+        while (!hookTask.IsCompleted)
+        {
+            // Do nothing, we just 
+        }
     }
 
+    /// <inheritdoc />
     public virtual IEnumerable<string> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<string> viewLocations)
     {
-        _ = context.Values.TryGetValue("area", out string? areaName);
-
+        // Grab some useful information.
+        string? areaName = context.AreaName ?? string.Empty;
         bool hasArea = !string.IsNullOrEmpty(areaName);
-        string? targetAreaFolder = hasArea ? areaName : "{1}";
+        string? targetFolder = hasArea ? areaName : "{1}";
 
+        // Create a new list of view locations.
         List<string> newLocations = [];
 
-        // Dynamically iterate over every configured root folder path
-        foreach (string root in ViewRootFolders)
-        {
-            if (hasArea)
-            {
-                // Structural pattern: /{Root}/{Area}/Views/{Controller}/{Action}.cshtml
-                newLocations.Add($"/{root}/{targetAreaFolder}/Views/{{1}}/{{0}}.cshtml");
-                newLocations.Add($"/{root}/{targetAreaFolder}/Views/Shared/{{0}}.cshtml");
-                newLocations.Add($"/{root}/{targetAreaFolder}/Views/{{0}}.cshtml");
-            }
-            else
-            {
-                // Fallback layout pattern when there is no Area detected
-                newLocations.Add($"/{root}/Views/{{1}}/{{0}}.cshtml");
-                newLocations.Add($"/{root}/Views/Shared/{{0}}.cshtml");
-            }
-        }
-
+        // Check to see if this is inside an Area.
         if(hasArea)
         {
             // Structural pattern: /Views/{Area}/{Controller}/{Action}.cshtml
-            newLocations.Add($"/Views/{targetAreaFolder}/{{1}}/{{0}}.cshtml");
-            newLocations.Add($"/Views/{targetAreaFolder}/Shared/{{0}}.cshtml");
+            newLocations.Add($"/Areas/{targetFolder}/Views/{{1}}/{{0}}.cshtml");
+            newLocations.Add($"/Areas/{targetFolder}/Views/Shared/{{0}}.cshtml");
+            newLocations.Add($"/Areas/{targetFolder}/Views/{{0}}.cshtml");
+            newLocations.Add($"/Views/{targetFolder}/{{1}}/{{0}}.cshtml");
+            newLocations.Add($"/Views/{targetFolder}/Shared/{{0}}.cshtml");
         }
         else
         {
             // Fallback layout pattern when there is no Area detected
+            newLocations.Add($"/{targetFolder}/Views/{{1}}/{{0}}.cshtml");
+            newLocations.Add($"/{targetFolder}/Views/Shared/{{0}}.cshtml");
+            newLocations.Add($"/{targetFolder}/Views/{{0}}.cshtml");
             newLocations.Add($"/Views/{{1}}/{{0}}.cshtml");
             newLocations.Add($"/Views/Shared/{{0}}.cshtml");
+        }
+
+        // Acquire the hook engine if it hasn't been acquired yet.
+        this.HookEngine ??= context.ActionContext.HttpContext.RequestServices.GetRequiredService<IHookEngine>();
+
+        // Execute the hook, and wait for it to complete.
+        Task hookTask = this.HookEngine.ExecuteAsync<IViewLocationExpandHook>(h => h.OnExpandAsync(context, newLocations, targetFolder));
+        while (!hookTask.IsCompleted)
+        {
+            // Do nothing, we just 
         }
 
         // Return our custom paths first, then fall back to the default convention paths

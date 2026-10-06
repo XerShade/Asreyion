@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace Asreyion.Core.Areas.Account.Controllers;
 
 [Area("Account"), Authorize]
-public class ManageController(
+public class DashboardController(
     UserManager<ApplicationUser> userManager,
     SignInManager<ApplicationUser> signInManager) : Controller
 {
     private readonly UserManager<ApplicationUser> UserManager = userManager;
     private readonly SignInManager<ApplicationUser> SignInManager = signInManager;
 
+    [Route("Account/Dashboard")]
     public async Task<IActionResult> Index()
     {
         ApplicationUser? user = await this.UserManager.GetUserAsync(this.User);
@@ -25,7 +26,7 @@ public class ManageController(
 
         IList<UserLoginInfo> externalLogins = await this.UserManager.GetLoginsAsync(user);
 
-        ManageViewModel model = new()
+        DashboardViewModel model = new()
         {
             DisplayName = user.DisplayName,
             Email = user.Email ?? throw new NullReferenceException("Email cannot be null."),
@@ -36,8 +37,8 @@ public class ManageController(
         return this.View(model);
     }
 
-    [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Update(ManageViewModel model)
+    [HttpPost, ValidateAntiForgeryToken, Route("Account/Settings/Update")]
+    public async Task<IActionResult> Update(DashboardViewModel model)
     {
         if (!this.ModelState.IsValid)
         {
@@ -74,7 +75,7 @@ public class ManageController(
         return this.View("Index", model);
     }
 
-    [HttpPost, ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken, Route("Account/Deactivate")]
     public async Task<IActionResult> Deactivate()
     {
         ApplicationUser? user =
@@ -110,7 +111,7 @@ public class ManageController(
         return this.RedirectToAction(nameof(this.Index));
     }
 
-    [HttpPost, ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken, Route("Account/Authentication/ExternalLogin/Connect")]
     public IActionResult ConnectExternalLogin(string provider)
     {
         if (string.IsNullOrWhiteSpace(provider))
@@ -120,7 +121,7 @@ public class ManageController(
 
         string? callbackUrl = this.Url.Action(
             nameof(this.ConnectExternalLoginCallback),
-            "Manage",
+            "Dashboard",
             new
             {
                 area = "Account"
@@ -139,7 +140,7 @@ public class ManageController(
         return this.Challenge(properties, provider);
     }
 
-    [HttpGet]
+    [HttpGet, Route("Account/Authentication/ExternalLogin/Callback")]
     public async Task<IActionResult> ConnectExternalLoginCallback(
     string? remoteError = null)
     {
@@ -205,7 +206,7 @@ public class ManageController(
         return this.RedirectToAction(nameof(this.Index));
     }
 
-    [HttpPost, ValidateAntiForgeryToken]
+    [HttpPost, ValidateAntiForgeryToken, Route("Account/Authentication/ExternalLogin/Disconnect")]
     public async Task<IActionResult> DisconnectExternalLogin(string provider, string providerKey)
     {
         if (string.IsNullOrWhiteSpace(provider) || string.IsNullOrWhiteSpace(providerKey))

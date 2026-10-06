@@ -6,6 +6,7 @@ namespace Asreyion.Core.Areas.Administration.Controllers;
 [Area("Administration"), Authorize(Roles = "Administrator")]
 public class DashboardController : Controller
 {
+    [Route("Administration/Dashboard")]
     public IActionResult Index() 
         => this.View();
 }
