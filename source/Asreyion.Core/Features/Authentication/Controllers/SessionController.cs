@@ -7,6 +7,7 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Asreyion.Core.Features.Authentication.Controllers;
 
+[Area("Authentication")]
 public class SessionController(
     SignInManager<ApplicationUser> signInManager,
     UserManager<ApplicationUser> userManager) : Controller
