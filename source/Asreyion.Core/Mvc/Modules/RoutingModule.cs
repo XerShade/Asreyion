@@ -1,5 +1,4 @@
 ﻿using Asreyion.Core.Modules.Interfaces;
-using Asreyion.Core.Mvc.Conventions;
 using System.Reflection;
 
 namespace Asreyion.Core.Mvc.Modules;
@@ -30,8 +29,7 @@ public class RoutingModule : ICoreModule
 
     public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)
         => services
-            .AddControllersWithViews(options =>
-                options.Conventions.Add(new FeatureAreaConvention()))
+            .AddControllersWithViews()
             .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
             .AddApplicationPart(Assembly.GetExecutingAssembly());
 }

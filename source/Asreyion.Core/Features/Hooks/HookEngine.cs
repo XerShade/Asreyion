@@ -1,4 +1,4 @@
-using Asreyion.Core.Features.Hooks.Definitions;
+using Asreyion.Core.Features.Hooks;
 using Asreyion.Core.Features.Hooks.Interfaces;
 
 namespace Asreyion.Core.Features.Hooks;

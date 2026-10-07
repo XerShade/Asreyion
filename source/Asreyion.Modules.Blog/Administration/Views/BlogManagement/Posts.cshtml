@@ -1,0 +1,7 @@
+@model IReadOnlyList<BlogPost>
+@{ ViewData["Title"] = "Blog Posts"; }
+<div class="d-flex justify-content-between align-items-center mb-3"><p class="text-secondary mb-0">Create and maintain published blog content.</p><a class="btn btn-primary" href="/Administration/Blog/Posts/Create">New post</a></div>
+@if (TempData["SuccessMessage"] is string success) { <div class="alert alert-success" role="status">@success</div> }
+<div class="table-responsive"><table class="table"><thead><tr><th>Title</th><th>Author</th><th>Last updated</th><th>Slug</th><th>Actions</th></tr></thead><tbody>
+@foreach (BlogPost post in Model) { <tr><td>@post.Title</td><td>@post.Author.DisplayName</td><td>@post.Modified.ToLocalTime().ToString("g")</td><td>@post.Slug</td><td class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="/Administration/Blog/Posts/@post.Id/Edit">Edit</a><form method="post" action="/Administration/Blog/Posts/@post.Id/Delete" onsubmit="return confirm('Delete this post?')">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger" type="submit">Delete</button></form></td></tr> }
+</tbody></table></div>

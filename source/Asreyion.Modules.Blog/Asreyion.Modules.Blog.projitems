@@ -13,6 +13,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\CategoriesController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\PostsController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controllers\TagsController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Administration\Controllers\BlogManagementController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Administration\Models\BlogManagementModels.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Administration\Hooks\BlogAdministrationViewLocationHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\BlogCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\BlogPost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\BlogTag.cs" />
@@ -22,6 +25,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\BlogNavigationHook.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\BlogManagement\Posts.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\BlogManagement\Categories.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\BlogManagement\Tags.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\BlogManagement\PostForm.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\BlogManagement\CategoryForm.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\BlogManagement\TagForm.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Administration\Views\_ViewStart.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Views\Blog\Blog\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Views\Blog\Posts\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Views\Blog\Categories\Index.cshtml" />

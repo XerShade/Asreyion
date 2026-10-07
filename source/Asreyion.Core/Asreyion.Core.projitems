@@ -9,6 +9,7 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\ViewLocationExpandHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginLinkingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Models\DashboardViewModel.cs" />
@@ -28,7 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\SessionController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Definitions\IOnRenderHtmlHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\IOnRenderHtmlHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookRegistrationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\HookEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookEngine.cs" />
@@ -60,7 +61,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\ProxyConfigurationModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\RoutingModule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Attributes\FeatureAreaAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Conventions\FeatureAreaConvention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\ViewLocationExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\AssemblyTypeDiscovery.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\Interfaces\ITypeDiscovery.cs" />

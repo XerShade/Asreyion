@@ -1,0 +1,8 @@
+@model BlogTagInputModel
+@{ bool editing = Model.Id != 0; ViewData["Title"] = editing ? "Edit Tag" : "New Tag"; }
+<form method="post" action="@(editing ? $"/Administration/Blog/Tags/{Model.Id}/Edit" : "/Administration/Blog/Tags/Create")">
+    @Html.AntiForgeryToken()<input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3"><label asp-for="Name" class="form-label">Name</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+    <button class="btn btn-primary" type="submit">@(editing ? "Save changes" : "Create tag")</button> <a class="btn btn-outline-secondary" href="/Administration/Blog/Tags">Cancel</a>
+</form>

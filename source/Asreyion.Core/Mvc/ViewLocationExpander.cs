@@ -14,6 +14,9 @@ public class ViewLocationExpander : IViewLocationExpander
     /// <inheritdoc />
     public virtual void PopulateValues(ViewLocationExpanderContext context)
     {
+        // Get the current area name.
+        context.Values["area"] = context.AreaName ?? string.Empty;
+
         // Acquire the hook engine if it hasn't been acquired yet.
         this.HookEngine ??= context.ActionContext.HttpContext.RequestServices.GetRequiredService<IHookEngine>();
 
@@ -29,9 +32,9 @@ public class ViewLocationExpander : IViewLocationExpander
     public virtual IEnumerable<string> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<string> viewLocations)
     {
         // Grab some useful information.
-        string? areaName = context.AreaName ?? string.Empty;
+        string? areaName = context.Values["area"] ?? string.Empty;
         bool hasArea = !string.IsNullOrEmpty(areaName);
-        string? targetFolder = hasArea ? areaName : "{1}";
+        string? targetFolder = hasArea ? areaName : "";
 
         // Create a new list of view locations.
         List<string> newLocations = [];
@@ -40,18 +43,12 @@ public class ViewLocationExpander : IViewLocationExpander
         if(hasArea)
         {
             // Structural pattern: /Views/{Area}/{Controller}/{Action}.cshtml
-            newLocations.Add($"/Areas/{targetFolder}/Views/{{1}}/{{0}}.cshtml");
-            newLocations.Add($"/Areas/{targetFolder}/Views/Shared/{{0}}.cshtml");
-            newLocations.Add($"/Areas/{targetFolder}/Views/{{0}}.cshtml");
             newLocations.Add($"/Views/{targetFolder}/{{1}}/{{0}}.cshtml");
             newLocations.Add($"/Views/{targetFolder}/Shared/{{0}}.cshtml");
         }
         else
         {
             // Fallback layout pattern when there is no Area detected
-            newLocations.Add($"/{targetFolder}/Views/{{1}}/{{0}}.cshtml");
-            newLocations.Add($"/{targetFolder}/Views/Shared/{{0}}.cshtml");
-            newLocations.Add($"/{targetFolder}/Views/{{0}}.cshtml");
             newLocations.Add($"/Views/{{1}}/{{0}}.cshtml");
             newLocations.Add($"/Views/Shared/{{0}}.cshtml");
         }

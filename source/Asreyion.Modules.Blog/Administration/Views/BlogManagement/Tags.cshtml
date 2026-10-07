@@ -1,0 +1,8 @@
+@model IReadOnlyList<BlogTag>
+@{ ViewData["Title"] = "Blog Tags"; }
+<div class="d-flex justify-content-between align-items-center mb-3"><p class="text-secondary mb-0">Manage tags used to describe posts.</p><a class="btn btn-primary" href="/Administration/Blog/Tags/Create">New tag</a></div>
+@if (TempData["SuccessMessage"] is string success) { <div class="alert alert-success" role="status">@success</div> }
+@if (TempData["ErrorMessage"] is string error) { <div class="alert alert-danger" role="alert">@error</div> }
+<div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Posts</th><th>Actions</th></tr></thead><tbody>
+@foreach (BlogTag tag in Model) { <tr><td>@tag.Name</td><td>@tag.Posts.Count</td><td class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="/Administration/Blog/Tags/@tag.Id/Edit">Edit</a><form method="post" action="/Administration/Blog/Tags/@tag.Id/Delete" onsubmit="return confirm('Delete this tag?')">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger" type="submit">Delete</button></form></td></tr> }
+</tbody></table></div>

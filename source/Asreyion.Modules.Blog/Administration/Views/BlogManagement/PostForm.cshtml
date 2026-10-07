@@ -1,0 +1,12 @@
+@model BlogPostInputModel
+@{ bool editing = Model.Id != 0; ViewData["Title"] = editing ? "Edit Blog Post" : "New Blog Post"; }
+<form method="post" action="@(editing ? $"/Administration/Blog/Posts/{Model.Id}/Edit" : "/Administration/Blog/Posts/Create")">
+    @Html.AntiForgeryToken()<input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3"><label asp-for="Title" class="form-label">Title</label><input asp-for="Title" class="form-control" /><span asp-validation-for="Title" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Slug" class="form-label">URL slug</label><input asp-for="Slug" class="form-control" placeholder="Generated from the title when empty" /><span asp-validation-for="Slug" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Body" class="form-label">Content</label><textarea asp-for="Body" class="form-control" rows="14"></textarea><span asp-validation-for="Body" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="CategoryIds" class="form-label">Categories</label><select asp-for="CategoryIds" class="form-select" multiple>@foreach (var category in Model.Categories) { <option value="@category.Id">@category.Name</option> }</select><span class="form-text">Use Ctrl or Command to select multiple categories.</span></div>
+    <div class="mb-3"><label asp-for="TagIds" class="form-label">Tags</label><select asp-for="TagIds" class="form-select" multiple>@foreach (var tag in Model.Tags) { <option value="@tag.Id">@tag.Name</option> }</select></div>
+    <button class="btn btn-primary" type="submit">@(editing ? "Save changes" : "Create post")</button> <a class="btn btn-outline-secondary" href="/Administration/Blog/Posts">Cancel</a>
+</form>

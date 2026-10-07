@@ -12,3 +12,19 @@
         Dashboard
     </a>
 </div>
+
+<div class="admin-nav-section">
+    <div class="admin-nav-section-title">Content</div>
+    <a href="/Administration/Blog/Posts" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Posts" || currentAction == "CreatePost" || currentAction == "EditPost") ? "active" : "")">
+        <i class="admin-nav-item-icon fa-solid fa-newspaper fa-fw me-2" aria-hidden="true"></i>
+        Blog Posts
+    </a>
+    <a href="/Administration/Blog/Categories" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Categories" || currentAction == "CreateCategory" || currentAction == "EditCategory") ? "active" : "")">
+        <i class="admin-nav-item-icon fa-solid fa-folder fa-fw me-2" aria-hidden="true"></i>
+        Categories
+    </a>
+    <a href="/Administration/Blog/Tags" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Tags" || currentAction == "CreateTag" || currentAction == "EditTag") ? "active" : "")">
+        <i class="admin-nav-item-icon fa-solid fa-tags fa-fw me-2" aria-hidden="true"></i>
+        Tags
+    </a>
+</div>

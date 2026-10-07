@@ -1,0 +1,11 @@
+@model BlogCategoryInputModel
+@{ bool editing = Model.Id != 0; ViewData["Title"] = editing ? "Edit Category" : "New Category"; }
+<form method="post" action="@(editing ? $"/Administration/Blog/Categories/{Model.Id}/Edit" : "/Administration/Blog/Categories/Create")">
+    @Html.AntiForgeryToken()<input asp-for="Id" type="hidden" />
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3"><label asp-for="Name" class="form-label">Name</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Slug" class="form-label">URL slug</label><input asp-for="Slug" class="form-control" placeholder="Generated from the name when empty" /><span asp-validation-for="Slug" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Description" class="form-label">Description</label><textarea asp-for="Description" class="form-control" rows="4"></textarea><span asp-validation-for="Description" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="ParentId" class="form-label">Parent category</label><select asp-for="ParentId" class="form-select"><option value="">None</option>@foreach (var category in Model.Categories) { <option value="@category.Id">@category.Name</option> }</select><span asp-validation-for="ParentId" class="text-danger"></span></div>
+    <button class="btn btn-primary" type="submit">@(editing ? "Save changes" : "Create category")</button> <a class="btn btn-outline-secondary" href="/Administration/Blog/Categories">Cancel</a>
+</form>
