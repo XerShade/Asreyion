@@ -1,3 +1,30 @@
 @{
     ViewData["Title"] = "Dashboard";
 }
+@{
+    Layout = "~/Features/ControlPanels/Administration/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="admin-page-intro" aria-labelledby="dashboard-heading">
+    <p class="admin-eyebrow">Administration</p>
+    <h1 id="dashboard-heading">Welcome back</h1>
+    <p>Manage your site's articles and keep your content organized from one place.</p>
+</section>
+
+<section class="admin-card" aria-labelledby="content-tools-heading">
+    <div class="admin-card-header">
+        <h2 class="admin-card-title" id="content-tools-heading">Content management</h2>
+    </div>
+    <p class="admin-card-copy">Create and update the content that appears on your site.</p>
+    <div class="admin-grid admin-grid-3">
+        <a class="admin-btn admin-btn-primary" asp-area="Administration" asp-controller="BlogManagement" asp-action="Posts">
+            <i class="fa-solid fa-newspaper" aria-hidden="true"></i> Manage blog posts
+        </a>
+        <a class="admin-btn admin-btn-secondary" asp-area="Administration" asp-controller="BlogManagement" asp-action="Categories">
+            <i class="fa-solid fa-folder" aria-hidden="true"></i> Manage categories
+        </a>
+        <a class="admin-btn admin-btn-secondary" asp-area="Administration" asp-controller="BlogManagement" asp-action="Tags">
+            <i class="fa-solid fa-tags" aria-hidden="true"></i> Manage tags
+        </a>
+    </div>
+</section>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#0b1120" />
     <title>@ViewData["Title"] - Administration</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/admin.css" />
@@ -14,7 +14,7 @@
           referrerpolicy="no-referrer" />
     <hook name="admin-head-styles" />
 </head>
-<body>
+<body class="admin-body-scope">
     <a href="#admin-main-content" class="skip-link">Skip to main content</a>
     <hook name="admin-body-start" />
     <div class="admin-container">
@@ -36,7 +36,7 @@
             <!-- Header -->
             <header class="admin-header" role="banner">
                 <div class="admin-header-left">
-                    <button class="admin-header-action" id="sidebarToggle" style="display: none;" aria-expanded="false" aria-controls="adminSidebar" aria-label="Toggle admin sidebar navigation">
+                    <button class="admin-header-action" id="sidebarToggle" hidden aria-expanded="false" aria-controls="adminSidebar" aria-label="Toggle admin sidebar navigation">
                         <i class="fa-solid fa-bars" aria-hidden="true"></i>
                     </button>
                     <h2 class="admin-header-title">@(ViewData["Title"] ?? "Dashboard")</h2>
@@ -63,9 +63,15 @@
         const sidebarToggle = document.getElementById('sidebarToggle');
         const sidebar = document.getElementById('adminSidebar');
 
-        if (window.innerWidth <= 768) {
-            sidebarToggle.style.display = 'block';
-        }
+        const mobileLayout = window.matchMedia('(max-width: 768px)');
+        sidebarToggle.hidden = !mobileLayout.matches;
+        mobileLayout.addEventListener('change', ({ matches }) => {
+            sidebarToggle.hidden = !matches;
+            if (!matches) {
+                sidebar.classList.remove('open');
+                sidebarToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
 
         sidebarToggle.addEventListener('click', () => {
             const isOpen = sidebar.classList.toggle('open');
@@ -74,7 +80,7 @@
 
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
+            if (mobileLayout.matches) {
                 if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
                     sidebar.classList.remove('open');
                     sidebarToggle.setAttribute('aria-expanded', 'false');
@@ -82,16 +88,6 @@
             }
         });
 
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth <= 768) {
-                sidebarToggle.style.display = 'block';
-            } else {
-                sidebarToggle.style.display = 'none';
-                sidebar.classList.remove('open');
-                sidebarToggle.setAttribute('aria-expanded', 'false');
-            }
-        });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
