@@ -1,11 +1,20 @@
 @model BlogCategoryInputModel
 @{ bool editing = Model.Id != 0; ViewData["Title"] = editing ? "Edit Category" : "New Category"; }
-<form method="post" action="@(editing ? $"/Administration/Blog/Categories/{Model.Id}/Edit" : "/Administration/Blog/Categories/Create")">
+
+<section class="admin-page-intro" aria-labelledby="category-form-heading">
+    <p class="admin-eyebrow"><a href="/Administration/Blog/Categories">Categories</a> / @(editing ? "Edit" : "New")</p>
+    <h1 id="category-form-heading">@(editing ? "Edit category" : "Create a category")</h1>
+    <p>Set the name, URL, and optional parent for this category.</p>
+</section>
+
+<form class="admin-card admin-form admin-form-narrow" method="post" action="@(editing ? $"/Administration/Blog/Categories/{Model.Id}/Edit" : "/Administration/Blog/Categories/Create")">
     @Html.AntiForgeryToken()<input asp-for="Id" type="hidden" />
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-    <div class="mb-3"><label asp-for="Name" class="form-label">Name</label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
-    <div class="mb-3"><label asp-for="Slug" class="form-label">URL slug</label><input asp-for="Slug" class="form-control" placeholder="Generated from the name when empty" /><span asp-validation-for="Slug" class="text-danger"></span></div>
-    <div class="mb-3"><label asp-for="Description" class="form-label">Description</label><textarea asp-for="Description" class="form-control" rows="4"></textarea><span asp-validation-for="Description" class="text-danger"></span></div>
-    <div class="mb-3"><label asp-for="ParentId" class="form-label">Parent category</label><select asp-for="ParentId" class="form-select"><option value="">None</option>@foreach (var category in Model.Categories) { <option value="@category.Id">@category.Name</option> }</select><span asp-validation-for="ParentId" class="text-danger"></span></div>
-    <button class="btn btn-primary" type="submit">@(editing ? "Save changes" : "Create category")</button> <a class="btn btn-outline-secondary" href="/Administration/Blog/Categories">Cancel</a>
+    <div asp-validation-summary="ModelOnly" class="admin-validation-summary" role="alert"></div>
+    <div class="admin-form-grid">
+        <div class="admin-field admin-field-wide"><label asp-for="Name" class="admin-label">Name <span class="admin-required">Required</span></label><input asp-for="Name" class="admin-control" autocomplete="off" placeholder="Category name" /><span asp-validation-for="Name" class="admin-field-error"></span></div>
+        <div class="admin-field admin-field-wide"><label asp-for="Slug" class="admin-label">URL slug <span class="admin-optional">Optional</span></label><input asp-for="Slug" class="admin-control" autocomplete="off" placeholder="Generated from the name when empty" /><span asp-validation-for="Slug" class="admin-field-error"></span><span class="admin-field-help">Leave blank to generate a URL-friendly slug from the category name.</span></div>
+        <div class="admin-field admin-field-wide"><label asp-for="Description" class="admin-label">Description <span class="admin-optional">Optional</span></label><textarea asp-for="Description" class="admin-control" rows="4" placeholder="Briefly describe this category"></textarea><span asp-validation-for="Description" class="admin-field-error"></span></div>
+        <div class="admin-field admin-field-wide"><label asp-for="ParentId" class="admin-label">Parent category <span class="admin-optional">Optional</span></label><select asp-for="ParentId" class="admin-control"><option value="">No parent category</option>@foreach (var category in Model.Categories) { <option value="@category.Id">@category.Name</option> }</select><span asp-validation-for="ParentId" class="admin-field-error"></span><span class="admin-field-help">Choose a parent to nest this category. A category cannot be its own parent.</span></div>
+    </div>
+    <div class="admin-form-actions"><button class="admin-btn admin-btn-primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> @(editing ? "Save changes" : "Create category")</button><a class="admin-btn admin-btn-secondary" href="/Administration/Blog/Categories">Cancel</a></div>
 </form>

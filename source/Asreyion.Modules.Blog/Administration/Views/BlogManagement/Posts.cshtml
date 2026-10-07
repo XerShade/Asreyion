@@ -1,7 +1,52 @@
 @model IReadOnlyList<BlogPost>
 @{ ViewData["Title"] = "Blog Posts"; }
-<div class="d-flex justify-content-between align-items-center mb-3"><p class="text-secondary mb-0">Create and maintain published blog content.</p><a class="btn btn-primary" href="/Administration/Blog/Posts/Create">New post</a></div>
-@if (TempData["SuccessMessage"] is string success) { <div class="alert alert-success" role="status">@success</div> }
-<div class="table-responsive"><table class="table"><thead><tr><th>Title</th><th>Author</th><th>Last updated</th><th>Slug</th><th>Actions</th></tr></thead><tbody>
-@foreach (BlogPost post in Model) { <tr><td>@post.Title</td><td>@post.Author.DisplayName</td><td>@post.Modified.ToLocalTime().ToString("g")</td><td>@post.Slug</td><td class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="/Administration/Blog/Posts/@post.Id/Edit">Edit</a><form method="post" action="/Administration/Blog/Posts/@post.Id/Delete" onsubmit="return confirm('Delete this post?')">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger" type="submit">Delete</button></form></td></tr> }
-</tbody></table></div>
+
+<section class="admin-page-intro" aria-labelledby="blog-posts-heading">
+    <p class="admin-eyebrow">Content</p>
+    <h1 id="blog-posts-heading">Blog posts</h1>
+    <p>Create, edit, and organize the articles published on your site.</p>
+</section>
+
+@if (TempData["SuccessMessage"] is string success) { <div class="admin-notice admin-notice-success" role="status">@success</div> }
+@if (TempData["ErrorMessage"] is string error) { <div class="admin-notice admin-notice-error" role="alert">@error</div> }
+
+<section class="admin-card" aria-labelledby="posts-list-heading">
+    <div class="admin-list-toolbar">
+        <div>
+            <h2 class="admin-card-title" id="posts-list-heading">All posts</h2>
+            <p class="admin-card-copy">@Model.Count post@(Model.Count == 1 ? "" : "s")</p>
+        </div>
+        <div class="admin-toolbar-actions">
+            <label class="admin-search-label" for="posts-search">Search posts</label>
+            <input class="admin-control admin-search" id="posts-search" type="search" placeholder="Search title, author, or slug" autocomplete="off" data-table-search="posts-table" />
+            <a class="admin-btn admin-btn-primary" href="/Administration/Blog/Posts/Create"><i class="fa-solid fa-plus" aria-hidden="true"></i> New post</a>
+        </div>
+    </div>
+    <p class="admin-filter-empty" data-filter-empty="posts-table" role="status" hidden>No posts match your search.</p>
+    <div class="admin-table-scroll" role="region" aria-label="Blog posts" tabindex="0">
+        <table class="admin-table" id="posts-table">
+            <caption class="visually-hidden">Blog posts with author, last updated date, slug, and available actions</caption>
+            <thead><tr><th scope="col">Title</th><th scope="col">Author</th><th scope="col">Last updated</th><th scope="col">Slug</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr><td colspan="5"><div class="admin-empty-state"><span class="admin-empty-icon"><i class="fa-regular fa-file-lines" aria-hidden="true"></i></span><strong>No posts yet</strong><span>Create your first post to get started.</span><a class="admin-btn admin-btn-primary" href="/Administration/Blog/Posts/Create">Create a post</a></div></td></tr>
+            }
+            else
+            {
+                @foreach (BlogPost post in Model)
+                {
+                    var localModified = post.Modified.ToLocalTime();
+                    <tr>
+                        <th scope="row"><span class="admin-table-primary">@post.Title</span></th>
+                        <td>@post.Author.DisplayName</td>
+                        <td><time datetime="@post.Modified.ToUniversalTime().ToString("O")">@localModified.ToString("MMM d, yyyy")<span class="admin-table-secondary">@localModified.ToString("h:mm tt")</span></time></td>
+                        <td><code class="admin-slug">@post.Slug</code></td>
+                        <td><div class="admin-row-actions"><a class="admin-btn admin-btn-small admin-btn-secondary" href="/Administration/Blog/Posts/@post.Id/Edit"><i class="fa-solid fa-pen" aria-hidden="true"></i><span>Edit</span></a><form method="post" action="/Administration/Blog/Posts/@post.Id/Delete" data-confirm="Delete this post? This action cannot be undone.">@Html.AntiForgeryToken()<button class="admin-btn admin-btn-small admin-btn-danger" type="submit"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button></form></div></td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</section>

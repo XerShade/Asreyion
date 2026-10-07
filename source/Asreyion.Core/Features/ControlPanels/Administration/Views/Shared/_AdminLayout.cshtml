@@ -78,6 +78,32 @@
             sidebarToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         });
 
+        // Filter admin tables without changing the server-rendered results.
+        document.querySelectorAll('[data-table-search]').forEach((search) => {
+            const table = document.getElementById(search.dataset.tableSearch);
+            const emptyMessage = document.querySelector(`[data-filter-empty="${search.dataset.tableSearch}"]`);
+            if (!table) return;
+            const initialEmptyRow = table.querySelector('.admin-empty-state')?.closest('tr');
+            const rows = [...table.tBodies[0].rows].filter((row) => !row.querySelector('.admin-empty-state'));
+            search.addEventListener('input', () => {
+                const query = search.value.trim().toLocaleLowerCase();
+                let visibleRows = 0;
+                if (initialEmptyRow) initialEmptyRow.hidden = query.length > 0;
+                rows.forEach((row) => {
+                    const matches = row.textContent.toLocaleLowerCase().includes(query);
+                    row.hidden = !matches;
+                    if (matches) visibleRows += 1;
+                });
+                if (emptyMessage) emptyMessage.hidden = visibleRows !== 0 || query.length === 0;
+            });
+        });
+
+        document.querySelectorAll('form[data-confirm]').forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                if (!window.confirm(form.dataset.confirm)) event.preventDefault();
+            });
+        });
+
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
             if (mobileLayout.matches) {

@@ -1,8 +1,28 @@
 @model IReadOnlyList<BlogTag>
 @{ ViewData["Title"] = "Blog Tags"; }
-<div class="d-flex justify-content-between align-items-center mb-3"><p class="text-secondary mb-0">Manage tags used to describe posts.</p><a class="btn btn-primary" href="/Administration/Blog/Tags/Create">New tag</a></div>
-@if (TempData["SuccessMessage"] is string success) { <div class="alert alert-success" role="status">@success</div> }
-@if (TempData["ErrorMessage"] is string error) { <div class="alert alert-danger" role="alert">@error</div> }
-<div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Posts</th><th>Actions</th></tr></thead><tbody>
-@foreach (BlogTag tag in Model) { <tr><td>@tag.Name</td><td>@tag.Posts.Count</td><td class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="/Administration/Blog/Tags/@tag.Id/Edit">Edit</a><form method="post" action="/Administration/Blog/Tags/@tag.Id/Delete" onsubmit="return confirm('Delete this tag?')">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger" type="submit">Delete</button></form></td></tr> }
-</tbody></table></div>
+
+<section class="admin-page-intro" aria-labelledby="tags-heading">
+    <p class="admin-eyebrow">Content</p>
+    <h1 id="tags-heading">Tags</h1>
+    <p>Use tags to describe topics and connect related posts.</p>
+</section>
+
+@if (TempData["SuccessMessage"] is string success) { <div class="admin-notice admin-notice-success" role="status">@success</div> }
+@if (TempData["ErrorMessage"] is string error) { <div class="admin-notice admin-notice-error" role="alert">@error</div> }
+
+<section class="admin-card" aria-labelledby="tags-list-heading">
+    <div class="admin-list-toolbar">
+        <div><h2 class="admin-card-title" id="tags-list-heading">All tags</h2><p class="admin-card-copy">@Model.Count tag@(Model.Count == 1 ? "" : "s")</p></div>
+        <div class="admin-toolbar-actions"><label class="admin-search-label" for="tags-search">Search tags</label><input class="admin-control admin-search" id="tags-search" type="search" placeholder="Search tag names" autocomplete="off" data-table-search="tags-table" /><a class="admin-btn admin-btn-primary" href="/Administration/Blog/Tags/Create"><i class="fa-solid fa-plus" aria-hidden="true"></i> New tag</a></div>
+    </div>
+    <p class="admin-filter-empty" data-filter-empty="tags-table" role="status" hidden>No tags match your search.</p>
+    <div class="admin-table-scroll" role="region" aria-label="Blog tags" tabindex="0">
+        <table class="admin-table" id="tags-table"><caption class="visually-hidden">Blog tags, the number of posts using each tag, and available actions</caption>
+            <thead><tr><th scope="col">Name</th><th scope="col">Posts</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody>
+            @if (Model.Count == 0) { <tr><td colspan="3"><div class="admin-empty-state"><span class="admin-empty-icon"><i class="fa-solid fa-tags" aria-hidden="true"></i></span><strong>No tags yet</strong><span>Create tags to make related posts easier to find.</span><a class="admin-btn admin-btn-primary" href="/Administration/Blog/Tags/Create">Create a tag</a></div></td></tr> }
+            else { @foreach (BlogTag tag in Model) { <tr><th scope="row"><span class="admin-table-primary">@tag.Name</span></th><td><span class="admin-count">@tag.Posts.Count</span></td><td><div class="admin-row-actions"><a class="admin-btn admin-btn-small admin-btn-secondary" href="/Administration/Blog/Tags/@tag.Id/Edit"><i class="fa-solid fa-pen" aria-hidden="true"></i><span>Edit</span></a><form method="post" action="/Administration/Blog/Tags/@tag.Id/Delete" data-confirm="Delete this tag? Tags in use by posts cannot be deleted.">@Html.AntiForgeryToken()<button class="admin-btn admin-btn-small admin-btn-danger" type="submit"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button></form></div></td></tr> } }
+            </tbody>
+        </table>
+    </div>
+</section>

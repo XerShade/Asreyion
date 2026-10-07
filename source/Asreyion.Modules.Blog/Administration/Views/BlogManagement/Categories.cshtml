@@ -1,8 +1,28 @@
 @model IReadOnlyList<BlogCategory>
 @{ ViewData["Title"] = "Blog Categories"; }
-<div class="d-flex justify-content-between align-items-center mb-3"><p class="text-secondary mb-0">Organize posts into categories.</p><a class="btn btn-primary" href="/Administration/Blog/Categories/Create">New category</a></div>
-@if (TempData["SuccessMessage"] is string success) { <div class="alert alert-success" role="status">@success</div> }
-@if (TempData["ErrorMessage"] is string error) { <div class="alert alert-danger" role="alert">@error</div> }
-<div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Parent</th><th>Slug</th><th>Posts</th><th>Actions</th></tr></thead><tbody>
-@foreach (BlogCategory category in Model) { <tr><td>@category.Name</td><td>@(category.Parent?.Name ?? "—")</td><td>@category.Slug</td><td>@category.Posts.Count</td><td class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="/Administration/Blog/Categories/@category.Id/Edit">Edit</a><form method="post" action="/Administration/Blog/Categories/@category.Id/Delete" onsubmit="return confirm('Delete this category?')">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger" type="submit">Delete</button></form></td></tr> }
-</tbody></table></div>
+
+<section class="admin-page-intro" aria-labelledby="categories-heading">
+    <p class="admin-eyebrow">Content</p>
+    <h1 id="categories-heading">Categories</h1>
+    <p>Organize posts into a clear hierarchy for your readers.</p>
+</section>
+
+@if (TempData["SuccessMessage"] is string success) { <div class="admin-notice admin-notice-success" role="status">@success</div> }
+@if (TempData["ErrorMessage"] is string error) { <div class="admin-notice admin-notice-error" role="alert">@error</div> }
+
+<section class="admin-card" aria-labelledby="categories-list-heading">
+    <div class="admin-list-toolbar">
+        <div><h2 class="admin-card-title" id="categories-list-heading">All categories</h2><p class="admin-card-copy">@Model.Count categor@(Model.Count == 1 ? "y" : "ies")</p></div>
+        <div class="admin-toolbar-actions"><label class="admin-search-label" for="categories-search">Search categories</label><input class="admin-control admin-search" id="categories-search" type="search" placeholder="Search name or slug" autocomplete="off" data-table-search="categories-table" /><a class="admin-btn admin-btn-primary" href="/Administration/Blog/Categories/Create"><i class="fa-solid fa-plus" aria-hidden="true"></i> New category</a></div>
+    </div>
+    <p class="admin-filter-empty" data-filter-empty="categories-table" role="status" hidden>No categories match your search.</p>
+    <div class="admin-table-scroll" role="region" aria-label="Blog categories" tabindex="0">
+        <table class="admin-table" id="categories-table"><caption class="visually-hidden">Blog categories, their parent category, URL slug, post count, and actions</caption>
+            <thead><tr><th scope="col">Name</th><th scope="col">Parent</th><th scope="col">Slug</th><th scope="col">Posts</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody>
+            @if (Model.Count == 0) { <tr><td colspan="5"><div class="admin-empty-state"><span class="admin-empty-icon"><i class="fa-regular fa-folder-open" aria-hidden="true"></i></span><strong>No categories yet</strong><span>Create categories to organize your posts.</span><a class="admin-btn admin-btn-primary" href="/Administration/Blog/Categories/Create">Create a category</a></div></td></tr> }
+            else { @foreach (BlogCategory category in Model) { <tr><th scope="row"><span class="admin-table-primary">@category.Name</span></th><td>@(category.Parent?.Name ?? "—")</td><td><code class="admin-slug">@category.Slug</code></td><td><span class="admin-count">@category.Posts.Count</span></td><td><div class="admin-row-actions"><a class="admin-btn admin-btn-small admin-btn-secondary" href="/Administration/Blog/Categories/@category.Id/Edit"><i class="fa-solid fa-pen" aria-hidden="true"></i><span>Edit</span></a><form method="post" action="/Administration/Blog/Categories/@category.Id/Delete" data-confirm="Delete this category? Categories with posts or child categories cannot be deleted.">@Html.AntiForgeryToken()<button class="admin-btn admin-btn-small admin-btn-danger" type="submit"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button></form></div></td></tr> } }
+            </tbody>
+        </table>
+    </div>
+</section>
