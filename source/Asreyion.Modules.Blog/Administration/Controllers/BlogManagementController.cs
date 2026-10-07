@@ -12,8 +12,130 @@ namespace Asreyion.Modules.Blog.Administration.Controllers;
 
 [Area("Administration"), Authorize(Roles = "Administrator")]
 [Route("Administration/Blog")]
-public sealed class BlogManagementController(DataDbContext db, UserManager<ApplicationUser> users) : Controller
+public sealed class BlogManagementController(DataDbContext db, UserManager<ApplicationUser> users, IWebHostEnvironment environment) : Controller
 {
+    private const long MaxBlogImageBytes = 10 * 1024 * 1024;
+    private const long MaxBlogFileBytes = 25 * 1024 * 1024;
+
+    [HttpPost("Images"), ValidateAntiForgeryToken]
+    [RequestSizeLimit(MaxBlogImageBytes + 64 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxBlogImageBytes + 64 * 1024)]
+    public async Task<IActionResult> UploadImage(IFormFile? file, CancellationToken ct)
+    {
+        if (file is null || file.Length == 0) return this.BadRequest(new { error = "Choose an image to upload." });
+        if (file.Length > MaxBlogImageBytes) return this.BadRequest(new { error = "Images must be 10 MB or smaller." });
+
+        byte[] signature = new byte[12];
+        await using (Stream input = file.OpenReadStream())
+        {
+            int read = 0;
+            while (read < signature.Length)
+            {
+                int count = await input.ReadAsync(signature.AsMemory(read), ct);
+                if (count == 0) break;
+                read += count;
+            }
+            signature = signature[..read];
+        }
+
+        string? extension = GetBlogImageExtension(signature);
+        if (extension is null) return this.BadRequest(new { error = "Use a PNG, JPEG, GIF, or WebP image." });
+
+        string fileName = $"{Guid.NewGuid():N}{extension}";
+        string imageDirectory = Path.Combine(environment.ContentRootPath, "store", "blog-images");
+        Directory.CreateDirectory(imageDirectory);
+        string imagePath = Path.Combine(imageDirectory, fileName);
+        await using (Stream input = file.OpenReadStream())
+        await using (FileStream output = new(imagePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, useAsync: true))
+        {
+            await input.CopyToAsync(output, ct);
+        }
+
+        string imageUrl = $"{Request.PathBase}/Administration/Blog/Images/{fileName}";
+        return this.Ok(new { url = imageUrl });
+    }
+
+    [HttpPost("Files"), ValidateAntiForgeryToken]
+    [RequestSizeLimit(MaxBlogFileBytes + 64 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxBlogFileBytes + 64 * 1024)]
+    public async Task<IActionResult> UploadFile(IFormFile? file, CancellationToken ct)
+    {
+        if (file is null || file.Length == 0) return this.BadRequest(new { error = "Choose a file to attach." });
+        if (file.Length > MaxBlogFileBytes) return this.BadRequest(new { error = "Attachments must be 25 MB or smaller." });
+
+        string originalName = Path.GetFileName((file.FileName ?? "").Replace('\\', '/'));
+        string extension = Path.GetExtension(originalName).ToLowerInvariant();
+        if (!IsAllowedBlogFileExtension(extension)) return this.BadRequest(new { error = "This file type is not supported as a blog attachment." });
+
+        string baseName = Regex.Replace(Path.GetFileNameWithoutExtension(originalName), @"[^A-Za-z0-9_-]+", "-").Trim('-', '_');
+        if (string.IsNullOrWhiteSpace(baseName)) baseName = "attachment";
+        if (baseName.Length > 80) baseName = baseName[..80];
+        string downloadName = $"{baseName}{extension}";
+        string storedName = $"{Guid.NewGuid():N}_{downloadName}";
+        string fileDirectory = Path.Combine(environment.ContentRootPath, "store", "blog-files");
+        Directory.CreateDirectory(fileDirectory);
+        string filePath = Path.Combine(fileDirectory, storedName);
+        await using (Stream input = file.OpenReadStream())
+        await using (FileStream output = new(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 81920, useAsync: true))
+        {
+            await input.CopyToAsync(output, ct);
+        }
+
+        string fileUrl = $"{Request.PathBase}/Administration/Blog/Files/{storedName}";
+        return this.Ok(new { url = fileUrl, fileName = downloadName });
+    }
+
+    [HttpGet("Files/{fileName}"), AllowAnonymous]
+    public IActionResult GetBlogFile(string fileName)
+    {
+        if (!Regex.IsMatch(fileName, @"\A[a-f0-9]{32}_[A-Za-z0-9][A-Za-z0-9._-]{0,119}\z", RegexOptions.IgnoreCase)
+            || !IsAllowedBlogFileExtension(Path.GetExtension(fileName))) return this.NotFound();
+
+        string filePath = Path.Combine(environment.ContentRootPath, "store", "blog-files", fileName);
+        if (!System.IO.File.Exists(filePath)) return this.NotFound();
+
+        string downloadName = fileName[(fileName.IndexOf('_') + 1)..];
+        Response.Headers["X-Content-Type-Options"] = "nosniff";
+        Response.Headers["Cache-Control"] = "public,max-age=31536000,immutable";
+        return this.PhysicalFile(filePath, "application/octet-stream", downloadName);
+    }
+
+    private static bool IsAllowedBlogFileExtension(string extension) => extension.ToLowerInvariant() is
+        ".pdf" or ".zip" or ".7z" or ".rar" or ".csv" or ".json" or ".xml" or ".yaml" or ".yml" or ".toml" or ".ini" or ".config" or
+        ".cs" or ".csx" or ".js" or ".mjs" or ".cjs" or ".ts" or ".tsx" or ".jsx" or ".py" or ".html" or ".htm" or ".css" or ".scss" or
+        ".sql" or ".sh" or ".ps1" or ".go" or ".rs" or ".java" or ".c" or ".h" or ".cpp" or ".hpp" or ".php" or ".rb" or ".log" or
+        ".txt" or ".md" or ".markdown" or ".docx" or ".xlsx" or ".pptx";
+
+    [HttpGet("Images/{fileName}"), AllowAnonymous]
+    public IActionResult GetBlogImage(string fileName)
+    {
+        if (!Regex.IsMatch(fileName, @"\A[a-f0-9]{32}\.(?:png|jpg|gif|webp)\z", RegexOptions.IgnoreCase)) return this.NotFound();
+
+        string imagePath = Path.Combine(environment.ContentRootPath, "store", "blog-images", fileName);
+        if (!System.IO.File.Exists(imagePath)) return this.NotFound();
+
+        string contentType = Path.GetExtension(fileName).ToLowerInvariant() switch
+        {
+            ".png" => "image/png",
+            ".jpg" => "image/jpeg",
+            ".gif" => "image/gif",
+            ".webp" => "image/webp",
+            _ => "application/octet-stream"
+        };
+        Response.Headers["X-Content-Type-Options"] = "nosniff";
+        Response.Headers["Cache-Control"] = "public,max-age=31536000,immutable";
+        return this.PhysicalFile(imagePath, contentType);
+    }
+
+    private static string? GetBlogImageExtension(ReadOnlySpan<byte> signature)
+    {
+        if (signature.Length >= 8 && signature[..8].SequenceEqual(new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A })) return ".png";
+        if (signature.Length >= 3 && signature[0] == 0xFF && signature[1] == 0xD8 && signature[2] == 0xFF) return ".jpg";
+        if (signature.Length >= 6 && (signature[..6].SequenceEqual("GIF87a"u8) || signature[..6].SequenceEqual("GIF89a"u8))) return ".gif";
+        if (signature.Length >= 12 && signature[..4].SequenceEqual("RIFF"u8) && signature[8..12].SequenceEqual("WEBP"u8)) return ".webp";
+        return null;
+    }
+
     [HttpGet("Posts")]
     public async Task<IActionResult> Posts(CancellationToken ct) => this.View(await db.Set<BlogPost>().AsNoTracking().Include(p => p.Author).OrderByDescending(p => p.Modified).ToListAsync(ct));
 

@@ -1,6 +1,10 @@
 @model BlogPostInputModel
 @{ bool editing = Model.Id != 0; ViewData["Title"] = editing ? "Edit Blog Post" : "New Blog Post"; }
 
+@section AdminHeadStyles {
+    <link rel="stylesheet" href="~/lib/trix/trix.css" asp-append-version="true" />
+}
+
 <section class="admin-page-intro" aria-labelledby="post-form-heading">
     <p class="admin-eyebrow"><a href="/Administration/Blog/Posts">Blog posts</a> / @(editing ? "Edit" : "New")</p>
     <h1 id="post-form-heading">@(editing ? "Edit post" : "Create a post")</h1>
@@ -13,9 +17,46 @@
     <div class="admin-form-grid">
         <div class="admin-field admin-field-wide"><label asp-for="Title" class="admin-label">Title <span class="admin-required">Required</span></label><input asp-for="Title" class="admin-control" autocomplete="off" placeholder="Give your post a clear title" /><span asp-validation-for="Title" class="admin-field-error"></span></div>
         <div class="admin-field admin-field-wide"><label asp-for="Slug" class="admin-label">URL slug <span class="admin-optional">Optional</span></label><input asp-for="Slug" class="admin-control" autocomplete="off" placeholder="Generated from the title when empty" aria-describedby="post-slug-help" /><span asp-validation-for="Slug" class="admin-field-error"></span><span class="admin-field-help" id="post-slug-help">Used in the post URL. Leave blank to generate it from the title.</span></div>
-        <div class="admin-field admin-field-wide"><label asp-for="Body" class="admin-label">Content <span class="admin-required">Required</span></label><textarea asp-for="Body" class="admin-control admin-editor" rows="22" spellcheck="true" placeholder="Write your post content…" aria-describedby="post-body-help"></textarea><span asp-validation-for="Body" class="admin-field-error"></span><span class="admin-field-help" id="post-body-help">This field accepts HTML markup for headings, links, and formatting.</span></div>
+        <div class="admin-field admin-field-wide">
+            <label for="post-body-editor" class="admin-label">Content <span class="admin-required">Required</span></label>
+            <input asp-for="Body" type="hidden" id="post-body-input" />
+            <trix-editor id="post-body-editor" input="post-body-input" class="admin-rich-editor" placeholder="Start writing your post…" aria-describedby="post-body-help" aria-label="Post content editor"></trix-editor>
+            <span asp-validation-for="Body" class="admin-field-error"></span>
+            <span class="admin-editor-status" id="post-editor-status" role="status" aria-live="polite"></span>
+            <span class="admin-field-help" id="post-body-help">Format headings, colors, lists, quotes, code, and links. Add PNG, JPEG, GIF, or WebP images (up to 10 MB) and common project files (up to 25 MB).</span>
+        </div>
         <div class="admin-field"><label asp-for="CategoryIds" class="admin-label">Categories</label><select asp-for="CategoryIds" class="admin-control admin-multiselect" multiple size="7" aria-describedby="post-categories-help">@foreach (var category in Model.Categories) { <option value="@category.Id">@category.Name</option> }</select><span class="admin-field-help" id="post-categories-help">Select any categories that apply. Use Ctrl or Command to select more than one.</span></div>
         <div class="admin-field"><label asp-for="TagIds" class="admin-label">Tags</label><select asp-for="TagIds" class="admin-control admin-multiselect" multiple size="7" aria-describedby="post-tags-help">@foreach (var tag in Model.Tags) { <option value="@tag.Id">@tag.Name</option> }</select><span class="admin-field-help" id="post-tags-help">Select any tags that apply. Use Ctrl or Command to select more than one.</span></div>
     </div>
     <div class="admin-form-actions"><button class="admin-btn admin-btn-primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> @(editing ? "Save changes" : "Create post")</button><a class="admin-btn admin-btn-secondary" href="/Administration/Blog/Posts">Cancel</a></div>
 </form>
+
+@section Scripts {
+    <script>
+        document.addEventListener("trix-before-initialize", () => {
+            Trix.config.blockAttributes.heading2 = { tagName: "h2", terminal: true, breakOnReturn: true, group: false };
+            Trix.config.blockAttributes.heading3 = { tagName: "h3", terminal: true, breakOnReturn: true, group: false };
+            const presetColors = { Red: "#dc2626", Orange: "#ea580c", Amber: "#ca8a04", Green: "#16a34a", Blue: "#2563eb", Purple: "#9333ea", Pink: "#db2777" };
+            window.adminBlogTextColors = {};
+            const registerColor = (name, color) => {
+                Trix.config.textAttributes[name] = { style: { color }, inheritable: true };
+                window.adminBlogTextColors[name] = color;
+            };
+            for (const [name, color] of Object.entries(presetColors)) registerColor(`textColor${name}`, color);
+
+            const source = document.createElement("template");
+            source.innerHTML = document.getElementById("post-body-input").value;
+            const canvas = document.createElement("canvas").getContext("2d");
+            source.content.querySelectorAll("[style]").forEach((node) => {
+                const color = node.style.color;
+                if (!color || !canvas || !CSS.supports("color", color)) return;
+                canvas.fillStyle = color;
+                const normalized = canvas.fillStyle.toLowerCase();
+                const preset = Object.values(presetColors).some((value) => value.toLowerCase() === normalized);
+                if (!preset && /^#[0-9a-f]{6}$/i.test(normalized)) registerColor(`textColorCustom${normalized.slice(1)}`, normalized);
+            });
+        });
+    </script>
+    <script src="~/lib/trix/trix.umd.min.js" asp-append-version="true"></script>
+    <script src="~/js/admin-post-editor.js" asp-append-version="true"></script>
+}
