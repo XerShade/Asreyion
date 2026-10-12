@@ -9,12 +9,18 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\ViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Attributes\HookDependenciesAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookApplicationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookDescriptors.cs" />
+    <Compile Include="..\..\source\Asreyion.Core\Features\Hooks\Extensions\HookServiceCollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Hooks\IConfigureApplicationHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Hooks\IConfigureServicesHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\FeatureViewLocationExpandHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginLinkingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Models\DashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Hooks\ViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Hooks\ControlPanelViewLocationExpandHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\HostConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Data\ApplicationUser.cs" />
@@ -29,19 +35,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\SessionController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\IOnRenderHtmlHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookRegistrationExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\HookEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Hooks\IOnRenderHtmlHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookDiscoveryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Engine\HookEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Engine\Interfaces\IHookEngine.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookSubscriber.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Modules\HookEngineModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\HookEngineServicesHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Tags\HookTagHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\Configurations\NavigationMenuConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\Configurations\NavigationMenuItemConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenuItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Models\NavigationTreeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Modules\NavigationServiceModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Hooks\NavigationServiceHooks.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\Interfaces\INavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\NavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\INavigationBuilder.cs" />
@@ -49,17 +55,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\NavigationItemDefinition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Hooks\IOnBuildNavigationHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Components\NavigationView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\AssemblyModuleDiscovery.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Modules\AuthenticationModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Modules\DatabaseConfigurationModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\ICoreModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDependencySorter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\Interfaces\IModuleDiscovery.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Modules\ModuleDependencySorter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Hooks\AuthenticationServiceHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Hooks\DatabaseConfigurationHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookDependencySorter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationExpandHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationPopulateHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\ProxyConfigurationModule.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Modules\RoutingModule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\ProxyConfigurationHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\RoutingConfigurationHooks.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Attributes\FeatureAreaAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\ViewLocationExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\AssemblyTypeDiscovery.cs" />
@@ -99,14 +101,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Modules\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Hooks\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Database\Modules\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Mvc\Modules\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\Database\Hooks\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\Hooks\Engine\Interfaces\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Features\Navigation\Modules\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Features\Navigation\Views\Components\NavigationView.cshtml" />

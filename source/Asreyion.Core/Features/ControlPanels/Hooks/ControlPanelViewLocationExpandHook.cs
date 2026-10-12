@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Asreyion.Core.Features.ControlPanels.Hooks;
 
-public class ViewLocationExpandHook : IViewLocationExpandHook
+public class ControlPanelViewLocationExpandHook : IViewLocationExpandHook
 {
     public Task OnExpandAsync(ViewLocationExpanderContext context, List<string> newLocations, string targetFolder)
     {

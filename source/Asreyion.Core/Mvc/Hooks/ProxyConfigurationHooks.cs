@@ -1,16 +1,14 @@
-﻿using Asreyion.Core.Modules.Interfaces;
+﻿using Asreyion.Core.Features.Hooks.Hooks;
 using Microsoft.AspNetCore.HttpOverrides;
 
-namespace Asreyion.Core.Mvc.Modules;
+namespace Asreyion.Core.Mvc.Hooks;
 
-public class ProxyConfigurationModule : ICoreModule
+public class ProxyConfigurationHooks : IConfigureServicesHook, IConfigureApplicationHook
 {
     /// <inheritdoc />
     public string Name => "Proxy Configuration";
     /// <inheritdoc />
     public string Description => "Configures the application to run behind a proxy service.";
-    /// <inheritdoc />
-    public Type[] Dependencies => [];
 
     /// <inheritdoc />
     public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)

@@ -1,21 +1,15 @@
 ﻿using Asreyion.Core.Features.Database.DbContexts;
-using Asreyion.Core.Modules.Interfaces;
+using Asreyion.Core.Features.Hooks.Hooks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Asreyion.Core.Features.Database.Modules;
+namespace Asreyion.Core.Features.Database.Hooks;
 
-public class DatabaseConfigurationModule : ICoreModule
+public class DatabaseConfigurationModule : IConfigureServicesHook
 {
     /// <inheritdoc />
     public string Name { get; } = "Database Configuration";
     /// <inheritdoc />
     public string Description { get; } = "Configures the databases used by the application.";
-    /// <inheritdoc />
-    public Type[] Dependencies { get; } = [];
-
-    /// <inheritdoc />
-    public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)
-    { }
 
     /// <inheritdoc />
     public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)

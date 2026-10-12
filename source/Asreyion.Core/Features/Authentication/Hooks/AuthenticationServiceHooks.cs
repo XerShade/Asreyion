@@ -1,20 +1,21 @@
-﻿using Asreyion.Core.Features.Authentication.Providers.Interfaces;
-using Asreyion.Core.Features.Authentication.Data;
+﻿using Asreyion.Core.Features.Authentication.Data;
+using Asreyion.Core.Features.Authentication.Providers.Interfaces;
 using Asreyion.Core.Features.Database.DbContexts;
-using Asreyion.Core.Features.Database.Modules;
-using Asreyion.Core.Modules.Interfaces;
-using Asreyion.Core.Mvc.Modules;
+using Asreyion.Core.Features.Database.Hooks;
+using Asreyion.Core.Features.Hooks.Attributes;
+using Asreyion.Core.Features.Hooks.Hooks;
+using Asreyion.Core.Mvc.Hooks;
 using Asreyion.Core.Util;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace Asreyion.Core.Features.Authentication.Modules;
+namespace Asreyion.Core.Features.Authentication.Hooks;
 
-public class AuthenticationModule : ICoreModule
+[HookDependencies(typeof(ProxyConfigurationHooks), typeof(DatabaseConfigurationModule), typeof(RoutingConfigurationHooks))]
+public class AuthenticationServiceHooks : IConfigureServicesHook, IConfigureApplicationHook
 {
-    public string Name => "Authentication";
+    public string Name => "Authentication Services";
     public string Description => "Configures the authentication providers and services for the application.";
-    public Type[] Dependencies => [typeof(ProxyConfigurationModule), typeof(DatabaseConfigurationModule), typeof(RoutingModule)];
 
     public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)
     {

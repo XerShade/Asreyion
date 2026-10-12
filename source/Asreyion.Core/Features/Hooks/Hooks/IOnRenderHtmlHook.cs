@@ -1,6 +1,6 @@
 ﻿using Asreyion.Core.Features.Hooks.Interfaces;
 
-namespace Asreyion.Core.Features.Hooks;
+namespace Asreyion.Core.Features.Hooks.Hooks;
 
 /// <summary>
 /// Defines a contract for a frontend hook for injecting HTML/Assets.

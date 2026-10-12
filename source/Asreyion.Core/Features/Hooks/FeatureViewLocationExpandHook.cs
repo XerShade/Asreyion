@@ -1,12 +1,9 @@
 ﻿using Asreyion.Core.Mvc.Hooks;
 using Microsoft.AspNetCore.Mvc.Razor;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Asreyion.Core.Features.Hooks;
 
-public class ViewLocationExpandHook : IViewLocationExpandHook
+public class FeatureViewLocationExpandHook : IViewLocationExpandHook
 {
     public Task OnExpandAsync(ViewLocationExpanderContext context, List<string> newLocations, string targetFolder)
     {

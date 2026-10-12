@@ -1,13 +1,12 @@
-﻿using Asreyion.Core.Modules.Interfaces;
+﻿using Asreyion.Core.Features.Hooks.Hooks;
 using System.Reflection;
 
-namespace Asreyion.Core.Mvc.Modules;
+namespace Asreyion.Core.Mvc.Hooks;
 
-public class RoutingModule : ICoreModule
+public class RoutingConfigurationHooks : IConfigureServicesHook, IConfigureApplicationHook
 {
     public string Name => "Routing";
     public string Description => "Configures the url routing of the application.";
-    public Type[] Dependencies => [];
 
     public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)
     {

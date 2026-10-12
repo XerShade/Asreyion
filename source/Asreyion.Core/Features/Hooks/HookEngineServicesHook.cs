@@ -1,22 +1,16 @@
-﻿using Asreyion.Core.Features.Hooks.Extensions;
-using Asreyion.Core.Features.Hooks.Interfaces;
-using Asreyion.Core.Modules.Interfaces;
+﻿using Asreyion.Core.Features.Hooks.Engine;
+using Asreyion.Core.Features.Hooks.Engine.Interfaces;
+using Asreyion.Core.Features.Hooks.Extensions;
 using System.Reflection;
 
-namespace Asreyion.Core.Features.Hooks.Modules;
+namespace Asreyion.Core.Features.Hooks.Hooks;
 
-public class HookEngineModule : ICoreModule
+public class HookEngineServicesHook : IConfigureServicesHook
 {
     /// <inheritdoc />
     public string Name { get; } = "Hook Engine";
     /// <inheritdoc />
     public string Description { get; } = "Provides the ability to run hooks to cleanly execute code within the application.";
-    /// <inheritdoc />
-    public Type[] Dependencies { get; } = [];
-
-    /// <inheritdoc />
-    public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)
-    { }
 
     /// <inheritdoc />
     public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)
@@ -27,8 +21,15 @@ public class HookEngineModule : ICoreModule
         // Iterate over all loaded assemblies.
         foreach(Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
+            // Check to see if the assembly is the executing assembly.
+            if (assembly == Assembly.GetExecutingAssembly())
+            {
+                // Skip the executing assembly, it's hooks were already discovered.
+                continue;
+            }
+
             // Discover and add any hooks to the service collection.
-            services.AddHooks(assembly);
+            _ = services.DiscoverHooks(assembly);
         }
     }
 }

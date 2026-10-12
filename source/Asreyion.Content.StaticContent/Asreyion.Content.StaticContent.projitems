@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Content\Controllers\HomeController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\StaticContentNavigationHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Hooks\ViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\StaticContentViewLocationExpandHook.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Content\Views\Home\Index.cshtml" />

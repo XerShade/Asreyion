@@ -5,5 +5,5 @@
 /// </summary>
 public interface IHookSubscriber
 {
-    // This interface is intentionally left empty, it is just a marker interface.
+    // This is a marker interface, it does not have any members.
 }

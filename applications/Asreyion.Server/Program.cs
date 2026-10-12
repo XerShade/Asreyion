@@ -1,25 +1,14 @@
 using Asreyion.Core.Configuration;
-using Asreyion.Core.Modules;
-using Asreyion.Core.Modules.Interfaces;
+using Asreyion.Core.Features.Hooks.Extensions;
+using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(HostConfiguration.Create(args));
 
-AssemblyModuleDiscovery moduleDiscovery = new();
-ModuleDependencySorter dependencySorter = new();
-
-IReadOnlyCollection<ICoreModule> modules = dependencySorter.Sort(
-    moduleDiscovery.Discover(AppDomain.CurrentDomain.GetAssemblies()));
-
-foreach (ICoreModule module in modules)
-{
-    module.OnConfigureServices(builder.Services, builder.Configuration);
-}
+builder.Services.DiscoverHooks(Assembly.GetExecutingAssembly());
+builder.Services.ConfigureServicesWithHooks(builder.Configuration);
 
 WebApplication app = builder.Build();
 
-foreach (ICoreModule module in modules)
-{
-    module.OnConfigureApplication(app, app.Environment);
-}
+app.ConfigureApplicationWithHooks();
 
 app.Run();

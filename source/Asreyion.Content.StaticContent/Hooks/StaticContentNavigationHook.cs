@@ -27,16 +27,10 @@ public class StaticContentNavigationHook : IOnBuildNavigationHook
             .WithOrder(50));
 
         // Add Privacy Policy under "About"
-        aboutParent.AddOrGetChild("Privacy Policy", child => child
+        _ = aboutParent.AddOrGetChild("Privacy Policy", child => child
             .WithRoute("Home", "Privacy")
             .WithIcon("shield-halved")
             .WithOrder(10));
-
-        // Add Terms of Service under "About"
-        aboutParent.AddOrGetChild("Terms of Service", child => child
-            .WithRoute("Home", "Terms")
-            .WithIcon("file-contract")
-            .WithOrder(20));
 
         return Task.CompletedTask;
     }

@@ -1,7 +1,8 @@
-using Asreyion.Core.Features.Hooks;
+using Asreyion.Core.Features.Hooks.Engine.Interfaces;
+using Asreyion.Core.Features.Hooks.Hooks;
 using Asreyion.Core.Features.Hooks.Interfaces;
 
-namespace Asreyion.Core.Features.Hooks;
+namespace Asreyion.Core.Features.Hooks.Engine;
 
 /// <summary>
 /// Defines a hook engine used to execute hooks within a scope during the application lifecycle.

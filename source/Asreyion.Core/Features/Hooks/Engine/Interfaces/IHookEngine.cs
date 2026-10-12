@@ -1,4 +1,6 @@
-﻿namespace Asreyion.Core.Features.Hooks.Interfaces;
+﻿using Asreyion.Core.Features.Hooks.Interfaces;
+
+namespace Asreyion.Core.Features.Hooks.Engine.Interfaces;
 
 /// <summary>
 /// Defines a contract for a hook engine.
