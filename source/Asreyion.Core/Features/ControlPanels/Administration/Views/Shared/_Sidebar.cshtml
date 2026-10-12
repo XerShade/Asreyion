@@ -7,9 +7,13 @@
 <div class="admin-nav-section">
     <div class="admin-nav-section-title">Main</div>
 
-    <a href="/Administration/Dashboard" class="admin-nav-item @(currentController == "Dashboard" ? "active" : "")">
+    <a href="/Administration/Dashboard" class="admin-nav-item @(currentController == "Dashboard" && currentAction == "Index" ? "active" : "")">
         <i class="admin-nav-item-icon fa-solid fa-house fa-fw me-2" aria-hidden="true"></i>
         Dashboard
+    </a>
+    <a href="/Administration/Hooks" class="admin-nav-item @(currentController == "Dashboard" && currentAction == "Hooks" ? "active" : "")">
+        <i class="admin-nav-item-icon fa-solid fa-plug fa-fw me-2" aria-hidden="true"></i>
+        Hooks
     </a>
 </div>
 

@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Controllers\DashboardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Models\HookStatusViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\AuthenticationDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\DataDbContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Migrations\**\*.cs" />
@@ -71,6 +72,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\Dashboard\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Profile\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Dashboard\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Dashboard\Hooks.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_AdminLayout.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_HeaderActions.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_Sidebar.cshtml" />

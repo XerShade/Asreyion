@@ -31,12 +31,19 @@ public static class HookDiscoveryExtensions
             IEnumerable<Type> interfaces = type.GetInterfaces()
                 .Where(i => i != typeof(IHookSubscriber) && typeof(IHookSubscriber).IsAssignableFrom(i));
 
+            Type[] hookInterfaces = [.. interfaces];
+
             // Iterate over the hook interfaces found.
-            foreach (Type @interface in interfaces)
+            foreach (Type @interface in hookInterfaces)
             {
                 // Register it to the DI container scoped or transient.
                 // The order of registration will match the dependency resolution sequence.
                 _ = services.AddScoped(@interface, type);
+            }
+
+            if (hookInterfaces.Length > 0)
+            {
+                _ = services.AddSingleton(new RegisteredHook(type, hookInterfaces));
             }
         }
 
@@ -44,3 +51,8 @@ public static class HookDiscoveryExtensions
         return services;
     }
 }
+
+/// <summary>
+/// Describes a subscriber implementation registered by hook discovery.
+/// </summary>
+public sealed record RegisteredHook(Type ImplementationType, IReadOnlyList<Type> ServiceTypes);
