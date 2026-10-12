@@ -49,7 +49,7 @@ public class DashboardController : Controller
 
             hooks.Add(new HookStatusViewModel(
                 registration.Key.FullName ?? registration.Key.Name,
-                descriptors?.Name,
+                descriptors?.Name ?? registration.Key.Name,
                 descriptors?.Description,
                 registration.SelectMany(hook => hook.ServiceTypes)
                     .Select(type => type.Name)
