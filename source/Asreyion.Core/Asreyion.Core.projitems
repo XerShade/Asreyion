@@ -111,7 +111,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Database\Hooks\" />
     <Folder Include="$(MSBuildThisFileDirectory)Features\Hooks\Engine\Interfaces\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Navigation\Modules\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Features\Navigation\Views\Components\NavigationView.cshtml" />
