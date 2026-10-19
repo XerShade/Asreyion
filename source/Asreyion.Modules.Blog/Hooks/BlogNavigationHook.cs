@@ -11,6 +11,7 @@ namespace Asreyion.Modules.Blog.Hooks;
 /// </summary>
 public class BlogNavigationHook(DataDbContext dbContext) : IOnBuildNavigationHook
 {
+    /// <inheritdoc />
     public async Task BuildNavigationAsync(INavigationBuilder builder)
     {
         if (!string.Equals(builder.MenuName, "Primary", StringComparison.OrdinalIgnoreCase))

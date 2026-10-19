@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Asreyion.Modules.Blog.Administration.Hooks;
 
-/// <summary>Adds the blog module's administration views to MVC view lookup.</summary>
+/// <summary>
+/// Adds the blog module's administration views to MVC view lookup.
+/// </summary>
 public sealed class BlogAdministrationViewLocationHook : IViewLocationExpandHook
 {
+    /// <inheritdoc />
     public Task OnExpandAsync(ViewLocationExpanderContext context, List<string> newLocations, string targetFolder)
     {
         if (string.Equals(context.AreaName, "Administration", StringComparison.OrdinalIgnoreCase)

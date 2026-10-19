@@ -1,5 +1,4 @@
 ﻿using Asreyion.Core.Features.Hooks.Interfaces;
-using Asreyion.Core.Hooks;
 using System.Reflection;
 
 namespace Asreyion.Core.Features.Hooks.Extensions;
@@ -17,27 +16,23 @@ public static class HookDiscoveryExtensions
     /// <returns>The same <see cref="IServiceCollection"/> instance for fluent chaining.</returns>
     public static IServiceCollection DiscoverHooks(this IServiceCollection services, Assembly moduleAssembly)
     {
-        // Find all classes that implement the IHookSubscriber interface.
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(moduleAssembly);
+
         List<Type> hookTypes = [.. moduleAssembly.GetTypes()
             .Where(t => typeof(IHookSubscriber).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)];
 
-        // Sort the hook types based on their dependencies using the updated Type-based sorter.
         IReadOnlyList<Type> sortedHookTypes = HookDependencySorter.Sort(hookTypes);
 
-        // Iterate over the sorted hook types found.
         foreach (Type type in sortedHookTypes)
         {
-            // Find all hook interfaces the class implements (e.g., IOnBeforeUserRegisterHook)
             IEnumerable<Type> interfaces = type.GetInterfaces()
                 .Where(i => i != typeof(IHookSubscriber) && typeof(IHookSubscriber).IsAssignableFrom(i));
 
             Type[] hookInterfaces = [.. interfaces];
 
-            // Iterate over the hook interfaces found.
             foreach (Type @interface in hookInterfaces)
             {
-                // Register it to the DI container scoped or transient.
-                // The order of registration will match the dependency resolution sequence.
                 _ = services.AddScoped(@interface, type);
             }
 
@@ -47,7 +42,6 @@ public static class HookDiscoveryExtensions
             }
         }
 
-        // Return the updated service collection.
         return services;
     }
 }
@@ -55,4 +49,6 @@ public static class HookDiscoveryExtensions
 /// <summary>
 /// Describes a subscriber implementation registered by hook discovery.
 /// </summary>
+/// <param name="ImplementationType">The concrete hook implementation.</param>
+/// <param name="ServiceTypes">The hook contracts registered for that implementation.</param>
 public sealed record RegisteredHook(Type ImplementationType, IReadOnlyList<Type> ServiceTypes);

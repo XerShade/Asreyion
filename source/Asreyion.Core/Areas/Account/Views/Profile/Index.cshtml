@@ -8,7 +8,7 @@
     <div class="card border border-secondary shadow-sm">
         <div class="card-header bg-tertiary border-bottom border-secondary p-4 d-flex align-items-center gap-3">
             <div class="bg-primary text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold fs-4" style="width: 56px; height: 56px;">
-                @(Model.DisplayName.FirstOrDefault().ToString().ToUpper())
+                @(string.IsNullOrEmpty(Model.DisplayName) ? "?" : Model.DisplayName[..1].ToUpperInvariant())
             </div>
             <div>
                 <h1 class="h3 mb-0 text-white fw-bold">@Model.DisplayName</h1>

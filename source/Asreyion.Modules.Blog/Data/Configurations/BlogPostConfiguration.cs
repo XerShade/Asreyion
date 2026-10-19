@@ -1,10 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Asreyion.Modules.Blog.Data.Configurations;
 
+/// <summary>
+/// Configures database constraints and relationships for blog posts.
+/// </summary>
 public class BlogPostConfiguration : IEntityTypeConfiguration<BlogPost>
 {
+    /// <inheritdoc />
     public void Configure(EntityTypeBuilder<BlogPost> builder)
     {
         _ = builder.HasKey(e => e.Id);

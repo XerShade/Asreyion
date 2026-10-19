@@ -1,8 +1,11 @@
-﻿using Asreyion.Core.Features.Hooks.Hooks;
+using Asreyion.Core.Features.Hooks.Hooks;
 using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Asreyion.Core.Mvc.Hooks;
 
+/// <summary>
+/// Configures forwarded headers and proxy-aware request handling.
+/// </summary>
 public class ProxyConfigurationHooks : IConfigureServicesHook, IConfigureApplicationHook
 {
     /// <inheritdoc />

@@ -17,7 +17,7 @@ public interface IHookEngine
     /// <summary>
     /// Fetches and aggregates all UI snippets registered to a unique hook point
     /// </summary>
-    /// <param name="hookPointName">The name of the hook point.</param>
-    /// <returns>A collection of HTML snippets to inject.</returns>
-    Task<List<string>> RenderHtmlPointsAsync(string hookPointName);
+    /// <param name="hookName">The name of the hook point.</param>
+    /// <returns>Non-empty HTML snippets returned by matching subscribers.</returns>
+    Task<List<string>> RenderHtmlPointsAsync(string hookName);
 }

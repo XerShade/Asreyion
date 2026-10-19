@@ -1,13 +1,22 @@
-﻿using Asreyion.Core.Features.Database.DbContexts;
+using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Modules.Blog.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Asreyion.Modules.Blog.Controllers;
 
+/// <summary>
+/// Displays posts assigned to a blog category.
+/// </summary>
 [Area("Blog")]
 public class CategoriesController(DataDbContext dbContext) : Controller
 {
+    /// <summary>
+    /// Finds a category by its URL slug and displays its posts.
+    /// </summary>
+    /// <param name="slug">The category's URL slug.</param>
+    /// <param name="cancellationToken">Cancels the database query.</param>
+    /// <returns>The category's post list, or a not-found response.</returns>
     [HttpGet("Blog/Category/{slug}")]
     public async Task<IActionResult> Index(string slug, CancellationToken cancellationToken)
     {

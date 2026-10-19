@@ -1,9 +1,12 @@
-﻿using Asreyion.Core.Features.Database.DbContexts;
+using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Core.Features.Hooks.Hooks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Asreyion.Core.Features.Database.Hooks;
 
+/// <summary>
+/// Registers the application's authentication and content database contexts.
+/// </summary>
 public class DatabaseConfigurationModule : IConfigureServicesHook
 {
     /// <inheritdoc />

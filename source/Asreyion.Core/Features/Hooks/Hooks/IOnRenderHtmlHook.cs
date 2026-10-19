@@ -8,13 +8,13 @@ namespace Asreyion.Core.Features.Hooks.Hooks;
 public interface IOnRenderHtmlHook : IHookSubscriber
 {
     /// <summary>
-    /// The name of the hook point.
+    /// Gets the name of the hook point where this subscriber contributes markup.
     /// </summary>
     /// <remarks>A kebab-case case formatted name, example: "admin-settings-sidebar"</remarks>
     string HookName { get; }
     /// <summary>
-    /// Renders the HTML to inject.
+    /// Creates the markup for this hook point.
     /// </summary>
-    /// <returns>A string of HTML.</returns>
+    /// <returns>The HTML fragment to render, or an empty string when there is no output.</returns>
     Task<string> RenderHtmlAsync();
 }

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Asreyion.Core.Features.Files.Services;
 
+/// <summary>
+/// Validates supported upload formats and stores files beneath the application's content root.
+/// </summary>
 public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUploadService
 {
     private const long MaxImageBytes = 10 * 1024 * 1024;
@@ -19,10 +22,13 @@ public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUp
         ".txt", ".md", ".markdown", ".docx", ".xlsx", ".pptx"
     };
 
+    /// <inheritdoc />
     public string GetImageUploadUrl(PathString pathBase) => $"{pathBase}/store/uploads/images";
 
+    /// <inheritdoc />
     public string GetAttachmentUploadUrl(PathString pathBase) => $"{pathBase}/store/uploads/files";
 
+    /// <inheritdoc />
     public string NormalizeLegacyUploadUrls(string content, PathString pathBase)
     {
         string normalized = content.Replace(
@@ -36,6 +42,7 @@ public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUp
             StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <inheritdoc />
     public async Task<StoredFile?> UploadImageAsync(IFormFile file, PathString pathBase, CancellationToken cancellationToken)
     {
         if (!IsValidUpload(file, MaxImageBytes))
@@ -66,6 +73,7 @@ public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUp
         return new StoredFile(id, storedName, contentType, file.Length, BuildUrl(pathBase, "images", storedName), true);
     }
 
+    /// <inheritdoc />
     public async Task<StoredFile?> UploadAttachmentAsync(IFormFile file, PathString pathBase, CancellationToken cancellationToken)
     {
         if (!IsValidUpload(file, MaxAttachmentBytes))
@@ -87,6 +95,7 @@ public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUp
         return new StoredFile(id, downloadName, "application/octet-stream", file.Length, BuildUrl(pathBase, "files", storedName), false);
     }
 
+    /// <inheritdoc />
     public string? GetImagePath(string fileName)
     {
         if (!Regex.IsMatch(fileName, @"\A[a-f0-9]{32}\.(?:png|jpg|gif|webp)\z", RegexOptions.IgnoreCase))
@@ -98,6 +107,7 @@ public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUp
         return File.Exists(path) ? path : null;
     }
 
+    /// <inheritdoc />
     public (string Path, string DownloadName)? GetAttachment(string fileName)
     {
         if (!Regex.IsMatch(fileName, @"\A[a-f0-9]{32}_[A-Za-z0-9][A-Za-z0-9._-]{0,119}\z", RegexOptions.IgnoreCase)
@@ -139,6 +149,7 @@ public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUp
 
     private static string? GetImageExtension(byte[] signature, int length)
     {
+        // Validate the bytes themselves; upload metadata and file names are supplied by the client.
         if (length >= 8 && signature.AsSpan(0, 8).SequenceEqual(new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A }))
         {
             return ".png";
@@ -195,6 +206,7 @@ public sealed class FileUploadService(IWebHostEnvironment environment) : IFileUp
 
         Directory.CreateDirectory(directory);
         await using Stream input = file.OpenReadStream();
+        // A generated storage name should never replace an existing upload.
         await using FileStream output = new(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, CopyBufferSize, useAsync: true);
         await input.CopyToAsync(output, cancellationToken);
     }

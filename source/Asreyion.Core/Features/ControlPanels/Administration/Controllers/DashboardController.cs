@@ -7,22 +7,38 @@ using Asreyion.Core.Features.ControlPanels.Administration.Models;
 
 namespace Asreyion.Core.Features.ControlPanels.Administration.Controllers;
 
+/// <summary>
+/// Displays administrative tools and registered hook information.
+/// </summary>
 [Area("Administration"), Authorize(Roles = "Administrator")]
 public class DashboardController : Controller
 {
     private readonly IEnumerable<RegisteredHook> registeredHooks;
     private readonly IServiceScopeFactory scopeFactory;
 
+    /// <summary>
+    /// Creates the dashboard with hook metadata and a scope factory.
+    /// </summary>
+    /// <param name="registeredHooks">Hook registrations discovered by the host.</param>
+    /// <param name="scopeFactory">Creates scopes for reading hook descriptors.</param>
     public DashboardController(IEnumerable<RegisteredHook> registeredHooks, IServiceScopeFactory scopeFactory)
     {
         this.registeredHooks = registeredHooks;
         this.scopeFactory = scopeFactory;
     }
 
+    /// <summary>
+    /// Displays the administration dashboard.
+    /// </summary>
+    /// <returns>The dashboard view.</returns>
     [Route("Administration/Dashboard")]
     public IActionResult Index() 
         => this.View();
 
+    /// <summary>
+    /// Displays registered hooks and the contracts they provide.
+    /// </summary>
+    /// <returns>The hook status view.</returns>
     [Route("Administration/Hooks")]
     public IActionResult Hooks()
     {

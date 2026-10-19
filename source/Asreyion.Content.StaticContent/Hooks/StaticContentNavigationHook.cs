@@ -6,8 +6,12 @@ namespace Asreyion.Content.StaticContent.Hooks;
 /// <summary>
 /// Registers static page navigation items (Home, About, Privacy, Terms) into navigation menus.
 /// </summary>
+/// <summary>
+/// Adds static content links to the primary navigation menu.
+/// </summary>
 public class StaticContentNavigationHook : IOnBuildNavigationHook
 {
+    /// <inheritdoc />
     public Task BuildNavigationAsync(INavigationBuilder builder)
     {
         if (!string.Equals(builder.MenuName, "Primary", StringComparison.OrdinalIgnoreCase))

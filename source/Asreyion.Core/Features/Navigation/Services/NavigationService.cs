@@ -1,21 +1,28 @@
-﻿using Asreyion.Core.Features.Database.DbContexts;
+using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Core.Features.Navigation.Data;
 using Asreyion.Core.Features.Navigation.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Asreyion.Core.Features.Navigation.Services;
 
+/// <summary>
+/// Persists navigation menus and provides their items for rendering and administration.
+/// </summary>
 public class NavigationService(DataDbContext dbContext) : INavigationService
 {
+    /// <inheritdoc />
     public async Task<IReadOnlyList<NavigationMenu>> GetNavigationMenusAsync()
         => await dbContext.Set<NavigationMenu>().AsNoTracking().ToListAsync();
 
+    /// <inheritdoc />
     public async Task<NavigationMenu?> GetNavigationMenuAsync(int id)
         => await dbContext.Set<NavigationMenu>().FindAsync(id);
 
+    /// <inheritdoc />
     public async Task<NavigationMenu?> GetNavigationMenuByNameAsync(string name)
         => await dbContext.Set<NavigationMenu>().AsNoTracking().FirstOrDefaultAsync(m => m.Name == name);
 
+    /// <inheritdoc />
     public async Task<bool> AddRootItemAsync(int menuId, NavigationMenuItem item)
     {
         NavigationMenu? menu = await dbContext.Set<NavigationMenu>().FindAsync(menuId);
@@ -39,6 +46,7 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
         return true;
     }
 
+    /// <inheritdoc />
     public async Task<bool> AddRootItemsAsync(int menuId, IEnumerable<NavigationMenuItem> items)
     {
         NavigationMenu? menu = await dbContext.Set<NavigationMenu>().FindAsync(menuId);
@@ -64,12 +72,14 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
         return true;
     }
 
+    /// <inheritdoc />
     public async Task SaveNavigationMenuAsync(NavigationMenu menu)
     {
         _ = dbContext.Set<NavigationMenu>().Update(menu);
         _ = await dbContext.SaveChangesAsync();
     }
 
+    /// <inheritdoc />
     public async Task<bool> DeleteNavigationMenuAsync(int id)
     {
         NavigationMenu? menu = await dbContext.Set<NavigationMenu>().FindAsync(id);
@@ -93,9 +103,11 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
         return true;
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<NavigationMenuItem>> GetNavigationMenuItemsAsync()
         => await dbContext.Set<NavigationMenuItem>().AsNoTracking().ToListAsync();
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<NavigationMenuItem>> GetNavigationMenuItemsAsync(NavigationMenu navigationMenu)
         => await dbContext.Set<NavigationMenuItem>()
             .AsNoTracking()
@@ -104,6 +116,7 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
             .OrderByDescending(x => x.Order)
             .ToListAsync();
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<NavigationMenuItem>> GetNavigationMenuItemsAsync(NavigationMenuItem navigationMenuItem)
         => await dbContext.Set<NavigationMenuItem>()
             .AsNoTracking()
@@ -112,11 +125,13 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
             .OrderByDescending(x => x.Order)
             .ToListAsync();
 
+    /// <inheritdoc />
     public async Task<NavigationMenuItem?> GetNavigationMenuItemAsync(int id)
         => await dbContext.Set<NavigationMenuItem>()
             .Include(x => x.Children)
             .FirstOrDefaultAsync(x => x.Id == id);
 
+    /// <inheritdoc />
     public async Task<bool> AddChildItemAsync(int parentItemId, NavigationMenuItem childItem)
     {
         NavigationMenuItem? parent = await dbContext.Set<NavigationMenuItem>().FindAsync(parentItemId);
@@ -133,6 +148,7 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
         return true;
     }
 
+    /// <inheritdoc />
     public async Task<bool> AddChildrenItemsAsync(int parentItemId, IEnumerable<NavigationMenuItem> childItems)
     {
         NavigationMenuItem? parent = await dbContext.Set<NavigationMenuItem>().FindAsync(parentItemId);
@@ -152,12 +168,14 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
         return true;
     }
 
+    /// <inheritdoc />
     public async Task SaveNavigationMenuItemAsync(NavigationMenuItem item)
     {
         _ = dbContext.Set<NavigationMenuItem>().Update(item);
         _ = await dbContext.SaveChangesAsync();
     }
 
+    /// <inheritdoc />
     public async Task<bool> DeleteNavigationMenuItemAsync(int id)
     {
         NavigationMenuItem? itemToDelete = await dbContext.Set<NavigationMenuItem>()
@@ -177,6 +195,7 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
 
         foreach (NavigationMenu menu in assignedMenus)
         {
+            // Keep the menu's root list valid when a root item is removed.
             _ = menu.Items.Remove(id);
             menu.Items.AddRange(childrenToPromote.Select(c => c.Id));
             menu.Items = [.. menu.Items.Distinct()];
@@ -184,6 +203,7 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
 
         foreach (NavigationMenuItem child in childrenToPromote)
         {
+            // Preserve the remaining tree by moving children to the deleted item's former parent.
             child.ParentId = itemToDelete.ParentId;
             _ = dbContext.Set<NavigationMenuItem>().Update(child);
         }
@@ -194,6 +214,7 @@ public class NavigationService(DataDbContext dbContext) : INavigationService
         return true;
     }
 
+    /// <inheritdoc />
     public async Task<List<NavigationMenuItem>> GetAllMenuItemsAsync()
         => await dbContext.Set<NavigationMenuItem>()
             .AsNoTracking()

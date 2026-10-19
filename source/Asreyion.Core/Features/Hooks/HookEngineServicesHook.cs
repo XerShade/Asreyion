@@ -1,10 +1,14 @@
-﻿using Asreyion.Core.Features.Hooks.Engine;
+using Asreyion.Core.Features.Hooks.Engine;
 using Asreyion.Core.Features.Hooks.Engine.Interfaces;
 using Asreyion.Core.Features.Hooks.Extensions;
+using Asreyion.Core.Features.Hooks.Hooks;
 using System.Reflection;
 
-namespace Asreyion.Core.Features.Hooks.Hooks;
+namespace Asreyion.Core.Features.Hooks;
 
+/// <summary>
+/// Registers the hook engine and discovers subscribers in assemblies loaded by the host.
+/// </summary>
 public class HookEngineServicesHook : IConfigureServicesHook
 {
     /// <inheritdoc />
@@ -15,20 +19,16 @@ public class HookEngineServicesHook : IConfigureServicesHook
     /// <inheritdoc />
     public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
-        // Register the hook engine.
         _ = services.AddSingleton<IHookEngine, HookEngine>();
 
-        // Iterate over all loaded assemblies.
-        foreach(Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+        foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
-            // Check to see if the assembly is the executing assembly.
             if (assembly == Assembly.GetExecutingAssembly())
             {
-                // Skip the executing assembly, it's hooks were already discovered.
+                // The server discovers its own hooks before this hook runs.
                 continue;
             }
 
-            // Discover and add any hooks to the service collection.
             _ = services.DiscoverHooks(assembly);
         }
     }

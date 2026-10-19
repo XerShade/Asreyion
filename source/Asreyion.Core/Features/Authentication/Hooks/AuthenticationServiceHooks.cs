@@ -1,4 +1,4 @@
-﻿using Asreyion.Core.Features.Authentication.Data;
+using Asreyion.Core.Features.Authentication.Data;
 using Asreyion.Core.Features.Authentication.Providers.Interfaces;
 using Asreyion.Core.Features.Database.DbContexts;
 using Asreyion.Core.Features.Database.Hooks;
@@ -11,18 +11,25 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Asreyion.Core.Features.Authentication.Hooks;
 
+/// <summary>
+/// Registers identity, external providers, and authentication middleware.
+/// </summary>
 [HookDependencies(typeof(ProxyConfigurationHooks), typeof(DatabaseConfigurationModule), typeof(RoutingConfigurationHooks))]
 public class AuthenticationServiceHooks : IConfigureServicesHook, IConfigureApplicationHook
 {
+    /// <inheritdoc />
     public string Name => "Authentication Services";
+    /// <inheritdoc />
     public string Description => "Configures the authentication providers and services for the application.";
 
+    /// <inheritdoc />
     public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)
     {
         _ = app.UseAuthentication();
         _ = app.UseAuthorization();
     }
 
+    /// <inheritdoc />
     public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         _ = services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -38,7 +45,7 @@ public class AuthenticationServiceHooks : IConfigureServicesHook, IConfigureAppl
         IReadOnlyCollection<Type> providerTypes = new AssemblyTypeDiscoveryService()
             .Discover<IAuthenticationProvider>(AppDomain.CurrentDomain.GetAssemblies());
 
-        foreach(Type providerType in providerTypes)
+        foreach (Type providerType in providerTypes)
         {
             _ = services.AddTransient(typeof(IAuthenticationProvider), providerType);
 

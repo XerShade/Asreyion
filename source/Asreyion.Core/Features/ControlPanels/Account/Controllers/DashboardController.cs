@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Asreyion.Core.Features.ControlPanels.Account.Controllers;
 
+/// <summary>
+/// Manages account settings and connected external sign-in providers.
+/// </summary>
+/// <param name="userManager">Reads and updates the signed-in user's account.</param>
+/// <param name="signInManager">Starts and ends the user's authentication session.</param>
 [Area("Account"), Authorize]
 public class DashboardController(
     UserManager<ApplicationUser> userManager,
@@ -14,6 +19,10 @@ public class DashboardController(
     private readonly UserManager<ApplicationUser> UserManager = userManager;
     private readonly SignInManager<ApplicationUser> SignInManager = signInManager;
 
+    /// <summary>
+    /// Displays account details and linked providers.
+    /// </summary>
+    /// <returns>The account dashboard view.</returns>
     [Route("Account/Dashboard")]
     public async Task<IActionResult> Index()
     {
@@ -37,6 +46,11 @@ public class DashboardController(
         return this.View(model);
     }
 
+    /// <summary>
+    /// Updates the user's profile settings.
+    /// </summary>
+    /// <param name="model">The submitted account settings.</param>
+    /// <returns>The dashboard view with validation results.</returns>
     [HttpPost, ValidateAntiForgeryToken, Route("Account/Settings/Update")]
     public async Task<IActionResult> Update(DashboardViewModel model)
     {
@@ -75,6 +89,10 @@ public class DashboardController(
         return this.View("Index", model);
     }
 
+    /// <summary>
+    /// Deactivates the signed-in user's account.
+    /// </summary>
+    /// <returns>A redirect after deactivation, or a not-found response.</returns>
     [HttpPost, ValidateAntiForgeryToken, Route("Account/Deactivate")]
     public async Task<IActionResult> Deactivate()
     {
@@ -111,6 +129,11 @@ public class DashboardController(
         return this.RedirectToAction(nameof(this.Index));
     }
 
+    /// <summary>
+    /// Starts the process of connecting an external sign-in provider.
+    /// </summary>
+    /// <param name="provider">The configured provider name.</param>
+    /// <returns>A provider challenge or a redirect to the dashboard.</returns>
     [HttpPost, ValidateAntiForgeryToken, Route("Account/Authentication/ExternalLogin/Connect")]
     public IActionResult ConnectExternalLogin(string provider)
     {
@@ -140,6 +163,11 @@ public class DashboardController(
         return this.Challenge(properties, provider);
     }
 
+    /// <summary>
+    /// Completes an external provider connection.
+    /// </summary>
+    /// <param name="remoteError">An error reported by the provider, if any.</param>
+    /// <returns>A redirect to the account dashboard.</returns>
     [HttpGet, Route("Account/Authentication/ExternalLogin/Callback")]
     public async Task<IActionResult> ConnectExternalLoginCallback(
     string? remoteError = null)
@@ -206,6 +234,12 @@ public class DashboardController(
         return this.RedirectToAction(nameof(this.Index));
     }
 
+    /// <summary>
+    /// Disconnects an external provider from the signed-in account.
+    /// </summary>
+    /// <param name="provider">The provider name.</param>
+    /// <param name="providerKey">The provider's account key.</param>
+    /// <returns>A redirect to the dashboard with the operation result.</returns>
     [HttpPost, ValidateAntiForgeryToken, Route("Account/Authentication/ExternalLogin/Disconnect")]
     public async Task<IActionResult> DisconnectExternalLogin(string provider, string providerKey)
     {

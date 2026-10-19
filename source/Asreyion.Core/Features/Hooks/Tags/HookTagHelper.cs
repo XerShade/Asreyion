@@ -1,4 +1,4 @@
-﻿using Asreyion.Core.Features.Hooks.Engine.Interfaces;
+using Asreyion.Core.Features.Hooks.Engine.Interfaces;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Asreyion.Core.Features.Hooks.Tags;
@@ -17,7 +17,7 @@ public class HookTagHelper(IHookEngine hookEngine) : TagHelper
     private IHookEngine HookEngine { get; } = hookEngine;
 
     /// <summary>
-    /// The name of the hook to render.
+    /// Gets or sets the name of the HTML hook point to render.
     /// </summary>
     [HtmlAttributeName("name")]
     public string Name { get; set; } = string.Empty;

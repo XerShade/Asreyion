@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 
 namespace Asreyion.Core.Features.Navigation.Data.Configurations;
 
+/// <summary>
+/// Configures database storage and parent relationships for navigation items.
+/// </summary>
 public class NavigationMenuItemConfiguration : IEntityTypeConfiguration<NavigationMenuItem>
 {
+    /// <inheritdoc />
     public void Configure(EntityTypeBuilder<NavigationMenuItem> builder)
     {
         _ = builder.HasKey(e => e.Id);

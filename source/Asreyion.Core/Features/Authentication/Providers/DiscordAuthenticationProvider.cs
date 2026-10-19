@@ -1,12 +1,17 @@
-﻿using Asreyion.Core.Features.Authentication.Providers.Interfaces;
+using Asreyion.Core.Features.Authentication.Providers.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 
 namespace Asreyion.Core.Features.Authentication.Providers;
 
+/// <summary>
+/// Registers Discord as an external sign-in provider.
+/// </summary>
 public class DiscordAuthenticationProvider : IAuthenticationProvider
 {
+    /// <inheritdoc />
     public string Name => "Discord";
 
+    /// <inheritdoc />
     public void OnConfigureAuthentication(AuthenticationBuilder builder, IConfiguration configuration)
     {
         string clientId =

@@ -8,10 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Asreyion.Core.Features.Navigation.Components;
 
+/// <summary>
+/// Builds a rendered navigation tree from stored and code-defined items.
+/// </summary>
 public class NavigationView(INavigationService navService, IHookEngine hookEngine) : ViewComponent
 {
     private readonly string ViewPath = "/Features/Navigation/Views/Components/NavigationView.cshtml";
 
+    /// <summary>
+    /// Loads the named menu, applies module contributions, and renders its view.
+    /// </summary>
+    /// <param name="menuName">The menu to render.</param>
+    /// <returns>The navigation view component result.</returns>
     public async Task<IViewComponentResult> InvokeAsync(string menuName = "Primary")
     {
         // 1. Build code-driven navigation from registered IOnBuildNavigationHook subscribers
@@ -39,6 +47,7 @@ public class NavigationView(INavigationService navService, IHookEngine hookEngin
     {
         List<NavigationTreeViewModel> result = [];
 
+        // Code-defined items provide module defaults; matching database items can then customize them.
         // Add code-driven root items
         foreach (NavigationItemDefinition codeItem in codeItems)
         {
@@ -60,11 +69,30 @@ public class NavigationView(INavigationService navService, IHookEngine hookEngin
             else
             {
                 // Override metadata from DB if provided
-                if (!string.IsNullOrEmpty(dbItem.Icon)) existing.Icon = dbItem.Icon;
-                if (dbItem.Order != 0) existing.Order = dbItem.Order;
-                if (!string.IsNullOrEmpty(dbItem.Controller)) existing.Controller = dbItem.Controller;
-                if (!string.IsNullOrEmpty(dbItem.Action)) existing.Action = dbItem.Action;
-                if (!string.IsNullOrEmpty(dbItem.Area)) existing.Area = dbItem.Area;
+                if (!string.IsNullOrEmpty(dbItem.Icon))
+                {
+                    existing.Icon = dbItem.Icon;
+                }
+
+                if (dbItem.Order != 0)
+                {
+                    existing.Order = dbItem.Order;
+                }
+
+                if (!string.IsNullOrEmpty(dbItem.Controller))
+                {
+                    existing.Controller = dbItem.Controller;
+                }
+
+                if (!string.IsNullOrEmpty(dbItem.Action))
+                {
+                    existing.Action = dbItem.Action;
+                }
+
+                if (!string.IsNullOrEmpty(dbItem.Area))
+                {
+                    existing.Area = dbItem.Area;
+                }
 
                 // Merge children from DB
                 if (dbItem.Children != null && dbItem.Children.Count > 0)

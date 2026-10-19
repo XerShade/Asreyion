@@ -1,4 +1,4 @@
-﻿using Asreyion.Core.Features.Authentication.Models;
+using Asreyion.Core.Features.Authentication.Models;
 using Asreyion.Core.Features.Authentication.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,18 +7,32 @@ using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Asreyion.Core.Features.Authentication.Controllers;
 
+/// <summary>
+/// Handles local sign-in, external sign-in, account linking, and sign-out.
+/// </summary>
+/// <param name="signInManager">Coordinates authentication and sign-in operations.</param>
+/// <param name="userManager">Creates and updates application users.</param>
 [Area("Authentication")]
 public class SessionController(
     SignInManager<ApplicationUser> signInManager,
     UserManager<ApplicationUser> userManager) : Controller
 {
-    private readonly SignInManager<ApplicationUser> SignInManager = signInManager;
-    private readonly UserManager<ApplicationUser> UserManager = userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
 
+    /// <summary>
+    /// Redirects the authentication root to the sign-in form.
+    /// </summary>
+    /// <returns>A redirect to the sign-in action.</returns>
     [HttpGet, AllowAnonymous]
     public IActionResult Index() 
         => this.RedirectToAction("Login");
 
+    /// <summary>
+    /// Displays the local sign-in form.
+    /// </summary>
+    /// <param name="returnUrl">The local destination to visit after sign-in.</param>
+    /// <returns>The sign-in view.</returns>
     [HttpGet, AllowAnonymous]
     public IActionResult Login(string? returnUrl = null)
     {
@@ -30,6 +44,11 @@ public class SessionController(
         return this.View(model);
     }
 
+    /// <summary>
+    /// Validates credentials and signs in a local account.
+    /// </summary>
+    /// <param name="model">The submitted credentials and session preference.</param>
+    /// <returns>The sign-in view on failure, or a redirect after success.</returns>
     [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model)
     {
@@ -38,7 +57,7 @@ public class SessionController(
             return this.View(model);
         }
 
-        SignInResult result = await this.SignInManager.PasswordSignInAsync(
+        SignInResult result = await this._signInManager.PasswordSignInAsync(
             model.UserName,
             model.Password,
             model.RememberMe,
@@ -65,6 +84,12 @@ public class SessionController(
         return this.View(model);
     }
 
+    /// <summary>
+    /// Starts an external sign-in challenge.
+    /// </summary>
+    /// <param name="provider">The configured external provider name.</param>
+    /// <param name="returnUrl">The local destination to visit after sign-in.</param>
+    /// <returns>A provider challenge or a redirect to the sign-in form.</returns>
     [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
     public IActionResult ExternalLogin(
         string provider,
@@ -92,13 +117,19 @@ public class SessionController(
         }
 
         Microsoft.AspNetCore.Authentication.AuthenticationProperties properties =
-            this.SignInManager.ConfigureExternalAuthenticationProperties(
+            this._signInManager.ConfigureExternalAuthenticationProperties(
                 provider,
                 callbackUrl);
 
         return this.Challenge(properties, provider);
     }
 
+    /// <summary>
+    /// Completes external sign-in and either signs in or requests account details.
+    /// </summary>
+    /// <param name="returnUrl">The local destination to visit after sign-in.</param>
+    /// <param name="remoteError">An error reported by the external provider, if any.</param>
+    /// <returns>A redirect or the account confirmation view.</returns>
     [HttpGet, AllowAnonymous]
     public async Task<IActionResult> ExternalLoginCallback(
         string? returnUrl = null,
@@ -115,7 +146,7 @@ public class SessionController(
         }
 
         Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
-            await this.SignInManager.GetExternalLoginInfoAsync();
+            await this._signInManager.GetExternalLoginInfoAsync();
 
         if (info == null)
         {
@@ -128,7 +159,7 @@ public class SessionController(
         }
 
         SignInResult result =
-            await this.SignInManager.ExternalLoginSignInAsync(
+            await this._signInManager.ExternalLoginSignInAsync(
                 info.LoginProvider,
                 info.ProviderKey,
                 isPersistent: true);
@@ -163,6 +194,11 @@ public class SessionController(
             });
     }
 
+    /// <summary>
+    /// Creates a local account for a user authenticated by an external provider.
+    /// </summary>
+    /// <param name="model">The new account's profile details.</param>
+    /// <returns>The confirmation view on failure, or a redirect after account creation.</returns>
     [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
     public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
     {
@@ -172,7 +208,7 @@ public class SessionController(
         }
 
         Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
-            await this.SignInManager.GetExternalLoginInfoAsync();
+            await this._signInManager.GetExternalLoginInfoAsync();
 
         if (info == null)
         {
@@ -191,7 +227,7 @@ public class SessionController(
         };
 
         IdentityResult result =
-            await this.UserManager.CreateAsync(user);
+            await this._userManager.CreateAsync(user);
 
         if (!result.Succeeded)
         {
@@ -203,11 +239,11 @@ public class SessionController(
             return this.View(model);
         }
 
-        result = await this.UserManager.AddLoginAsync(user, info);
+        result = await this._userManager.AddLoginAsync(user, info);
 
         if (!result.Succeeded)
         {
-            await this.UserManager.DeleteAsync(user);
+            await this._userManager.DeleteAsync(user);
 
             foreach (IdentityError error in result.Errors)
             {
@@ -217,16 +253,21 @@ public class SessionController(
             return this.View(model);
         }
 
-        await this.SignInManager.SignInAsync(user, isPersistent: true);
+        await this._signInManager.SignInAsync(user, isPersistent: true);
 
         return this.RedirectToLocal(model.ReturnUrl);
     }
 
+    /// <summary>
+    /// Displays the form for connecting an external provider to an existing account.
+    /// </summary>
+    /// <param name="returnUrl">The local destination to visit after linking.</param>
+    /// <returns>The provider linking view.</returns>
     [HttpGet, AllowAnonymous]
     public async Task<IActionResult> ExternalLoginLinking(string? returnUrl = null)
     {
         Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
-            await this.SignInManager.GetExternalLoginInfoAsync();
+            await this._signInManager.GetExternalLoginInfoAsync();
 
         if (info == null)
         {
@@ -243,6 +284,11 @@ public class SessionController(
         });
     }
 
+    /// <summary>
+    /// Verifies credentials and connects the external provider.
+    /// </summary>
+    /// <param name="model">The existing account credentials and provider.</param>
+    /// <returns>The linking view on failure, or a redirect after linking.</returns>
     [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
     public async Task<IActionResult> ExternalLoginLinking(ExternalLoginLinkingViewModel model)
     {
@@ -252,7 +298,7 @@ public class SessionController(
         }
 
         Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
-            await this.SignInManager.GetExternalLoginInfoAsync();
+            await this._signInManager.GetExternalLoginInfoAsync();
 
         if (info == null)
         {
@@ -262,7 +308,7 @@ public class SessionController(
             return this.RedirectToAction(nameof(this.Login));
         }
 
-        ApplicationUser? existingUser = await this.UserManager.FindByNameAsync(model.UserName);
+        ApplicationUser? existingUser = await this._userManager.FindByNameAsync(model.UserName);
 
         if (existingUser == null)
         {
@@ -270,7 +316,7 @@ public class SessionController(
             return this.View(model);
         }
 
-        bool passwordValid = await this.UserManager.CheckPasswordAsync(existingUser, model.Password);
+        bool passwordValid = await this._userManager.CheckPasswordAsync(existingUser, model.Password);
 
         if (!passwordValid)
         {
@@ -278,7 +324,7 @@ public class SessionController(
             return this.View(model);
         }
 
-        IdentityResult result = await this.UserManager.AddLoginAsync(existingUser, info);
+        IdentityResult result = await this._userManager.AddLoginAsync(existingUser, info);
 
         if (!result.Succeeded)
         {
@@ -290,7 +336,7 @@ public class SessionController(
             return this.View(model);
         }
 
-        await this.SignInManager.SignInAsync(existingUser, isPersistent: true);
+        await this._signInManager.SignInAsync(existingUser, isPersistent: true);
 
         this.TempData["SuccessMessage"] =
             $"{info.LoginProvider} has been successfully linked to your account.";
@@ -298,10 +344,14 @@ public class SessionController(
         return this.RedirectToLocal(model.ReturnUrl);
     }
 
+    /// <summary>
+    /// Signs out the current user.
+    /// </summary>
+    /// <returns>A redirect to the home page.</returns>
     [HttpPost, Authorize, ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
-        await this.SignInManager.SignOutAsync();
+        await this._signInManager.SignOutAsync();
 
         return this.RedirectToAction(
             "Index",

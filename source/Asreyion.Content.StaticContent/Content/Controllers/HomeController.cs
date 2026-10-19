@@ -7,8 +7,15 @@ using System.Diagnostics;
 
 namespace Asreyion.Content.StaticContent.Content.Controllers;
 
+/// <summary>
+/// Handles the public home, privacy, and error pages.
+/// </summary>
 public class HomeController(DataDbContext dbContext) : Controller
 {
+    /// <summary>
+    /// Displays the most recent blog posts on the home page.
+    /// </summary>
+    /// <returns>The home page view.</returns>
     public IActionResult Index()
     {
         try
@@ -29,9 +36,17 @@ public class HomeController(DataDbContext dbContext) : Controller
         }
     }
 
+    /// <summary>
+    /// Displays the site's privacy information.
+    /// </summary>
+    /// <returns>The privacy view.</returns>
     public IActionResult Privacy()
         => this.View();
 
+    /// <summary>
+    /// Displays the error page with the current request identifier.
+    /// </summary>
+    /// <returns>The error view.</returns>
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
         => this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });

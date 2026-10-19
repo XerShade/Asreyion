@@ -1,9 +1,12 @@
-﻿using Asreyion.Core.Features.Hooks.Engine.Interfaces;
+using Asreyion.Core.Features.Hooks.Engine.Interfaces;
 using Asreyion.Core.Mvc.Hooks;
 using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace Asreyion.Core.Mvc;
 
+/// <summary>
+/// Expands MVC view lookup paths using locations contributed by hooks.
+/// </summary>
 public class ViewLocationExpander : IViewLocationExpander
 {
     /// <summary>

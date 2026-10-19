@@ -1,4 +1,4 @@
-﻿/* Disabled Google Authentication Support
+/* Disabled Google Authentication Support
  * Reason: It shall remain disabled as of until such time that Lake Ontario is not shown as "Lake America" in ANY country.
  * Note: Yes I am leaving the code here in the project. It is just disabled and not used when the project is built.
  *       I'll re-enable it when Lake Ontario is not shown as "Lake America" in any country. If you use my code and want to
@@ -11,8 +11,10 @@ namespace Asreyion.Core.Features.Authentication.Providers;
 
 public sealed class GoogleAuthenticationProvider : IAuthenticationProvider
 {
+    /// <inheritdoc />
     public string Name => "Google";
 
+    /// <inheritdoc />
     public void OnConfigureAuthentication(AuthenticationBuilder builder, IConfiguration configuration)
     {
         string clientId =
