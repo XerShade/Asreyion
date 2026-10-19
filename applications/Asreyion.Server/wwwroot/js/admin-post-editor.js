@@ -197,7 +197,8 @@ if (editor) {
         formData.append("file", file);
         formData.append("__RequestVerificationToken", token);
         try {
-            const response = await fetch(image ? "/Administration/Blog/Images" : "/Administration/Blog/Files", {
+            const uploadUrl = image ? postForm.dataset.imageUploadUrl : postForm.dataset.attachmentUploadUrl;
+            const response = await fetch(uploadUrl, {
                 method: "POST",
                 body: formData,
                 credentials: "same-origin",

@@ -9,6 +9,11 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Models\StoredFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Services\Interfaces\IFileUploadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Services\FileUploadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Controllers\FileUploadController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Hooks\FileServiceHooks.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Attributes\HookDependenciesAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookApplicationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookDescriptors.cs" />

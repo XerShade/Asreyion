@@ -11,7 +11,7 @@
     <p>Write your article and choose how it is organized on your site.</p>
 </section>
 
-<form class="admin-card admin-form" method="post" action="@(editing ? $"/Administration/Blog/Posts/{Model.Id}/Edit" : "/Administration/Blog/Posts/Create")">
+<form class="admin-card admin-form" method="post" action="@(editing ? $"/Administration/Blog/Posts/{Model.Id}/Edit" : "/Administration/Blog/Posts/Create")" data-image-upload-url="@ViewData["ImageUploadUrl"]" data-attachment-upload-url="@ViewData["AttachmentUploadUrl"]">
     @Html.AntiForgeryToken()<input asp-for="Id" type="hidden" />
     <div asp-validation-summary="ModelOnly" class="admin-validation-summary" role="alert"></div>
     <div class="admin-form-grid">
