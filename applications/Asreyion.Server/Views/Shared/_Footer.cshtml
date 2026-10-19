@@ -1,3 +1,10 @@
+@using System.Reflection
+
+@{
+    Assembly? entryAssembly = Assembly.GetEntryAssembly();
+    Version? assemblyVersion = entryAssembly?.GetName().Version;
+}
+
 <footer class="modern-footer" role="contentinfo">
     <div class="container">
         <div class="footer-content">
@@ -107,6 +114,9 @@
                    asp-action="Terms">
                     Terms of Service
                 </a>
+            </div>
+            <div class="footer-version">
+                Version: @assemblyVersion?.ToString()
             </div>
             <hook name="footer-bottom" />
         </div>

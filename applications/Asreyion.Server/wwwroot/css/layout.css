@@ -444,6 +444,10 @@ main {
     color: var(--color-text-disabled);
 }
 
+.footer-version {
+    font-size: 0.875rem;
+}
+
 /* Responsive Footer */
 @media (max-width: 992px) {
     .footer-content {

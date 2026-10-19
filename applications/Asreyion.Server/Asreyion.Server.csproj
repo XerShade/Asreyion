@@ -4,9 +4,16 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <UserSecretsId>59184740-639a-417b-a708-746e21a7eb18</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BuildDateVersion>$([System.DateTime]::Now.ToString('yyyy.MM.dd.HHmmss'))</BuildDateVersion>
+    <AssemblyVersion Condition="'$(AssemblyVersion)' == ''">$(BuildDateVersion)</AssemblyVersion>
+    <FileVersion Condition="'$(FileVersion)' == ''">$(BuildDateVersion)</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
