@@ -40,7 +40,7 @@ public class ViewLocationExpander : IViewLocationExpander
         string? targetFolder = hasArea ? areaName : "";
 
         // Create a new list of view locations.
-        List<string> newLocations = [];
+        List<string> newLocations = [.. viewLocations];
 
         // Check to see if this is inside an Area.
         if(hasArea)
@@ -48,12 +48,16 @@ public class ViewLocationExpander : IViewLocationExpander
             // Structural pattern: /Views/{Area}/{Controller}/{Action}.cshtml
             newLocations.Add($"/Views/{targetFolder}/{{1}}/{{0}}.cshtml");
             newLocations.Add($"/Views/{targetFolder}/Shared/{{0}}.cshtml");
+
+            // Structural pattern: /{Area}/Views/{Controller}/{Action}.cshtml
+            newLocations.Add($"/{targetFolder}/Views/{{1}}/{{0}}.cshtml");
+            newLocations.Add($"/{targetFolder}/Views/Shared/{{0}}.cshtml");
         }
         else
         {
             // Fallback layout pattern when there is no Area detected
             newLocations.Add($"/Views/{{1}}/{{0}}.cshtml");
-            newLocations.Add($"/Views/Shared/{{0}}.cshtml");
+            newLocations.Add($"/{{1}}/Views/{{0}}.cshtml");
         }
 
         // Acquire the hook engine if it hasn't been acquired yet.
@@ -67,6 +71,6 @@ public class ViewLocationExpander : IViewLocationExpander
         }
 
         // Return our custom paths first, then fall back to the default convention paths
-        return newLocations.Concat(viewLocations);
+        return newLocations;
     }
 }
