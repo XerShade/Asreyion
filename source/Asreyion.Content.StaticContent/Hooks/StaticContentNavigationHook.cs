@@ -1,5 +1,5 @@
-using Asreyion.Core.Features.Navigation.Builder;
-using Asreyion.Core.Features.Navigation.Hooks;
+using Asreyion.Core.Navigation.Builder;
+using Asreyion.Core.Navigation.Hooks;
 
 namespace Asreyion.Content.StaticContent.Hooks;
 

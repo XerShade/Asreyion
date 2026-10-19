@@ -9,61 +9,60 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Models\StoredFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Services\Interfaces\IFileUploadService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Services\FileUploadService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Controllers\FileUploadController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Files\Hooks\FileServiceHooks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Attributes\HookDependenciesAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookApplicationExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookDescriptors.cs" />
-    <Compile Include="..\..\source\Asreyion.Core\Features\Hooks\Extensions\HookServiceCollectionExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Hooks\IConfigureApplicationHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Hooks\IConfigureServicesHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\FeatureViewLocationExpandHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginConfirmationViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\ExternalLoginLinkingViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Models\DashboardViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Migrations\**\*.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Files\Models\StoredFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Files\Services\Interfaces\IFileUploadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Files\Services\FileUploadService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Files\Controllers\FileUploadController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Files\Hooks\FileServiceHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Attributes\HookDependenciesAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookApplicationExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Interfaces\IHookDescriptors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookServiceCollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks\IConfigureApplicationHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks\IConfigureServicesHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Models\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Models\ExternalLoginLinkingViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Account\Models\DashboardViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Models\ProfileViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Hooks\ControlPanelViewLocationExpandHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Controllers\DashboardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Hooks\ControlPanelViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Moderation\Controllers\DashboardController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration\HostConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Data\ApplicationUser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Data\ApplicationUser.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Areas\Account\Controllers\ProfileController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Controllers\DashboardController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Controllers\DashboardController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Models\HookStatusViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\AuthenticationDbContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\DbContexts\DataDbContext.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Migrations\**\*.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Models\LoginViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\DiscordAuthenticationProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\GoogleAuthenticationProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\SessionController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Hooks\IOnRenderHtmlHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookDiscoveryExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Engine\HookEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Engine\Interfaces\IHookEngine.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Interfaces\IHookSubscriber.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\HookEngineServicesHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Tags\HookTagHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\Configurations\NavigationMenuConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\Configurations\NavigationMenuItemConfiguration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenu.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Data\NavigationMenuItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Models\NavigationTreeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Hooks\NavigationServiceHooks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\Interfaces\INavigationService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Services\NavigationService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\INavigationBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\NavigationBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Builder\NavigationItemDefinition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Hooks\IOnBuildNavigationHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Navigation\Components\NavigationView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Authentication\Hooks\AuthenticationServiceHooks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Database\Hooks\DatabaseConfigurationHooks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Features\Hooks\Extensions\HookDependencySorter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Account\Controllers\DashboardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Controllers\DashboardController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Models\HookStatusViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\DbContexts\AuthenticationDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\DbContexts\DataDbContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Models\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Providers\DiscordAuthenticationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Providers\GoogleAuthenticationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Providers\Interfaces\IAuthenticationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Controllers\SessionController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks\IOnRenderHtmlHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookDiscoveryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Engine\HookEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Engine\Interfaces\IHookEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Interfaces\IHookSubscriber.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\HookEngineServicesHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Tags\HookTagHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\Configurations\NavigationMenuConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\Configurations\NavigationMenuItemConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\NavigationMenu.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\NavigationMenuItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Models\NavigationTreeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Hooks\NavigationServiceHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Services\Interfaces\INavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Services\NavigationService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\INavigationBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\NavigationBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\NavigationItemDefinition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Hooks\IOnBuildNavigationHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Components\NavigationView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Hooks\AuthenticationServiceHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Hooks\DatabaseConfigurationHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookDependencySorter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationExpandHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationPopulateHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\ProxyConfigurationHooks.cs" />
@@ -74,50 +73,50 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ITypeDiscoveryService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\Dashboard\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Account\Views\Dashboard\Index.cshtml" />
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\Profile\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Dashboard\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Dashboard\Hooks.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_AdminLayout.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_HeaderActions.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\Shared\_Sidebar.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\Dashboard\Index.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\Shared\_Sidebar.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\Dashboard\_Sidebar.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\ExternalLoginConfirmation.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\ExternalLoginLinking.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\Login.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\_ViewImports.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\_ViewStart.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\_ViewImports.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\_ViewStart.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\Navigation\Views\_ViewImports.cshtml">
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Views\Dashboard\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Views\Dashboard\Hooks.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Views\Shared\_HeaderActions.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Views\Shared\_Sidebar.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Moderation\Views\Dashboard\Index.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Moderation\Views\Shared\_Sidebar.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Account\Views\Dashboard\_Sidebar.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Authentication\Views\Session\ExternalLoginConfirmation.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Authentication\Views\Session\ExternalLoginLinking.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Authentication\Views\Session\Login.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Authentication\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Authentication\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Account\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Account\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Navigation\Views\_ViewImports.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewStart.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\_ViewStart.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Views\_ViewStart.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Moderation\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Areas\Account\Views\_ViewImports.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\Views\_ViewImports.cshtml" />
-    <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Administration\Views\_ViewImports.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)ControlPanels\Moderation\Views\_ViewImports.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Controllers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Hooks\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Authentication\Views\Session\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Administration\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Moderation\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Database\Hooks\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Features\Hooks\Engine\Interfaces\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Database\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Hooks\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Features\Navigation\Views\Components\NavigationView.cshtml" />
+    <Content Include="$(MSBuildThisFileDirectory)Navigation\Views\Components\NavigationView.cshtml" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-using Asreyion.Core.Features.Database.DbContexts;
+using Asreyion.Core.Database.DbContexts;
 using Asreyion.Server.Models;
 using Asreyion.Modules.Blog.Data;
 using Microsoft.AspNetCore.Mvc;

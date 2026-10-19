@@ -1,4 +1,4 @@
-using Asreyion.Core.Features.Hooks.Engine.Interfaces;
+using Asreyion.Core.Hooks.Engine.Interfaces;
 using Asreyion.Core.Mvc.Hooks;
 using Microsoft.AspNetCore.Mvc.Razor;
 

@@ -1,4 +1,4 @@
-using Asreyion.Core.Features.Hooks.Hooks;
+using Asreyion.Core.Hooks.Hooks;
 using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Asreyion.Core.Mvc.Hooks;

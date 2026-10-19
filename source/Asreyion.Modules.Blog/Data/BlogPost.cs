@@ -1,4 +1,4 @@
-using Asreyion.Core.Features.Authentication.Data;
+using Asreyion.Core.Authentication.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace Asreyion.Modules.Blog.Data;

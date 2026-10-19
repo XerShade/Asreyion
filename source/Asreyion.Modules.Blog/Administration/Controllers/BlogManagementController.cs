@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
-using Asreyion.Core.Features.Authentication.Data;
-using Asreyion.Core.Features.Database.DbContexts;
-using Asreyion.Core.Features.Files.Services.Interfaces;
+using Asreyion.Core.Authentication.Data;
+using Asreyion.Core.Database.DbContexts;
+using Asreyion.Core.Files.Services.Interfaces;
 using Asreyion.Modules.Blog.Administration.Models;
 using Asreyion.Modules.Blog.Data;
 using Microsoft.AspNetCore.Authorization;

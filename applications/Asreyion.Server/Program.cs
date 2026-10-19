@@ -1,5 +1,5 @@
 using Asreyion.Core.Configuration;
-using Asreyion.Core.Features.Hooks.Extensions;
+using Asreyion.Core.Hooks.Extensions;
 using System.Reflection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(HostConfiguration.Create(args));
