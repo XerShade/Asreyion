@@ -494,9 +494,57 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
         p.Categories = await db.Set<BlogCategory>()
             .Where(category => categoryIds.Contains(category.Id))
             .ToListAsync(ct);
-        p.Tags = await db.Set<BlogTag>()
-            .Where(tag => tagIds.Contains(tag.Id))
-            .ToListAsync(ct);
+        if (tagIds.Count > 0)
+        {
+            p.Tags = await db.Set<BlogTag>()
+                .Where(tag => tagIds.Contains(tag.Id))
+                .ToListAsync(ct);
+            return;
+        }
+
+        p.Tags = await GenerateTagsFromTitle(p.Title, ct);
+    }
+
+    private async Task<List<BlogTag>> GenerateTagsFromTitle(string title, CancellationToken ct)
+    {
+        List<string> tagNames = ExtractTagNames(title);
+        List<BlogTag> existingTags = await db.Set<BlogTag>().ToListAsync(ct);
+        List<BlogTag> matchingTags = existingTags
+            .Where(tag => tagNames.Contains(tag.Name, StringComparer.OrdinalIgnoreCase))
+            .ToList();
+        HashSet<string> existingTagNames = matchingTags
+            .Select(tag => tag.Name)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        foreach (string tagName in tagNames)
+        {
+            if (existingTagNames.Contains(tagName))
+            {
+                continue;
+            }
+
+            BlogTag tag = new() { Name = tagName };
+            db.Add(tag);
+            matchingTags.Add(tag);
+            existingTagNames.Add(tagName);
+        }
+
+        return matchingTags;
+    }
+
+    private static List<string> ExtractTagNames(string title)
+    {
+        List<string> tagNames = [.. Regex.Matches(title, @"[\p{L}\p{N}][\p{L}\p{N}'-]*")
+            .Select(match => match.Value.Trim('-', '\''))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Select(word => char.ToUpperInvariant(word[0]) + word[1..])];
+
+        if (tagNames.Count == 0 && !string.IsNullOrWhiteSpace(title))
+        {
+            tagNames.Add(title.Trim());
+        }
+
+        return tagNames;
     }
 
     private async Task<BlogCategoryInputModel> PopulateCategoryOptions(BlogCategoryInputModel m, CancellationToken ct, int? excludingId = null)
