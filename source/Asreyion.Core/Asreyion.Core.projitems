@@ -65,8 +65,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\RoutingConfigurationHooks.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Attributes\FeatureAreaAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\ViewLocationExpander.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\AssemblyTypeDiscovery.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\Interfaces\ITypeDiscovery.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AssemblyTypeDiscoveryService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Interfaces\ITypeDiscoveryService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Features\ControlPanels\Account\Views\Dashboard\Index.cshtml" />

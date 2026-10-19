@@ -5,7 +5,7 @@ using Asreyion.Core.Features.Database.Hooks;
 using Asreyion.Core.Features.Hooks.Attributes;
 using Asreyion.Core.Features.Hooks.Hooks;
 using Asreyion.Core.Mvc.Hooks;
-using Asreyion.Core.Util;
+using Asreyion.Core.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
@@ -35,7 +35,7 @@ public class AuthenticationServiceHooks : IConfigureServicesHook, IConfigureAppl
         .AddDefaultTokenProviders();
 
         AuthenticationBuilder authenticationBuilder = services.AddAuthentication();
-        IReadOnlyCollection<Type> providerTypes = new AssemblyTypeDiscovery()
+        IReadOnlyCollection<Type> providerTypes = new AssemblyTypeDiscoveryService()
             .Discover<IAuthenticationProvider>(AppDomain.CurrentDomain.GetAssemblies());
 
         foreach(Type providerType in providerTypes)

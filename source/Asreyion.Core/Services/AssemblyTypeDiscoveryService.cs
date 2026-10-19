@@ -1,9 +1,9 @@
-﻿using Asreyion.Core.Util.Interfaces;
+﻿using Asreyion.Core.Services.Interfaces;
 using System.Reflection;
 
-namespace Asreyion.Core.Util;
+namespace Asreyion.Core.Services;
 
-public class AssemblyTypeDiscovery : ITypeDiscovery<Assembly>
+public class AssemblyTypeDiscoveryService : ITypeDiscoveryService<Assembly>
 {
     public IReadOnlyCollection<Type> Discover<T>(IReadOnlyCollection<Assembly> sources)
     {
