@@ -44,11 +44,6 @@
 }
 
 /* Base Styles */
-html {
-    font-size: 16px;
-    scroll-behavior: smooth;
-}
-
 body {
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
@@ -71,62 +66,8 @@ a:hover {
     color: var(--color-primary-light);
 }
 
-/* Container */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Header/Navbar */
-header {
-    background-color: var(--color-bg-secondary);
-    border-bottom: 1px solid var(--color-border-primary);
-    box-shadow: var(--shadow-md);
-}
-
-.navbar {
-    background-color: var(--color-bg-secondary) !important;
-    border-bottom: 1px solid var(--color-border-primary);
-}
-
-.navbar-brand {
-    color: var(--color-primary) !important;
-    font-weight: 700;
-    font-size: 1.5rem;
-    text-shadow: var(--shadow-glow);
-    transition: text-shadow var(--transition-normal);
-}
-
-.navbar-brand:hover {
-    color: var(--color-primary-light);
-}
-
-.nav-link {
-    color: var(--color-text-secondary) !important;
-    font-weight: 500;
-    padding: 0.75rem 1rem !important;
-    border-radius: 6px;
-    transition: all var(--transition-fast);
-}
-
-.nav-link:hover {
-    color: var(--color-primary) !important;
-    background-color: var(--color-bg-tertiary);
-}
-
-.nav-link.active {
-    color: var(--color-primary) !important;
-    background-color: var(--color-bg-tertiary);
-}
-
-.navbar-toggler {
-    border-color: var(--color-primary) !important;
-}
-
-.navbar-toggler-icon {
-    filter: invert(1);
-}
+/* Bootstrap owns container and navigation geometry. Their site-specific
+   presentation lives in layout.css and components.css. */
 
 /* Buttons */
 .btn-primary {
@@ -317,7 +258,6 @@ footer a:hover {
 /* Main Content */
 main {
     padding: 2rem 0;
-    min-height: calc(100vh - 400px);
 }
 
 /* Focus States */
@@ -345,21 +285,6 @@ main {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-primary);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    html {
-        font-size: 14px;
-    }
-    
-    .container {
-        padding: 0 15px;
-    }
-    
-    main {
-        padding: 1.5rem 0;
-    }
 }
 
 /* Utility Classes */

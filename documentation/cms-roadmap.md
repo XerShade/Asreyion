@@ -39,10 +39,10 @@ This roadmap outlines the step-by-step process to build a custom CMS with admin 
 - [x] Add BlogPosts DbSet to ApplicationDbContext
 - [x] Create migration for blog posts table
 - [x] Create BlogController for public blog display
-- [ ] Create AdminBlogController for CRUD operations
-- [ ] Create views: Index (list), Create, Edit, Delete
-- [ ] Add rich text editor (TinyMCE or similar)
-- [ ] Implement slug generation for SEO-friendly URLs
+- [x] Create AdminBlogController for CRUD operations
+- [x] Create views: Index (list), Create, Edit, Delete
+- [x] Add rich text editor (TinyMCE or similar)
+- [x] Implement slug generation for SEO-friendly URLs
 - [ ] Add published/unpublished status toggle
 
 ## Phase 5: Public Site
@@ -50,9 +50,9 @@ This roadmap outlines the step-by-step process to build a custom CMS with admin 
 
 - [x] Create blog index page listing published posts
 - [x] Create blog post detail page
-- [ ] Add date formatting and author display
+- [x] Add date formatting and author display
 - [x] Create navigation to blog from home page
-- [ ] Add basic styling to public pages
+- [x] Add basic styling to public pages
 
 ## Phase 6: Additional Features (Future)
 **Goal:** Expand functionality for community features
