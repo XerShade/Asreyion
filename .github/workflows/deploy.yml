@@ -1,4 +1,4 @@
-name: Remote CD (Continuous Deployment)
+name: Remote Deployment
 
 on:
   push:
@@ -19,4 +19,4 @@ jobs:
           script: |
             cd ~/projects/Asreyion/
             git pull
-            docker-compose up -d --build
+            docker compose up -d --build
