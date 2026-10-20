@@ -1,4 +1,4 @@
-namespace Asreyion.Core.Areas.Account.Models;
+namespace Asreyion.Core.Members.Models;
 
 /// <summary>
 /// Profile details displayed on an account profile page.

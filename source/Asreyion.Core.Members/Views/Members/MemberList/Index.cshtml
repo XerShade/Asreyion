@@ -1,0 +1,80 @@
+@model Asreyion.Core.Members.Models.MemberListModel
+
+@{
+    ViewData["Title"] = "Community Members";
+}
+
+<div class="members-page">
+    <header class="members-header">
+        <div class="members-heading-icon" aria-hidden="true">
+            <i class="fa-solid fa-users"></i>
+        </div>
+        <div>
+            <p class="members-eyebrow">The community</p>
+            <h1>Members</h1>
+            <p class="members-subtitle">Meet the people who make this community.</p>
+        </div>
+        <span class="members-total">
+            <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+            @Model.TotalMembers @(Model.TotalMembers == 1 ? "Member" : "Members")
+        </span>
+    </header>
+
+    <div id="member-list-content" aria-live="polite" aria-busy="false" tabindex="-1">
+        @await Html.PartialAsync("_MemberList", Model)
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (() => {
+            const content = document.getElementById("member-list-content");
+
+            if (!content) {
+                return;
+            }
+
+            async function loadPage(url, updateHistory) {
+                content.setAttribute("aria-busy", "true");
+
+                try {
+                    const response = await fetch(url, {
+                        headers: { "X-Requested-With": "XMLHttpRequest" }
+                    });
+
+                    if (!response.ok) {
+                        window.location.assign(url);
+                        return;
+                    }
+
+                    content.innerHTML = await response.text();
+
+                    if (updateHistory) {
+                        window.history.pushState({}, "", url);
+                    }
+
+                    content.focus({ preventScroll: true });
+                } catch {
+                    window.location.assign(url);
+                } finally {
+                    content.setAttribute("aria-busy", "false");
+                }
+            }
+
+            content.addEventListener("click", (event) => {
+                const link = event.target.closest("a[data-member-page]");
+
+                if (!link || link.getAttribute("aria-disabled") === "true" || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+                    return;
+                }
+
+                event.preventDefault();
+                loadPage(link.href, true);
+            });
+
+            window.addEventListener("popstate", () => {
+                loadPage(window.location.href, false);
+            });
+        })();
+    </script>
+}

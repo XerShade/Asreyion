@@ -1,35 +1,55 @@
-using Asreyion.Core.Areas.Account.Models;
+using Asreyion.Core.Members.Models;
 using Asreyion.Core.Authentication.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Asreyion.Core.Areas.Account.Controllers;
+namespace Asreyion.Core.Members.Controllers;
 
 /// <summary>
 /// Displays profiles for active accounts.
 /// </summary>
-[Area("Account")]
-[Authorize]
-[Route("Account/Profile")]
+[Area("Members")]
 public class ProfileController(
     UserManager<ApplicationUser> userManager) : Controller
 {
     private readonly UserManager<ApplicationUser> UserManager = userManager;
 
     /// <summary>
+    /// Displays the signed-in user's profile.
+    /// </summary>
+    /// <returns>The profile view, or a not-found response for inactive or unknown users.</returns>
+    [Authorize]
+    [HttpGet("{Area}/Profile")]
+    public async Task<IActionResult> Index()
+    {
+        ApplicationUser? user = await this.UserManager.GetUserAsync(this.User);
+
+        return await this.GetUserAsync(user);
+    }
+
+    /// <summary>
     /// Displays the signed-in user's profile or a profile selected by username.
     /// </summary>
     /// <param name="username">The account name to display, or <see langword="null"/> for the current user.</param>
     /// <returns>The profile view, or a not-found response for inactive or unknown users.</returns>
-    [HttpGet]
-    [HttpGet("{username}")]
+    [HttpGet("{Area}/Profile/{username}")]
     public async Task<IActionResult> Index(string? username)
     {
         ApplicationUser? user = string.IsNullOrWhiteSpace(username)
             ? await this.UserManager.GetUserAsync(this.User)
             : await this.UserManager.FindByNameAsync(username);
 
+        return await this.GetUserAsync(user);
+    }
+
+    /// <summary>
+    /// Displays the profile of the specified user.
+    /// </summary>
+    /// <param name="user">The user to display.</param>
+    /// <returns>The profile view, or a not-found response for inactive or unknown users.</returns>
+    private async Task<IActionResult> GetUserAsync(ApplicationUser? user)
+    {
         if (user is null || !user.IsActive)
         {
             return this.NotFound();

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>62c646ee-0d1c-4527-8e06-acb3d121e505</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Asreyion.Core.Members</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\MemberListController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controllers\ProfileController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\MembersNavigationHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MemberListModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ProfileViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Views\Members\Profile\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Views\Members\MemberList\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Views\Members\MemberList\_MemberList.cshtml" />
+  </ItemGroup>
+</Project>

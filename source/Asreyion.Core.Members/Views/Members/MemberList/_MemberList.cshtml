@@ -1,0 +1,72 @@
+@model Asreyion.Core.Members.Models.MemberListModel
+
+@if (Model.Members.Count == 0)
+{
+    <section class="members-empty">
+        <span class="members-empty-icon" aria-hidden="true"><i class="fa-regular fa-face-smile"></i></span>
+        <h2>No members yet</h2>
+        <p>There are no active community accounts to show right now.</p>
+    </section>
+}
+else
+{
+    <section class="members-grid" aria-label="Community members">
+        @foreach (var member in Model.Members)
+        {
+            string displayName = string.IsNullOrWhiteSpace(member.DisplayName)
+                ? member.UserName ?? "Community member"
+                : member.DisplayName;
+            string initial = displayName[..1].ToUpperInvariant();
+
+            <a href="@Url.Action("Index", "Profile", new { area = "Members", username = member.UserName })">
+                <article class="member-card">
+                    <div class="member-avatar" aria-hidden="true">@initial</div>
+                    <div class="member-info">
+                        <h2 class="member-name">
+                            @displayName
+                        </h2>
+                        @if (!string.IsNullOrWhiteSpace(member.UserName))
+                        {
+                            <p class="member-username">@@@member.UserName</p>
+                        }
+                        <p class="member-joined">
+                            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                            Joined @member.CreatedAt.ToString("MMMM yyyy")
+                        </p>
+                    </div>
+                    <span class="member-card-arrow" aria-hidden="true">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </span>
+                </article>
+            </a>
+        }
+    </section>
+}
+
+@if (Model.TotalPages >= 1)
+{
+    string previousPageUrl = Url.Content($"~/Members/Page/{Model.Page - 1}");
+    string nextPageUrl = Url.Content($"~/Members/Page/{Model.Page + 1}");
+
+    <nav class="members-pagination" aria-label="Member list pages">
+        <a class="members-page-link @(Model.Page <= 1 ? "is-disabled" : string.Empty)"
+           href="@previousPageUrl"
+           aria-label="Previous page"
+           aria-disabled="@(Model.Page <= 1)"
+           tabindex="@(Model.Page <= 1 ? -1 : 0)"
+           data-member-page>
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            <span>Previous</span>
+        </a>
+        <span class="members-page-status">Page <strong>@Model.Page</strong> of <strong>@Model.TotalPages</strong></span>
+        <a class="members-page-link @(Model.Page >= Model.TotalPages ? "is-disabled" : string.Empty)"
+           href="@nextPageUrl"
+           aria-label="Next page"
+           aria-disabled="@(Model.Page >= Model.TotalPages)"
+           tabindex="@(Model.Page >= Model.TotalPages ? -1 : 0)"
+           data-member-page>
+            <span>Next</span>
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </nav>
+}
