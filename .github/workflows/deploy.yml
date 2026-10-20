@@ -18,5 +18,6 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd ~/projects/Asreyion/
-            git pull
-            docker compose up -d --build
+            git fetch --all
+            git reset --hard origin/main
+            docker-compose up -d --build
