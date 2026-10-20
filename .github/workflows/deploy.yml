@@ -20,4 +20,4 @@ jobs:
             cd ~/projects/Asreyion/
             git fetch --all
             git reset --hard origin/main
-            docker-compose up -d --build
+            docker compose up -d --build
