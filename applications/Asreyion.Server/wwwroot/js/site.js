@@ -14,12 +14,150 @@
         });
         
         initializeNavbar();
+        initializeBlogAttachments();
         initializeSmoothScroll();
         initializeAnimations();
         initializeFormEnhancements();
         initializeMobileMenu();
         initializeDesktopDropdowns();
     });
+
+    /**
+     * Present Trix attachments as cards and open their files in a separate tab.
+     */
+    function initializeBlogAttachments() {
+        const postBodies = document.querySelectorAll('.blog-post-body');
+
+        postBodies.forEach(wrapAttachmentGroups);
+
+        const imageLightbox = createImageLightbox();
+        const attachments = document.querySelectorAll('.blog-post-body figure.attachment');
+
+        attachments.forEach(attachment => {
+            const image = attachment.querySelector('img');
+            const existingLink = attachment.querySelector('a[href]');
+
+            if (image) {
+                initializeImageAttachment(attachment, image, existingLink);
+            }
+
+            attachment.querySelectorAll('a[href]').forEach(link => {
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+
+                if (imageLightbox && link.querySelector('img')) {
+                    link.addEventListener('click', event => {
+                        event.preventDefault();
+                        imageLightbox.open(link.href, link.querySelector('img'));
+                    });
+                }
+            });
+        });
+    }
+
+    function createImageLightbox() {
+        if (typeof HTMLDialogElement === 'undefined') {
+            return null;
+        }
+
+        const dialog = document.createElement('dialog');
+        dialog.className = 'blog-image-lightbox';
+        dialog.setAttribute('aria-label', 'Image preview');
+
+        const closeButton = document.createElement('button');
+        closeButton.className = 'blog-image-lightbox-close';
+        closeButton.type = 'button';
+        closeButton.setAttribute('aria-label', 'Close image preview');
+
+        const image = document.createElement('img');
+        image.className = 'blog-image-lightbox-image';
+        image.alt = '';
+
+        const caption = document.createElement('p');
+        caption.className = 'blog-image-lightbox-caption';
+
+        const captionText = document.createElement('span');
+        captionText.className = 'blog-image-lightbox-filename';
+
+        const fullImageLink = document.createElement('a');
+        fullImageLink.className = 'blog-image-lightbox-full-link';
+        fullImageLink.target = '_blank';
+        fullImageLink.rel = 'noopener noreferrer';
+        fullImageLink.textContent = 'View Full Image';
+
+        caption.append(captionText, fullImageLink);
+        dialog.append(closeButton, image, caption);
+        document.body.append(dialog);
+
+        closeButton.addEventListener('click', () => dialog.close());
+        dialog.addEventListener('click', event => {
+            if (event.target === dialog) {
+                dialog.close();
+            }
+        });
+        dialog.addEventListener('close', () => {
+            image.removeAttribute('src');
+        });
+
+        return {
+            open(source, attachmentImage) {
+                image.src = source;
+                image.alt = attachmentImage.alt;
+                captionText.textContent = attachmentImage.alt || attachmentImage.closest('figure')?.querySelector('figcaption')?.textContent || '';
+                fullImageLink.href = source;
+                dialog.showModal();
+            }
+        };
+    }
+
+    function wrapAttachmentGroups(postBody) {
+        const attachments = postBody.querySelectorAll('figure.attachment');
+
+        attachments.forEach(attachment => {
+            const previousElement = attachment.previousElementSibling;
+            let attachmentGrid = null;
+
+            if (previousElement?.classList.contains('blog-attachment-grid')) {
+                attachmentGrid = previousElement;
+            } else {
+                attachmentGrid = document.createElement('div');
+                attachmentGrid.className = 'blog-attachment-grid';
+                attachment.parentElement.insertBefore(attachmentGrid, attachment);
+            }
+
+            attachmentGrid.append(attachment);
+        });
+    }
+
+    function initializeImageAttachment(attachment, image, existingLink) {
+        let imageLink = existingLink;
+
+        if (!imageLink && (image.currentSrc || image.src)) {
+            imageLink = document.createElement('a');
+            imageLink.href = image.currentSrc || image.src;
+            imageLink.append(image);
+            attachment.append(imageLink);
+        }
+
+        const caption = attachment.querySelector('figcaption');
+
+        if (caption) {
+            return;
+        }
+
+        let filename = image.alt.trim();
+
+        try {
+            const attachmentData = JSON.parse(attachment.dataset.trixAttachment || '{}');
+            filename = attachmentData.filename || filename;
+        } catch {
+            // Keep the image alt text when legacy attachment metadata is absent.
+        }
+
+        const generatedCaption = document.createElement('figcaption');
+        generatedCaption.textContent = filename || 'Image attachment';
+        attachment.append(generatedCaption);
+    }
 
     /**
      * Initialize navbar scroll effects

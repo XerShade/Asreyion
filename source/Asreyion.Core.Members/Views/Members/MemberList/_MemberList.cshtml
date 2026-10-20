@@ -2,71 +2,69 @@
 
 @if (Model.Members.Count == 0)
 {
-    <section class="members-empty">
-        <span class="members-empty-icon" aria-hidden="true"><i class="fa-regular fa-face-smile"></i></span>
-        <h2>No members yet</h2>
-        <p>There are no active community accounts to show right now.</p>
-    </section>
+    <div class="p-5 text-center text-muted border border-secondary border-dashed rounded-3 bg-tertiary my-2">
+        <div class="members-empty-icon mb-3">
+            <i class="fa-solid fa-user-group fs-2 text-primary" aria-hidden="true"></i>
+        </div>
+        <h2 class="h5 text-white mb-2">No members yet</h2>
+        <p class="text-secondary mb-0">There are no active community accounts to show right now.</p>
+    </div>
 }
 else
 {
-    <section class="members-grid" aria-label="Community members">
+    <div class="members-list d-flex flex-column gap-3" aria-label="Community members">
         @foreach (var member in Model.Members)
         {
-            string displayName = string.IsNullOrWhiteSpace(member.DisplayName)
-                ? member.UserName ?? "Community member"
-                : member.DisplayName;
-            string initial = displayName[..1].ToUpperInvariant();
-
-            <a href="@Url.Action("Index", "Profile", new { area = "Members", username = member.UserName })">
-                <article class="member-card">
-                    <div class="member-avatar" aria-hidden="true">@initial</div>
-                    <div class="member-info">
-                        <h2 class="member-name">
-                            @displayName
-                        </h2>
-                        @if (!string.IsNullOrWhiteSpace(member.UserName))
-                        {
-                            <p class="member-username">@@@member.UserName</p>
-                        }
-                        <p class="member-joined">
-                            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-                            Joined @member.CreatedAt.ToString("MMMM yyyy")
-                        </p>
-                    </div>
-                    <span class="member-card-arrow" aria-hidden="true">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-                </article>
-            </a>
+            <partial name="_MemberSection" model="member" />
         }
-    </section>
+    </div>
 }
 
-@if (Model.TotalPages >= 1)
+@if (Model.TotalPages > 1)
 {
     string previousPageUrl = Url.Content($"~/Members/Page/{Model.Page - 1}");
     string nextPageUrl = Url.Content($"~/Members/Page/{Model.Page + 1}");
 
-    <nav class="members-pagination" aria-label="Member list pages">
-        <a class="members-page-link @(Model.Page <= 1 ? "is-disabled" : string.Empty)"
-           href="@previousPageUrl"
-           aria-label="Previous page"
-           aria-disabled="@(Model.Page <= 1)"
-           tabindex="@(Model.Page <= 1 ? -1 : 0)"
-           data-member-page>
-            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-            <span>Previous</span>
-        </a>
-        <span class="members-page-status">Page <strong>@Model.Page</strong> of <strong>@Model.TotalPages</strong></span>
-        <a class="members-page-link @(Model.Page >= Model.TotalPages ? "is-disabled" : string.Empty)"
-           href="@nextPageUrl"
-           aria-label="Next page"
-           aria-disabled="@(Model.Page >= Model.TotalPages)"
-           tabindex="@(Model.Page >= Model.TotalPages ? -1 : 0)"
-           data-member-page>
-            <span>Next</span>
-            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-        </a>
+    <nav class="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4 pt-3 border-top border-secondary" aria-label="Member list pages">
+        <div class="text-muted small">
+            Showing page <strong class="text-white">@Model.Page</strong> of <strong class="text-white">@Model.TotalPages</strong>
+            <span class="text-secondary ms-1">(@Model.TotalMembers @(Model.TotalMembers == 1 ? "member" : "members") total)</span>
+        </div>
+        <ul class="pagination mb-0">
+            <li class="page-item @(Model.Page <= 1 ? "disabled" : string.Empty)">
+                <a class="page-link @(Model.Page <= 1 ? "is-disabled" : string.Empty)"
+                   href="@previousPageUrl"
+                   aria-label="Previous page"
+                   aria-disabled="@(Model.Page <= 1)"
+                   tabindex="@(Model.Page <= 1 ? -1 : 0)"
+                   data-member-page>
+                    <i class="fa-solid fa-chevron-left me-1" aria-hidden="true"></i> Previous
+                </a>
+            </li>
+            @for (int p = Math.Max(1, Model.Page - 2); p <= Math.Min(Model.TotalPages, Model.Page + 2); p++)
+            {
+                int pageNumber = p;
+                string pageUrl = Url.Content($"~/Members/Page/{pageNumber}");
+                <li class="page-item @(pageNumber == Model.Page ? "active" : string.Empty)">
+                    <a class="page-link"
+                       href="@pageUrl"
+                       aria-label="Page @pageNumber"
+                       aria-current="@(pageNumber == Model.Page ? "page" : null)"
+                       data-member-page>
+                        @pageNumber
+                    </a>
+                </li>
+            }
+            <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : string.Empty)">
+                <a class="page-link @(Model.Page >= Model.TotalPages ? "is-disabled" : string.Empty)"
+                   href="@nextPageUrl"
+                   aria-label="Next page"
+                   aria-disabled="@(Model.Page >= Model.TotalPages)"
+                   tabindex="@(Model.Page >= Model.TotalPages ? -1 : 0)"
+                   data-member-page>
+                    Next <i class="fa-solid fa-chevron-right ms-1" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
     </nav>
 }

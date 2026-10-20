@@ -1,0 +1,51 @@
+@model Asreyion.Core.Authentication.Data.ApplicationUser
+
+@{
+    string displayName = string.IsNullOrWhiteSpace(Model.DisplayName)
+        ? Model.UserName ?? "Community member"
+        : Model.DisplayName;
+
+    string initial = displayName[..1].ToUpperInvariant();
+
+    bool hasDistinctUsername = !string.IsNullOrWhiteSpace(Model.UserName) &&
+        !string.Equals(Model.DisplayName, Model.UserName, StringComparison.OrdinalIgnoreCase);
+
+    string profileUrl = Url.Action("Index", "Profile", new { area = "Members", username = Model.UserName }) ?? "#";
+}
+
+<article class="member-card p-3 p-md-4 rounded-3 bg-tertiary border border-secondary shadow-sm position-relative d-flex align-items-center justify-content-between gap-3 flex-wrap flex-sm-nowrap">
+    <div class="d-flex align-items-center gap-3 min-w-0">
+        <div class="member-avatar bg-primary text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold fs-4 flex-shrink-0" aria-hidden="true">
+            @initial
+        </div>
+        <div class="member-info min-w-0">
+            <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                <h2 class="h5 mb-0 text-white fw-bold member-name text-truncate">
+                    @displayName
+                </h2>
+                <span class="badge bg-secondary text-secondary border border-secondary small">Member</span>
+            </div>
+            <div class="member-meta text-muted small d-flex flex-wrap align-items-center gap-2">
+                @if (hasDistinctUsername)
+                {
+                    <span class="member-username text-secondary">
+                        <i class="fa-solid fa-at fa-xs text-primary me-1" aria-hidden="true"></i>@Model.UserName
+                    </span>
+                    <span class="text-muted">•</span>
+                }
+                <span class="member-joined">
+                    <i class="fa-solid fa-calendar-day text-primary me-1" aria-hidden="true"></i>
+                    Joined @Model.CreatedAt.ToString("MMMM d, yyyy")
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="member-action flex-shrink-0 ms-auto ms-sm-0">
+        <a href="@profileUrl"
+           class="btn btn-outline-primary btn-sm stretched-link d-inline-flex align-items-center gap-2"
+           aria-label="View profile of @displayName">
+            <span>View Profile</span>
+            <i class="fa-solid fa-arrow-right fs-xs" aria-hidden="true"></i>
+        </a>
+    </div>
+</article>

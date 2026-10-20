@@ -4,23 +4,29 @@
     ViewData["Title"] = "Community Members";
 }
 
-<div class="members-page">
-    <header class="members-header">
-        <div class="members-heading-icon" aria-hidden="true">
-            <i class="fa-solid fa-users"></i>
-        </div>
+<div class="card border border-secondary shadow-sm mb-4">
+    <div class="card-header bg-tertiary border-bottom border-secondary p-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
         <div>
-            <p class="members-eyebrow">The community</p>
-            <h1>Members</h1>
-            <p class="members-subtitle">Meet the people who make this community.</p>
+            <div class="mb-2">
+                <span class="badge bg-primary text-dark fw-bold px-3 py-1 rounded-pill">Community</span>
+            </div>
+            <h1 class="card-title h3 text-white fw-bold mb-1 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-users text-primary" aria-hidden="true"></i>
+                Members Directory
+            </h1>
+            <p class="lead text-secondary mb-0 fs-6">
+                Discover and connect with people who have joined XerShade's Corner.
+            </p>
         </div>
-        <span class="members-total">
-            <i class="fa-solid fa-user-group" aria-hidden="true"></i>
-            @Model.TotalMembers @(Model.TotalMembers == 1 ? "Member" : "Members")
-        </span>
-    </header>
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-secondary text-secondary border border-secondary px-3 py-2 fs-6 rounded-pill d-inline-flex align-items-center gap-2">
+                <i class="fa-solid fa-user-group text-primary" aria-hidden="true"></i>
+                @Model.TotalMembers @(Model.TotalMembers == 1 ? "Member" : "Members")
+            </span>
+        </div>
+    </div>
 
-    <div id="member-list-content" aria-live="polite" aria-busy="false" tabindex="-1">
+    <div class="card-body p-4" id="member-list-content" aria-live="polite" aria-busy="false" tabindex="-1">
         @await Html.PartialAsync("_MemberList", Model)
     </div>
 </div>
