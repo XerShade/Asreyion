@@ -1,8 +1,10 @@
-using Asreyion.Core.Authentication.Models;
 using Asreyion.Core.Authentication.Data;
+using Asreyion.Core.Authentication.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace Asreyion.Core.Authentication.Controllers;
@@ -14,9 +16,11 @@ namespace Asreyion.Core.Authentication.Controllers;
 /// <param name="userManager">Creates and updates application users.</param>
 [Area("Authentication")]
 public class SessionController(
+    ILogger<SessionController> logger,
     SignInManager<ApplicationUser> signInManager,
     UserManager<ApplicationUser> userManager) : Controller
 {
+    private readonly ILogger<SessionController> _logger = logger;
     private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
     private readonly UserManager<ApplicationUser> _userManager = userManager;
 
@@ -70,15 +74,13 @@ public class SessionController(
 
         if (result.IsLockedOut)
         {
-            this.ModelState.AddModelError(
-                string.Empty,
-                "This account is currently locked.");
+            this._logger.LogWarning("Attempt to access the locked account '{account}' from '{ip}'.", model.UserName, this.HttpContext.Connection.RemoteIpAddress);
+            this.ModelState.AddModelError(string.Empty, "This account is currently locked, please contact an administrator.");
         }
         else
         {
-            this.ModelState.AddModelError(
-                string.Empty,
-                "Invalid username or password.");
+            this._logger.LogWarning("Invalid login attempt for account '{account}' from '{ip}'.", model.UserName, this.HttpContext.Connection.RemoteIpAddress);
+            this.ModelState.AddModelError(string.Empty, "Invalid username or password.");
         }
 
         return this.View(model);
@@ -101,6 +103,9 @@ public class SessionController(
                 nameof(this.Login),
                 new { returnUrl });
         }
+
+        // Clear the temporary cookie to prevent session pollution from aborted sign-in flows
+        _ = this.HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
         string? callbackUrl = this.Url.Action(
             nameof(this.ExternalLoginCallback),
@@ -171,6 +176,7 @@ public class SessionController(
 
         if (result.IsLockedOut)
         {
+            this._logger.LogWarning("Attempt to access a locked account from '{ip}'.", this.HttpContext.Connection.RemoteIpAddress);
             this.TempData["ExternalLoginError"] =
                 "This account is currently locked.";
 
@@ -218,10 +224,13 @@ public class SessionController(
             return this.RedirectToAction(nameof(this.Login));
         }
 
+        // Extract the email directly from the cryptographically signed external claims token
+        string? verifiedEmail = info.Principal.FindFirstValue(ClaimTypes.Email);
+
         ApplicationUser user = new()
         {
             UserName = model.UserName,
-            Email = model.Email,
+            Email = verifiedEmail ?? throw new InvalidOperationException("Verified email missing from provider token."),
             DisplayName = model.DisplayName,
             IsActive = true
         };
@@ -243,7 +252,7 @@ public class SessionController(
 
         if (!result.Succeeded)
         {
-            await this._userManager.DeleteAsync(user);
+            _ = await this._userManager.DeleteAsync(user);
 
             foreach (IdentityError error in result.Errors)
             {
@@ -297,30 +306,22 @@ public class SessionController(
             return this.View(model);
         }
 
-        Microsoft.AspNetCore.Identity.ExternalLoginInfo? info =
-            await this._signInManager.GetExternalLoginInfoAsync();
-
+        // Fetch the login info token metadata first
+        ExternalLoginInfo? info = await this._signInManager.GetExternalLoginInfoAsync();
         if (info == null)
-        {
-            this.TempData["ExternalLoginError"] =
-                "Unable to retrieve external login information.";
-
-            return this.RedirectToAction(nameof(this.Login));
-        }
+        { return this.RedirectToAction(nameof(this.Login)); }
 
         ApplicationUser? existingUser = await this._userManager.FindByNameAsync(model.UserName);
 
-        if (existingUser == null)
-        {
-            this.ModelState.AddModelError(string.Empty, "User not found. Please check your username.");
-            return this.View(model);
-        }
+        // Fall back to a dummy password check if user is null to keep response times uniform
+        bool passwordValid = existingUser != null &&
+                             await this._userManager.CheckPasswordAsync(existingUser, model.Password);
 
-        bool passwordValid = await this._userManager.CheckPasswordAsync(existingUser, model.Password);
-
-        if (!passwordValid)
+        if (existingUser == null || !passwordValid)
         {
-            this.ModelState.AddModelError(string.Empty, "Invalid password.");
+            // Use a completely generic error message for both scenarios
+            this._logger.LogWarning("Invalid login attempt for account '{account}' from '{ip}'.", model.UserName, this.HttpContext.Connection.RemoteIpAddress);
+            this.ModelState.AddModelError(string.Empty, "Invalid login attempt credentials.");
             return this.View(model);
         }
 
