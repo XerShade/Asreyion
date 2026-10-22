@@ -1,4 +1,4 @@
-namespace Asreyion.Server.Models;
+namespace Asreyion.Core.Theme.Models;
 
 /// <summary>
 /// Information displayed on the server error page.

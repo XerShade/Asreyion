@@ -46,4 +46,6 @@
 
   <Import Project="..\..\source\Asreyion.Content.StaticContent\Asreyion.Content.StaticContent.projitems" Label="Shared" />
 
+  <Import Project="..\..\source\Asreyion.Core.Theme\Asreyion.Core.Theme.projitems" Label="Shared" />
+
 </Project>
