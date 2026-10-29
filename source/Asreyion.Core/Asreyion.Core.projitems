@@ -9,6 +9,9 @@
     <Import_RootNamespace>Asreyion.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Hooks\AccountViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Hooks\AdministrationViewLocationExpandHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ControlPanels\Hooks\ModerationViewLocationExpandHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database\Migrations\**\*.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Files\Models\StoredFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Files\Services\Interfaces\IFileUploadService.cs" />
@@ -106,9 +109,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
     <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
     <Folder Include="$(MSBuildThisFileDirectory)Authentication\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
-    <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
     <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Database\" />
   </ItemGroup>
