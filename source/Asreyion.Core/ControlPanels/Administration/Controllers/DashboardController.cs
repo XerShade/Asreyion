@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Asreyion.Core.Hooks.Extensions;
 using Asreyion.Core.Hooks.Interfaces;
 using Asreyion.Core.ControlPanels.Administration.Models;
+using Asreyion.Core.Hooks.Attributes;
 
 namespace Asreyion.Core.ControlPanels.Administration.Controllers;
 
@@ -49,29 +50,15 @@ public class DashboardController : Controller
                      .GroupBy(hook => hook.ImplementationType)
                      .OrderBy(group => group.Key.FullName))
         {
-            IHookDescriptors? descriptors = null;
-            foreach (Type serviceType in registration.SelectMany(hook => hook.ServiceTypes)
-                         .Distinct())
-            {
-                descriptors = scope.ServiceProvider.GetServices(serviceType)
-                    .OfType<IHookDescriptors>()
-                    .FirstOrDefault(instance => instance.GetType() == registration.Key);
-
-                if (descriptors is not null)
-                {
-                    break;
-                }
-            }
-
             hooks.Add(new HookStatusViewModel(
                 registration.Key.FullName ?? registration.Key.Name,
-                descriptors?.Name ?? registration.Key.Name,
-                descriptors?.Description,
-                registration.SelectMany(hook => hook.ServiceTypes)
+                HookAttributeExtensions.GetHookName(registration.Key) ?? registration.Key.Name,
+                HookAttributeExtensions.GetHookDescription(registration.Key),
+                HookAttributeExtensions.GetHookDependencies(registration.Key),
+                [.. registration.SelectMany(hook => hook.ServiceTypes)
                     .Select(type => type.Name)
                     .Distinct()
-                    .OrderBy(name => name)
-                    .ToArray()));
+                    .OrderBy(name => name)]));
         }
 
         return this.View(hooks);

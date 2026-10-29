@@ -28,10 +28,7 @@ public static class HookDependencySorter
                 throw new InvalidOperationException($"Type '{type.FullName}' does not implement IHookSubscriber.");
             }
 
-            // Read dependency metadata without constructing the subscriber.
-            HookDependenciesAttribute? attribute = type.GetCustomAttribute<HookDependenciesAttribute>();
-
-            hookDependenciesMap[type] = attribute?.Dependencies ?? [];
+            hookDependenciesMap[type] = HookAttributeExtensions.GetHookDependencies(type);
         }
 
         List<Type> sorted = [];

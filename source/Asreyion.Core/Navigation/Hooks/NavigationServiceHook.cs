@@ -7,17 +7,13 @@ using Asreyion.Core.Navigation.Services.Interfaces;
 namespace Asreyion.Core.Navigation.Hooks;
 
 /// <summary>
-/// Registers the service that reads and maintains navigation menus.
+/// Adds a service capable of organizing and displaying navigation menus to the application.
 /// </summary>
-[HookDependencies(typeof(DatabaseConfigurationModule))]
-public class NavigationServiceHooks : IConfigureServicesHook
+[HookName("Navigation Menu Service")]
+[HookDescription("Adds a service capable of organizing and displaying navigation menus to the application.")]
+[HookDependencies(typeof(DatabaseConfigurationHook))]
+public class NavigationServiceHook : IConfigureServicesHook
 {
-    /// <inheritdoc />
-    public string Name => "Navigation Menu Service";
-
-    /// <inheritdoc />
-    public string Description => "Adds a service capable of organizing and displaying navigation menus to the application.";
-
     /// <inheritdoc />
     public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)
         => services.AddScoped<INavigationService, NavigationService>();

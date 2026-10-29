@@ -16,8 +16,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Files\Controllers\FileUploadController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Files\Hooks\FileServiceHooks.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Attributes\HookDependenciesAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Attributes\HookDescriptionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Attributes\HookNameAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookApplicationExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Interfaces\IHookDescriptors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookAttributeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookServiceCollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks\IConfigureApplicationHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks\IConfigureServicesHook.cs" />
@@ -50,7 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\NavigationMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\NavigationMenuItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Models\NavigationTreeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Hooks\NavigationServiceHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Hooks\NavigationServiceHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Services\Interfaces\INavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Services\NavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\INavigationBuilder.cs" />
@@ -58,13 +60,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\NavigationItemDefinition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Hooks\IOnBuildNavigationHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Components\NavigationView.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Hooks\AuthenticationServiceHooks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Database\Hooks\DatabaseConfigurationHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Hooks\AuthenticationServiceHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\Hooks\DatabaseConfigurationHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Extensions\HookDependencySorter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationExpandHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\IViewLocationPopulateHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\ProxyConfigurationHooks.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\RoutingConfigurationHooks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\ProxyConfigurationHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvc\Hooks\RoutingConfigurationHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\Attributes\FeatureAreaAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvc\ViewLocationExpander.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\AssemblyTypeDiscoveryService.cs" />
@@ -109,7 +111,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
     <Folder Include="$(MSBuildThisFileDirectory)ControlPanels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Database\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Hooks\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Navigation\Views\Components\NavigationView.cshtml" />

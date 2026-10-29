@@ -1,3 +1,4 @@
+using Asreyion.Core.Hooks.Attributes;
 using Asreyion.Core.Mvc.Hooks;
 using Microsoft.AspNetCore.Mvc.Razor;
 
@@ -6,6 +7,8 @@ namespace Asreyion.Modules.Blog.Administration.Hooks;
 /// <summary>
 /// Adds the blog module's administration views to MVC view lookup.
 /// </summary>
+[HookName("Blog Content View Location Expander")]
+[HookDescription("Adds the blog module's view folder to MVC lookup.")]
 public sealed class BlogAdministrationViewLocationHook : IViewLocationExpandHook
 {
     /// <inheritdoc />

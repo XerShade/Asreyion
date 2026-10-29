@@ -14,14 +14,11 @@ namespace Asreyion.Core.Authentication.Hooks;
 /// <summary>
 /// Registers identity, external providers, and authentication middleware.
 /// </summary>
-[HookDependencies(typeof(ProxyConfigurationHooks), typeof(DatabaseConfigurationModule), typeof(RoutingConfigurationHooks))]
-public class AuthenticationServiceHooks : IConfigureServicesHook, IConfigureApplicationHook
+[HookName("Authentication Service")]
+[HookDescription("Registers identity, external providers, and authentication middleware.")]
+[HookDependencies(typeof(ProxyConfigurationHook), typeof(DatabaseConfigurationHook), typeof(RoutingConfigurationHook))]
+public class AuthenticationServiceHook : IConfigureServicesHook, IConfigureApplicationHook
 {
-    /// <inheritdoc />
-    public string Name => "Authentication Services";
-    /// <inheritdoc />
-    public string Description => "Configures the authentication providers and services for the application.";
-
     /// <inheritdoc />
     public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)
     {

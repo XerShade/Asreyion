@@ -1,3 +1,5 @@
+using Asreyion.Core.Hooks.Interfaces;
+
 namespace Asreyion.Core.ControlPanels.Administration.Models;
 
 /// <summary>
@@ -11,4 +13,5 @@ public sealed record HookStatusViewModel(
     string ImplementationType,
     string? Name,
     string? Description,
+    IReadOnlyCollection<Type> Dependencies,
     IReadOnlyList<string> RegisteredFor);

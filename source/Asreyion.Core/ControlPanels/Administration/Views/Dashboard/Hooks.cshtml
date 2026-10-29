@@ -23,8 +23,8 @@
             <thead>
                 <tr>
                     <th scope="col">Subscriber</th>
-                    <th scope="col">Description</th>
                     <th scope="col">Registered interfaces</th>
+                    <th scope="col">Dependencies</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +39,28 @@
                         <tr>
                             <td scope="row">
                                 @(hook.Name ?? "Unknown Hook Name") <br />
-                                <code>@hook.ImplementationType</code>
+                                @(hook.Description ?? "No description provided.") <br />
+                                <small><code>(@hook.ImplementationType)</code></small> 
                             </td>
-                            <td>@(hook.Description ?? "—")</td>
-                            <td>@string.Join("\n", hook.RegisteredFor)</td>
+                            <td>
+                                @foreach (var registration in hook.RegisteredFor)
+                                {
+                                    <code>@registration</code><br />
+                                }
+                            </td>
+                            <td>
+                                @if(hook.Dependencies.Count > 0)
+                                {
+                                    @foreach (var dependency in hook.Dependencies)
+                                    {
+                                        <code>@dependency</code><br />
+                                    }
+                                }
+                                else
+                                {
+                                    <code>No dependencies.</code>
+                                }
+                            </td>
                         </tr>
                     }
                 }

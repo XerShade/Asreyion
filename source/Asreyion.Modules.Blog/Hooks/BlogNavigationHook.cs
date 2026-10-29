@@ -1,4 +1,5 @@
 using Asreyion.Core.Database.DbContexts;
+using Asreyion.Core.Hooks.Attributes;
 using Asreyion.Core.Navigation.Builder;
 using Asreyion.Core.Navigation.Hooks;
 using Asreyion.Modules.Blog.Data;
@@ -9,6 +10,8 @@ namespace Asreyion.Modules.Blog.Hooks;
 /// <summary>
 /// Registers blog navigation items dynamically into navigation menus.
 /// </summary>
+[HookName("Blog Navigation")]
+[HookDescription("Adds blog content links to the primary navigation menu.")]
 public class BlogNavigationHook(DataDbContext dbContext) : IOnBuildNavigationHook
 {
     /// <inheritdoc />
