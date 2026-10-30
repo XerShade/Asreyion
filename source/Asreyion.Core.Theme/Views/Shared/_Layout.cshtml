@@ -1,37 +1,27 @@
+@{
+    // Capture the RenderBody content into ViewData
+    ViewData["MainBody"] = RenderBody();
+}
+
 <!DOCTYPE html>
 <html lang="en">
-@await Html.PartialAsync("_Head")
-<body>
-    <!-- Accessibility Skip Link -->
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    @await Html.PartialAsync("_Head")
+    <body>
+        <hook name="body-start" />
 
-    <hook name="body-start" />
+        <!-- Accessibility Skip Link -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <hook name="header-before" />
-    <!-- Modern Header -->
-    <header class="modern-header" role="banner">
-        @await Html.PartialAsync("_TopHeader")
-        @await Component.InvokeAsync("NavigationView", new { menuName = "Primary" })
-    </header>
-    <hook name="header-after" />
+        @await Html.PartialAsync("_Header")
 
-    <!-- Main Content -->
-    <div class="container">
-        <hook name="main-before" />
-        <main id="main-content" role="main" class="pb-3" tabindex="-1">
-            @RenderBody()
-        </main>
-        <hook name="main-after" />
-    </div>
+        @await Html.PartialAsync("_Body")
 
-    <hook name="footer-before" />
-    @await Html.PartialAsync("_Footer")
-    <hook name="footer-after" />
+        @await Html.PartialAsync("_Footer")
 
-    @await Html.PartialAsync("_Scripts")
+        @await Html.PartialAsync("_Scripts")
 
-    @await RenderSectionAsync("Scripts", required: false)
+        @await RenderSectionAsync("Scripts", required: false)
 
-    <hook name="body-end" />
-</body>
+        <hook name="body-end" />
+    </body>
 </html>

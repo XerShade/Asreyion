@@ -1,0 +1,22 @@
+﻿<!-- Main Content -->
+<hook name="main-container-before" />
+<div class="container">
+    <hook name="main-content-before" />
+    <main id="main-content" role="main" class="pb-3" tabindex="-1">
+        @if (ViewData["MainBody"] != null)
+        {
+            @ViewData["MainBody"]
+        }
+        else
+        {
+            <div class="alert alert-danger d-flex align-items-center mt-3 shadow-sm" role="alert">
+                <i class="fas fa-exclamation-triangle fa-lg me-3" aria-hidden="true"></i>
+                <div>
+                    <strong>Layout Configuration Error:</strong> The page body content could not be rendered inside this view container.
+                </div>
+            </div>
+        }
+    </main>
+    <hook name="main-content-after" />
+</div>
+<hook name="main-container-after" />

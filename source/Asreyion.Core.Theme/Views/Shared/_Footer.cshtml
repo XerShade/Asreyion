@@ -5,6 +5,7 @@
     Version? assemblyVersion = entryAssembly?.GetName().Version;
 }
 
+<hook name="footer-before" />
 <footer class="modern-footer" role="contentinfo">
     <div class="container">
         <div class="footer-content">
@@ -122,3 +123,4 @@
         </div>
     </div>
 </footer>
+<hook name="footer-after" />
