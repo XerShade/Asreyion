@@ -42,12 +42,11 @@ public class CategoriesController(
 
             BlogCategory? category = await dbContext.Set<BlogCategory>()
                 .AsNoTracking()
+                .AsSplitQuery()
                 .Include(item => item.Posts)
                     .ThenInclude(post => post.Author)
                 .Include(item => item.Posts)
                     .ThenInclude(post => post.Tags)
-                .Include(item => item.Posts)
-                    .ThenInclude(post => post.Categories)
                 .FirstOrDefaultAsync(item => item.Id == categoryId.Value, cancellationToken);
 
             if (category is null)
@@ -56,6 +55,8 @@ public class CategoriesController(
             }
 
             List<BlogPost> posts = [.. category.Posts.OrderByDescending(post => post.Created)];
+            await PopulatePostCategoriesAsync(posts, cancellationToken);
+
             IReadOnlyDictionary<int, string> categoryPaths = await postUrlService.GetCategoryPathsAsync(cancellationToken);
 
             this.ViewBag.Category = category;
@@ -69,6 +70,45 @@ public class CategoriesController(
             logger.LogError(exception, "Failed to load blog category at path {CategoryPath}.", slug);
 
             return this.StatusCode(500);
+        }
+    }
+
+    private async Task PopulatePostCategoriesAsync(
+        IReadOnlyCollection<BlogPost> posts,
+        CancellationToken cancellationToken)
+    {
+        if (posts.Count == 0)
+        {
+            return;
+        }
+
+        int[] postIds = posts.Select(post => post.Id).ToArray();
+        List<PostCategoryAssignment> assignments = await dbContext.Set<BlogPost>()
+            .AsNoTracking()
+            .Where(post => postIds.Contains(post.Id))
+            .SelectMany(post => post.Categories.Select(category => new PostCategoryAssignment(
+                post.Id,
+                category.Id,
+                category.Name,
+                category.Slug)))
+            .ToListAsync(cancellationToken);
+
+        Dictionary<int, List<BlogCategory>> categoriesByPostId = assignments
+            .GroupBy(assignment => assignment.PostId)
+            .ToDictionary(
+                group => group.Key,
+                group => group.Select(assignment => new BlogCategory
+                {
+                    Id = assignment.CategoryId,
+                    Name = assignment.CategoryName,
+                    Slug = assignment.CategorySlug
+                }).ToList());
+
+        foreach (BlogPost post in posts)
+        {
+            post.Categories = categoriesByPostId.TryGetValue(post.Id, out List<BlogCategory>? categories)
+                ? categories
+                : [];
         }
     }
 
@@ -147,4 +187,10 @@ public class CategoriesController(
     }
 
     private sealed record CategoryRouteNode(int Id, string Slug, int? ParentId);
+
+    private sealed record PostCategoryAssignment(
+        int PostId,
+        int CategoryId,
+        string CategoryName,
+        string CategorySlug);
 }
