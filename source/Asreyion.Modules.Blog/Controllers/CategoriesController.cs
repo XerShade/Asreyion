@@ -10,7 +10,10 @@ namespace Asreyion.Modules.Blog.Controllers;
 /// Displays posts assigned to a blog category.
 /// </summary>
 [Area("Blog")]
-public class CategoriesController(DataDbContext dbContext, BlogPostUrlService postUrlService) : Controller
+public class CategoriesController(
+    DataDbContext dbContext,
+    BlogPostUrlService postUrlService,
+    ILogger<CategoriesController> logger) : Controller
 {
     /// <summary>
     /// Finds a category by its hierarchical URL path and displays its posts.
@@ -61,8 +64,10 @@ public class CategoriesController(DataDbContext dbContext, BlogPostUrlService po
 
             return this.View(posts);
         }
-        catch
+        catch (Exception exception)
         {
+            logger.LogError(exception, "Failed to load blog category at path {CategoryPath}.", slug);
+
             return this.StatusCode(500);
         }
     }

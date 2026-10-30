@@ -10,7 +10,10 @@ namespace Asreyion.Modules.Blog.Controllers;
 /// Displays an individual published blog post.
 /// </summary>
 [Area("Blog")]
-public class PostsController(DataDbContext dbContext, BlogPostUrlService postUrlService) : Controller
+public class PostsController(
+    DataDbContext dbContext,
+    BlogPostUrlService postUrlService,
+    ILogger<PostsController> logger) : Controller
 {
     /// <summary>
     /// Finds and displays a post by its category tree and post slug.
@@ -41,6 +44,15 @@ public class PostsController(DataDbContext dbContext, BlogPostUrlService postUrl
 
             IReadOnlyDictionary<int, string> categoryPaths = await postUrlService.GetCategoryPathsAsync(cancellationToken);
 
+            if (categoryPath.Length == 0 && post.Categories.Count > 0)
+            {
+                string canonicalPath = postUrlService.BuildPostPath(post, categoryPaths);
+                string canonicalUrl = this.Url.RouteUrl("BlogPostCanonical", new { path = canonicalPath })
+                    ?? $"/blog/posts/{canonicalPath}";
+
+                return this.RedirectPermanent(canonicalUrl);
+            }
+
             if (!postUrlService.HasMatchingCategoryPath(post, categoryPath, categoryPaths))
             {
                 return this.NotFound();
@@ -50,8 +62,10 @@ public class PostsController(DataDbContext dbContext, BlogPostUrlService postUrl
 
             return this.View(post);
         }
-        catch
+        catch (Exception exception)
         {
+            logger.LogError(exception, "Failed to load blog post at path {PostPath}.", path);
+
             return this.StatusCode(500);
         }
     }
@@ -81,8 +95,10 @@ public class PostsController(DataDbContext dbContext, BlogPostUrlService postUrl
 
             return this.RedirectPermanent(canonicalUrl);
         }
-        catch
+        catch (Exception exception)
         {
+            logger.LogError(exception, "Failed to redirect legacy blog post URL for slug {PostSlug}.", slug);
+
             return this.StatusCode(500);
         }
     }
