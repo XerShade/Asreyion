@@ -23,6 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\Configurations\BlogPostConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\Configurations\BlogTagConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\BlogNavigationHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\BlogPostUrlServiceHook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\BlogPostUrlService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Administration\Views\BlogManagement\Posts.cshtml" />

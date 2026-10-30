@@ -1,172 +1,92 @@
 using Asreyion.Core.Hooks.Engine.Interfaces;
 using Asreyion.Core.Navigation.Builder;
-using Asreyion.Core.Navigation.Data;
 using Asreyion.Core.Navigation.Hooks;
 using Asreyion.Core.Navigation.Models;
-using Asreyion.Core.Navigation.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Asreyion.Core.Navigation.Components;
 
 /// <summary>
-/// Builds a rendered navigation tree from stored and code-defined items.
+/// Builds and renders a named navigation menu contributed by application hooks.
 /// </summary>
-public class NavigationView(INavigationService navService, IHookEngine hookEngine) : ViewComponent
+public sealed class NavigationView(IHookEngine hookEngine) : ViewComponent
 {
-    private readonly string ViewPath = "/Navigation/Views/Components/NavigationView.cshtml";
+    private const string ViewPath = "/Navigation/Views/Components/NavigationView.cshtml";
 
     /// <summary>
-    /// Loads the named menu, applies module contributions, and renders its view.
+    /// Renders the requested code-defined menu.
     /// </summary>
-    /// <param name="menuName">The menu to render.</param>
-    /// <returns>The navigation view component result.</returns>
+    /// <param name="menuName">The name of the menu to render.</param>
+    /// <returns>The rendered menu component.</returns>
     public async Task<IViewComponentResult> InvokeAsync(string menuName = "Primary")
     {
-        // 1. Build code-driven navigation from registered IOnBuildNavigationHook subscribers
+        if (string.IsNullOrWhiteSpace(menuName))
+        {
+            throw new ArgumentException("A menu name is required.", nameof(menuName));
+        }
+
         NavigationBuilder builder = new(menuName);
-        await hookEngine.ExecuteAsync<IOnBuildNavigationHook>(h => h.BuildNavigationAsync(builder));
+        await hookEngine.ExecuteAsync<IOnBuildNavigationHook>(hook => hook.BuildNavigationAsync(builder));
 
-        // 2. Fetch database menu items (if any exist)
-        NavigationMenu? dbMenu = await navService.GetNavigationMenuByNameAsync(menuName);
-        List<NavigationMenuItem> allDbItems = [];
-        if (dbMenu != null && dbMenu.Items != null && dbMenu.Items.Count > 0)
+        List<NavigationTreeViewModel> menuItems = builder.Items
+            .OrderBy(item => item.Order)
+            .Select(MapNavigationItem)
+            .ToList();
+
+        NavigationMenuViewModel viewModel = new()
         {
-            List<NavigationMenuItem> itemsFromDb = await navService.GetAllMenuItemsAsync();
-            allDbItems = itemsFromDb.Where(x => dbMenu.Items.Contains(x.Id)).ToList();
-        }
-
-        // 3. Merge code-driven items with DB items (deduplicating parents/children by label)
-        List<NavigationTreeViewModel> mergedNodes = MergeNavigation(builder.Items, allDbItems);
-
-        return this.View(this.ViewPath, mergedNodes.OrderBy(x => x.Order).ToList());
-    }
-
-    private static List<NavigationTreeViewModel> MergeNavigation(
-        IReadOnlyList<NavigationItemDefinition> codeItems,
-        List<NavigationMenuItem> dbItems)
-    {
-        List<NavigationTreeViewModel> result = [];
-
-        // Code-defined items provide module defaults; matching database items can then customize them.
-        // Add code-driven root items
-        foreach (NavigationItemDefinition codeItem in codeItems)
-        {
-            NavigationTreeViewModel node = MapCodeToViewModel(codeItem);
-            result.Add(node);
-        }
-
-        // Merge DB root items
-        List<NavigationMenuItem> rootDbItems = dbItems.Where(x => x.ParentId == null).ToList();
-        foreach (NavigationMenuItem dbItem in rootDbItems)
-        {
-            NavigationTreeViewModel? existing = result
-                .FirstOrDefault(x => string.Equals(x.Label, dbItem.Label, StringComparison.OrdinalIgnoreCase));
-
-            if (existing is null)
-            {
-                result.Add(MapDbToViewModel(dbItem));
-            }
-            else
-            {
-                // Override metadata from DB if provided
-                if (!string.IsNullOrEmpty(dbItem.Icon))
-                {
-                    existing.Icon = dbItem.Icon;
-                }
-
-                if (dbItem.Order != 0)
-                {
-                    existing.Order = dbItem.Order;
-                }
-
-                if (!string.IsNullOrEmpty(dbItem.Controller))
-                {
-                    existing.Controller = dbItem.Controller;
-                }
-
-                if (!string.IsNullOrEmpty(dbItem.Action))
-                {
-                    existing.Action = dbItem.Action;
-                }
-
-                if (!string.IsNullOrEmpty(dbItem.Area))
-                {
-                    existing.Area = dbItem.Area;
-                }
-
-                // Merge children from DB
-                if (dbItem.Children != null && dbItem.Children.Count > 0)
-                {
-                    foreach (NavigationMenuItem dbChild in dbItem.Children)
-                    {
-                        NavigationTreeViewModel? existingChild = existing.Children
-                            .FirstOrDefault(c => string.Equals(c.Label, dbChild.Label, StringComparison.OrdinalIgnoreCase));
-
-                        if (existingChild is null)
-                        {
-                            existing.Children.Add(MapDbToViewModel(dbChild));
-                        }
-                    }
-                }
-            }
-        }
-
-        // Order nodes and children recursively
-        foreach (NavigationTreeViewModel node in result)
-        {
-            node.Children = node.Children.OrderBy(c => c.Order).ToList();
-        }
-
-        return result.OrderBy(x => x.Order).ToList();
-    }
-
-    private static NavigationTreeViewModel MapCodeToViewModel(NavigationItemDefinition codeItem)
-    {
-        NavigationTreeViewModel vm = new()
-        {
-            Id = 0,
-            Label = codeItem.Label,
-            Area = codeItem.Area,
-            Controller = codeItem.Controller,
-            Action = codeItem.Action,
-            Icon = codeItem.Icon,
-            Order = codeItem.Order,
-            ItemType = codeItem.ItemType,
-            RouteValues = new Dictionary<string, string>(codeItem.RouteValues)
+            Name = menuName,
+            HtmlId = CreateHtmlId(menuName),
+            Items = menuItems
         };
 
-        foreach (NavigationItemDefinition child in codeItem.Children)
-        {
-            vm.Children.Add(MapCodeToViewModel(child));
-        }
-
-        return vm;
+        return this.View(ViewPath, viewModel);
     }
 
-    private static NavigationTreeViewModel MapDbToViewModel(NavigationMenuItem dbItem)
+    private static string CreateHtmlId(string menuName)
     {
-        NavigationTreeViewModel vm = new()
-        {
-            Id = dbItem.Id,
-            Label = dbItem.Label,
-            Area = dbItem.Area,
-            Controller = dbItem.Controller,
-            Action = dbItem.Action,
-            Icon = dbItem.Icon,
-            Order = dbItem.Order,
-            ItemType = dbItem.ItemType,
-            RouteValues = dbItem.RouteValues ?? []
-        };
+        List<char> idCharacters = [];
 
-        if (dbItem.Children != null && dbItem.Children.Count > 0)
+        foreach (char character in menuName)
         {
-            foreach (NavigationMenuItem child in dbItem.Children)
+            if (char.IsLetterOrDigit(character))
             {
-                vm.Children.Add(MapDbToViewModel(child));
+                idCharacters.Add(char.ToLowerInvariant(character));
+            }
+            else if (idCharacters.Count > 0 && idCharacters[^1] != '-')
+            {
+                idCharacters.Add('-');
             }
         }
 
-        return vm;
+        string menuSlug = new string(idCharacters.ToArray()).Trim('-');
+
+        if (string.IsNullOrEmpty(menuSlug))
+        {
+            menuSlug = "menu";
+        }
+
+        return $"navigation-{menuSlug}";
+    }
+
+    private static NavigationTreeViewModel MapNavigationItem(NavigationItemDefinition item)
+    {
+        NavigationTreeViewModel viewModel = new()
+        {
+            Label = item.Label,
+            Area = item.Area,
+            Controller = item.Controller,
+            Action = item.Action,
+            Icon = item.Icon,
+            Order = item.Order,
+            ItemType = item.ItemType,
+            RouteValues = new Dictionary<string, string>(item.RouteValues),
+            Children = item.Children
+                .OrderBy(child => child.Order)
+                .Select(MapNavigationItem)
+                .ToList()
+        };
+
+        return viewModel;
     }
 }
-

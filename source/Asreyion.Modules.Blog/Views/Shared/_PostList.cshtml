@@ -1,5 +1,12 @@
 @model IReadOnlyList<BlogPost>
 
+@{
+    IReadOnlyDictionary<int, string> postUrlPaths = ViewData["PostUrlPaths"] as IReadOnlyDictionary<int, string>
+        ?? new Dictionary<int, string>();
+    IReadOnlyDictionary<int, string> categoryPaths = ViewData["CategoryPaths"] as IReadOnlyDictionary<int, string>
+        ?? new Dictionary<int, string>();
+}
+
 @if (Model.Count == 0)
 {
     <div class="p-4 text-center text-muted">
@@ -12,12 +19,16 @@ else
     <div class="post-list d-flex flex-column gap-4">
         @foreach (var post in Model)
         {
+            string postPath = postUrlPaths.TryGetValue(post.Id, out string? configuredPostPath)
+                ? configuredPostPath
+                : post.Slug;
+
             <article class="p-4 rounded-3 bg-tertiary border border-secondary shadow-sm">
                 <h3 class="h4 mb-2">
                     <a asp-area="Blog"
                        asp-controller="Posts"
                        asp-action="Index"
-                       asp-route-slug="@post.Slug"
+                       asp-route-path="@postPath"
                        class="text-white text-decoration-none hover-primary">
                         @post.Title
                     </a>
@@ -42,10 +53,14 @@ else
                             in:
                             @foreach (var category in post.Categories)
                             {
+                                string categoryPath = categoryPaths.TryGetValue(category.Id, out string? configuredCategoryPath)
+                                    ? configuredCategoryPath
+                                    : category.Slug;
+
                                 <a asp-area="Blog"
                                    asp-controller="Categories"
                                    asp-action="Index"
-                                   asp-route-slug="@category.Slug"
+                                   asp-route-slug="@categoryPath"
                                    class="badge bg-outline-primary text-decoration-none me-1">
                                     <i class="fa-solid fa-folder me-1" aria-hidden="true"></i>@category.Name
                                 </a>
@@ -75,7 +90,7 @@ else
                     <a asp-area="Blog"
                        asp-controller="Posts"
                        asp-action="Index"
-                       asp-route-slug="@post.Slug"
+                       asp-route-path="@postPath"
                        class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1"
                        aria-label="Read full post: @post.Title">
                         Read post <i class="fa-solid fa-arrow-right fs-xs" aria-hidden="true"></i>

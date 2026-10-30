@@ -12,7 +12,7 @@ public class DashboardController : Controller
     /// Loads the moderation dashboard.
     /// </summary>
     /// <returns>The moderation dashboard view.</returns>
-    [Route("Moderation/Dashboard")]
+    [Route("moderation/dashboard")]
     public async Task<IActionResult> Index() 
         => this.View();
 }

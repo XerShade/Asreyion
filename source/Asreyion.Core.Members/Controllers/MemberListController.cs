@@ -12,8 +12,8 @@ public class MemberListController(
 {
     private readonly UserManager<ApplicationUser> UserManager = userManager;
 
-    [Route("{Area}")]
-    [Route("{Area}/Page/{Page:int:min(1)}")]
+    [Route("members")]
+    [Route("members/page/{Page:int:min(1)}")]
     public async Task<IActionResult> Index(int page = 1)
     {
         if (page < 1)

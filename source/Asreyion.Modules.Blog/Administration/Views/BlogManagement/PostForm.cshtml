@@ -6,12 +6,12 @@
 }
 
 <section class="admin-page-intro" aria-labelledby="post-form-heading">
-    <p class="admin-eyebrow"><a href="/Administration/Blog/Posts">Blog posts</a> / @(editing ? "Edit" : "New")</p>
+    <p class="admin-eyebrow"><a href="/administration/blog/posts">Blog posts</a> / @(editing ? "Edit" : "New")</p>
     <h1 id="post-form-heading">@(editing ? "Edit post" : "Create a post")</h1>
     <p>Write your article and choose how it is organized on your site.</p>
 </section>
 
-<form class="admin-card admin-form" method="post" action="@(editing ? $"/Administration/Blog/Posts/{Model.Id}/Edit" : "/Administration/Blog/Posts/Create")" data-image-upload-url="@ViewData["ImageUploadUrl"]" data-attachment-upload-url="@ViewData["AttachmentUploadUrl"]">
+<form class="admin-card admin-form" method="post" action="@(editing ? $"/administration/blog/posts/{Model.Id}/edit" : "/administration/blog/posts/create")" data-image-upload-url="@ViewData["ImageUploadUrl"]" data-attachment-upload-url="@ViewData["AttachmentUploadUrl"]">
     @Html.AntiForgeryToken()<input asp-for="Id" type="hidden" />
     <div asp-validation-summary="ModelOnly" class="admin-validation-summary" role="alert"></div>
     <div class="admin-form-grid">
@@ -28,7 +28,7 @@
         <div class="admin-field"><label asp-for="CategoryIds" class="admin-label">Categories</label><select asp-for="CategoryIds" class="admin-control admin-multiselect" multiple size="7" aria-describedby="post-categories-help">@foreach (var category in Model.Categories) { <option value="@category.Id">@category.Name</option> }</select><span class="admin-field-help" id="post-categories-help">Select any categories that apply. Use Ctrl or Command to select more than one.</span></div>
         <div class="admin-field"><label asp-for="TagIds" class="admin-label">Tags</label><select asp-for="TagIds" class="admin-control admin-multiselect" multiple size="7" aria-describedby="post-tags-help">@foreach (var tag in Model.Tags) { <option value="@tag.Id">@tag.Name</option> }</select><span class="admin-field-help" id="post-tags-help">Select any tags that apply. Use Ctrl or Command to select more than one.</span></div>
     </div>
-    <div class="admin-form-actions"><button class="admin-btn admin-btn-primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> @(editing ? "Save changes" : "Create post")</button><a class="admin-btn admin-btn-secondary" href="/Administration/Blog/Posts">Cancel</a></div>
+    <div class="admin-form-actions"><button class="admin-btn admin-btn-primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> @(editing ? "Save changes" : "Create post")</button><a class="admin-btn admin-btn-secondary" href="/administration/blog/posts">Cancel</a></div>
 </form>
 
 @section Scripts {

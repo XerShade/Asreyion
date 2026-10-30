@@ -10,6 +10,11 @@ public class MembersNavigationHook : IOnBuildNavigationHook
 {
     public Task BuildNavigationAsync(INavigationBuilder builder)
     {
+        if (!string.Equals(builder.MenuName, "Primary", StringComparison.OrdinalIgnoreCase))
+        {
+            return Task.CompletedTask;
+        }
+
         NavigationItemDefinition commmunityParent = builder.AddOrGet("Community", item => item
             .WithIcon("users")
             .WithOrder(40));

@@ -32,8 +32,12 @@ public class RoutingConfigurationHook : IConfigureServicesHook, IConfigureApplic
 
     /// <inheritdoc />
     public void OnConfigureServices(IServiceCollection services, IConfiguration configuration)
-        => services
+    {
+        services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+        _ = services
             .AddControllersWithViews()
             .AddRazorOptions(options => options.ViewLocationExpanders.Add(new ViewLocationExpander()))
             .AddApplicationPart(Assembly.GetExecutingAssembly());
+    }
 }

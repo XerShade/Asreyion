@@ -32,7 +32,7 @@ public class DashboardController : Controller
     /// Displays the administration dashboard.
     /// </summary>
     /// <returns>The dashboard view.</returns>
-    [Route("Administration/Dashboard")]
+    [Route("administration/dashboard")]
     public IActionResult Index() 
         => this.View();
 
@@ -40,7 +40,7 @@ public class DashboardController : Controller
     /// Displays registered hooks and the contracts they provide.
     /// </summary>
     /// <returns>The hook status view.</returns>
-    [Route("Administration/Hooks")]
+    [Route("administration/hooks")]
     public IActionResult Hooks()
     {
         using IServiceScope scope = this.scopeFactory.CreateScope();

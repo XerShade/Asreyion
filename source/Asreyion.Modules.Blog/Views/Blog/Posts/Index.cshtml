@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = Model.Title;
+    IReadOnlyDictionary<int, string> categoryPaths = ViewData["CategoryPaths"] as IReadOnlyDictionary<int, string>
+        ?? new Dictionary<int, string>();
 }
 
 <div class="container py-4">
@@ -30,10 +32,14 @@
                             in:
                             @foreach (var category in Model.Categories)
                             {
+                                string categoryPath = categoryPaths.TryGetValue(category.Id, out string? configuredPath)
+                                    ? configuredPath
+                                    : category.Slug;
+
                                 <a asp-area="Blog"
                                    asp-controller="Categories"
                                    asp-action="Index"
-                                   asp-route-slug="@category.Slug"
+                                   asp-route-slug="@categoryPath"
                                    class="badge bg-outline-primary text-decoration-none me-1">
                                     <i class="fa-solid fa-folder me-1" aria-hidden="true"></i>@category.Name
                                 </a>

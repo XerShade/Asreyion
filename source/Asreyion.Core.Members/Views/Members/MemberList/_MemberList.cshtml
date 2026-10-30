@@ -22,8 +22,8 @@ else
 
 @if (Model.TotalPages > 1)
 {
-    string previousPageUrl = Url.Content($"~/Members/Page/{Model.Page - 1}");
-    string nextPageUrl = Url.Content($"~/Members/Page/{Model.Page + 1}");
+    string previousPageUrl = Url.Content($"~/members/page/{Model.Page - 1}");
+    string nextPageUrl = Url.Content($"~/members/page/{Model.Page + 1}");
 
     <nav class="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4 pt-3 border-top border-secondary" aria-label="Member list pages">
         <div class="text-muted small">
@@ -44,7 +44,7 @@ else
             @for (int p = Math.Max(1, Model.Page - 2); p <= Math.Min(Model.TotalPages, Model.Page + 2); p++)
             {
                 int pageNumber = p;
-                string pageUrl = Url.Content($"~/Members/Page/{pageNumber}");
+                string pageUrl = Url.Content($"~/members/page/{pageNumber}");
                 <li class="page-item @(pageNumber == Model.Page ? "active" : string.Empty)">
                     <a class="page-link"
                        href="@pageUrl"

@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Asreyion.Modules.Blog.Hooks;
 
 /// <summary>
-/// Registers blog navigation items dynamically into navigation menus.
+/// Registers blog posts and database-backed category links in the primary menu.
 /// </summary>
 [HookName("Blog Navigation")]
-[HookDescription("Adds blog content links to the primary navigation menu.")]
-public class BlogNavigationHook(DataDbContext dbContext) : IOnBuildNavigationHook
+[HookDescription("Adds blog links and nested categories to the primary navigation menu.")]
+public sealed class BlogNavigationHook(DataDbContext dbContext) : IOnBuildNavigationHook
 {
     /// <inheritdoc />
     public async Task BuildNavigationAsync(INavigationBuilder builder)
@@ -22,40 +22,73 @@ public class BlogNavigationHook(DataDbContext dbContext) : IOnBuildNavigationHoo
             return;
         }
 
-        // Add or get "Blog" root parent item
-        NavigationItemDefinition blogParent = builder.AddOrGet("Blog", item => item
+        NavigationItemDefinition blogMenu = builder.AddOrGet("Blog", item => item
             .WithRoute("Blog", "Index", "Blog")
             .WithIcon("newspaper")
             .WithOrder(20));
 
-        // Add "All Posts" link under Blog
-        _ = blogParent.AddOrGetChild("All Posts", child => child
+        _ = blogMenu.AddOrGetChild("All Posts", item => item
             .WithRoute("Blog", "Index", "Blog")
             .WithIcon("list")
             .WithOrder(10));
 
-        _ = blogParent.AddOrGetChild("", child => child
+        _ = blogMenu.AddOrGetChild(string.Empty, item => item
             .WithItemType("Divider")
             .WithOrder(20));
 
-        _ = blogParent.AddOrGetChild("Categories", child => child
+        _ = blogMenu.AddOrGetChild("Categories", item => item
             .WithItemType("Header")
-            .WithOrder(20));
+            .WithOrder(30));
 
-        // Dynamically add all Blog Categories from the database as children under "Blog"!
         List<BlogCategory> categories = await dbContext.Set<BlogCategory>()
             .AsNoTracking()
-            .OrderBy(c => c.Name)
+            .OrderBy(category => category.Name)
             .ToListAsync();
+
+        Dictionary<int, List<BlogCategory>> categoriesByParent = categories
+            .Where(category => category.ParentId.HasValue)
+            .GroupBy(category => category.ParentId!.Value)
+            .ToDictionary(group => group.Key, group => group.ToList());
+
+        List<BlogCategory> rootCategories = categories
+            .Where(category => !category.ParentId.HasValue)
+            .ToList();
+
+        AddCategoryItems(blogMenu, rootCategories, categoriesByParent, string.Empty, 40);
+    }
+
+    private static void AddCategoryItems(
+        NavigationItemDefinition parentMenuItem,
+        IEnumerable<BlogCategory> categories,
+        IReadOnlyDictionary<int, List<BlogCategory>> categoriesByParent,
+        string parentSlugPath,
+        int startingOrder)
+    {
+        int order = startingOrder;
 
         foreach (BlogCategory category in categories)
         {
-            _ = blogParent.AddOrGetChild(category.Name, child => child
+            if (string.IsNullOrWhiteSpace(category.Slug))
+            {
+                continue;
+            }
+
+            string categorySlugPath = string.IsNullOrEmpty(parentSlugPath)
+                ? category.Slug
+                : $"{parentSlugPath}/{category.Slug}";
+
+            NavigationItemDefinition categoryMenuItem = parentMenuItem.AddOrGetChild(category.Name, item => item
                 .WithRoute("Categories", "Index", "Blog")
-                .WithRouteValue("slug", category.Slug)
+                .WithRouteValue("slug", categorySlugPath)
                 .WithIcon("folder")
-                .WithOrder(30));
+                .WithOrder(order));
+
+            if (categoriesByParent.TryGetValue(category.Id, out List<BlogCategory>? childCategories))
+            {
+                AddCategoryItems(categoryMenuItem, childCategories, categoriesByParent, categorySlugPath, 10);
+            }
+
+            order += 10;
         }
     }
 }
-

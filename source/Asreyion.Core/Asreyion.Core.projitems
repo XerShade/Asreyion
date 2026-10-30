@@ -50,14 +50,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Interfaces\IHookSubscriber.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\HookEngineServicesHook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Tags\HookTagHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Models\NavigationTreeViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Models\NavigationMenuViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\Configurations\NavigationMenuConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\Configurations\NavigationMenuItemConfiguration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\NavigationMenu.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Data\NavigationMenuItem.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Models\NavigationTreeViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Hooks\NavigationServiceHook.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Services\Interfaces\INavigationService.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Navigation\Services\NavigationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\INavigationBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\NavigationBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\Builder\NavigationItemDefinition.cs" />
