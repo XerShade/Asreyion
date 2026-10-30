@@ -1,7 +1,7 @@
 ﻿<hook name="header-before" />
 <!-- Modern Header -->
 <header class="modern-header" role="banner">
-    @await Html.PartialAsync("_TopHeader")
+    @await Html.PartialAsync("/Views/Shared/Layout/_TopHeader.cshtml")
     @await Component.InvokeAsync("NavigationView", new { menuName = "Primary" })
 </header>
 <hook name="header-after" />

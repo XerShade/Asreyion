@@ -1,16 +1,17 @@
 <!-- Top Header - Logo and Auth -->
+@using Microsoft.Extensions.Options
+@inject IOptions<Asreyion.Core.Theme.Configuration.ThemeOptions> ThemeOptions
+
 <nav class="navbar navbar-dark top-header" aria-label="Account Navigation">
 
     <div class="container">
 
         <!-- Logo/Brand -->
         <a class="navbar-brand modern-brand"
-           asp-area=""
-           asp-controller="Home"
-           asp-action="Index"
-           aria-label="XerShade's Corner Homepage">
+           href="@ThemeOptions.Value.HomeUrl"
+           aria-label="@ThemeOptions.Value.SiteName Homepage">
             <i class="fa-solid fa-diamond brand-icon" aria-hidden="true"></i>
-            <span class="brand-text">XerShade's Corner</span>
+            <span class="brand-text">@ThemeOptions.Value.SiteName</span>
         </a>
         <hook name="top-header-left" />
 

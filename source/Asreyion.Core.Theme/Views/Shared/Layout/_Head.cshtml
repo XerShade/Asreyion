@@ -1,10 +1,14 @@
+@using Asreyion.Core.Theme.Configuration
+@using Microsoft.Extensions.Options
+@inject IOptions<ThemeOptions> ThemeOptions
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a0a0a" />
-    <meta name="description" content="XerShade's Corner - Modern web experience built with cutting-edge technology." />
+    <meta name="description" content="@ThemeOptions.Value.BrandTagline" />
 
-    <title>@ViewData["Title"] - XerShade's Corner</title>
+    <title>@ViewData["Title"] - @ThemeOptions.Value.SiteName</title>
 
     <script type="importmap"></script>
 
