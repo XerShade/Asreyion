@@ -1,12 +1,20 @@
-﻿using Asreyion.Core.Navigation.Builder;
+﻿using Asreyion.Core.Hooks.Attributes;
+using Asreyion.Core.Navigation.Builder;
 using Asreyion.Core.Navigation.Hooks;
 
 namespace Asreyion.Core.Members.Hooks;
 
+[HookName("Members Navigation")]
+[HookDescription("Adds member content links to the primary navigation menu.")]
 public class MembersNavigationHook : IOnBuildNavigationHook
 {
     public Task BuildNavigationAsync(INavigationBuilder builder)
     {
+        if (!string.Equals(builder.MenuName, "Primary", StringComparison.OrdinalIgnoreCase))
+        {
+            return Task.CompletedTask;
+        }
+
         NavigationItemDefinition commmunityParent = builder.AddOrGet("Community", item => item
             .WithIcon("users")
             .WithOrder(40));

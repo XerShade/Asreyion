@@ -6,10 +6,6 @@ namespace Asreyion.Core.Navigation.Models;
 public class NavigationTreeViewModel
 {
     /// <summary>
-    /// Gets or sets the persisted item's identifier, or zero for a code-defined item.
-    /// </summary>
-    public int Id { get; set; }
-    /// <summary>
     /// Gets or sets the text displayed for the item.
     /// </summary>
     public string Label { get; set; } = string.Empty;

@@ -6,30 +6,27 @@ using System.Text.Json;
 namespace Asreyion.Core.Navigation.Data.Configurations;
 
 /// <summary>
-/// Configures database storage and parent relationships for navigation items.
+/// Preserves the legacy navigation item mapping for database compatibility.
 /// </summary>
 public class NavigationMenuItemConfiguration : IEntityTypeConfiguration<NavigationMenuItem>
 {
-    /// <inheritdoc />
     public void Configure(EntityTypeBuilder<NavigationMenuItem> builder)
     {
-        _ = builder.HasKey(e => e.Id);
+        _ = builder.HasKey(item => item.Id);
 
-        _ = builder.HasOne(e => e.Parent)
-            .WithMany(e => e.Children)
-            .HasForeignKey(e => e.ParentId)
+        _ = builder.HasOne(item => item.Parent)
+            .WithMany(item => item.Children)
+            .HasForeignKey(item => item.ParentId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(e => e.RouteValues)
+        builder.Property(item => item.RouteValues)
             .HasColumnType("json")
             .HasConversion(
-                v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-                v => JsonSerializer.Deserialize<Dictionary<string, string>>(v, (JsonSerializerOptions?)null) ?? new Dictionary<string, string>()
-            )
+                values => JsonSerializer.Serialize(values, (JsonSerializerOptions?)null),
+                values => JsonSerializer.Deserialize<Dictionary<string, string>>(values, (JsonSerializerOptions?)null) ?? new Dictionary<string, string>())
             .Metadata.SetValueComparer(new ValueComparer<Dictionary<string, string>>(
-                (c1, c2) => c1 != null && c2 != null && c1.Count == c2.Count && !c1.Except(c2).Any(),
-                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.Key.GetHashCode(), v.Value.GetHashCode())),
-                c => new Dictionary<string, string>(c)
-            ));
+                (left, right) => left != null && right != null && left.Count == right.Count && !left.Except(right).Any(),
+                values => values.Aggregate(0, (hash, pair) => HashCode.Combine(hash, pair.Key.GetHashCode(), pair.Value.GetHashCode())),
+                values => new Dictionary<string, string>(values)));
     }
 }

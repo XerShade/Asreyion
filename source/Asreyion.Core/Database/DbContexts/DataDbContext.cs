@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Asreyion.Core.Database.DbContexts;
 
 /// <summary>
-/// Database context for application content such as navigation and blog data.
+/// Database context for blog content.
 /// </summary>
 public class DataDbContext(DbContextOptions<DataDbContext> options) : DbContext(options)
 {

@@ -23,7 +23,7 @@ public class DashboardController(
     /// Displays account details and linked providers.
     /// </summary>
     /// <returns>The account dashboard view.</returns>
-    [Route("Account/Dashboard")]
+    [Route("account/dashboard")]
     public async Task<IActionResult> Index()
     {
         ApplicationUser? user = await this.UserManager.GetUserAsync(this.User);
@@ -51,7 +51,7 @@ public class DashboardController(
     /// </summary>
     /// <param name="model">The submitted account settings.</param>
     /// <returns>The dashboard view with validation results.</returns>
-    [HttpPost, ValidateAntiForgeryToken, Route("Account/Settings/Update")]
+    [HttpPost, ValidateAntiForgeryToken, Route("account/settings/update")]
     public async Task<IActionResult> Update(DashboardViewModel model)
     {
         if (!this.ModelState.IsValid)
@@ -93,7 +93,7 @@ public class DashboardController(
     /// Deactivates the signed-in user's account.
     /// </summary>
     /// <returns>A redirect after deactivation, or a not-found response.</returns>
-    [HttpPost, ValidateAntiForgeryToken, Route("Account/Deactivate")]
+    [HttpPost, ValidateAntiForgeryToken, Route("account/deactivate")]
     public async Task<IActionResult> Deactivate()
     {
         ApplicationUser? user =
@@ -134,7 +134,7 @@ public class DashboardController(
     /// </summary>
     /// <param name="provider">The configured provider name.</param>
     /// <returns>A provider challenge or a redirect to the dashboard.</returns>
-    [HttpPost, ValidateAntiForgeryToken, Route("Account/Authentication/ExternalLogin/Connect")]
+    [HttpPost, ValidateAntiForgeryToken, Route("account/authentication/external-login/connect")]
     public IActionResult ConnectExternalLogin(string provider)
     {
         if (string.IsNullOrWhiteSpace(provider))
@@ -168,7 +168,7 @@ public class DashboardController(
     /// </summary>
     /// <param name="remoteError">An error reported by the provider, if any.</param>
     /// <returns>A redirect to the account dashboard.</returns>
-    [HttpGet, Route("Account/Authentication/ExternalLogin/Callback")]
+    [HttpGet, Route("account/authentication/external-login/callback")]
     public async Task<IActionResult> ConnectExternalLoginCallback(
     string? remoteError = null)
     {
@@ -240,7 +240,7 @@ public class DashboardController(
     /// <param name="provider">The provider name.</param>
     /// <param name="providerKey">The provider's account key.</param>
     /// <returns>A redirect to the dashboard with the operation result.</returns>
-    [HttpPost, ValidateAntiForgeryToken, Route("Account/Authentication/ExternalLogin/Disconnect")]
+    [HttpPost, ValidateAntiForgeryToken, Route("account/authentication/external-login/disconnect")]
     public async Task<IActionResult> DisconnectExternalLogin(string provider, string providerKey)
     {
         if (string.IsNullOrWhiteSpace(provider) || string.IsNullOrWhiteSpace(providerKey))

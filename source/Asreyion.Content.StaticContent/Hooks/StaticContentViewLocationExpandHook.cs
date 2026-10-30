@@ -1,3 +1,4 @@
+using Asreyion.Core.Hooks.Attributes;
 using Asreyion.Core.Mvc.Hooks;
 using Microsoft.AspNetCore.Mvc.Razor;
 
@@ -6,6 +7,8 @@ namespace Asreyion.Content.StaticContent.Hooks;
 /// <summary>
 /// Adds the static content module's view folder to MVC lookup.
 /// </summary>
+[HookName("Static Content View Location Expander")]
+[HookDescription("Adds the static content module's view folder to MVC lookup.")]
 public class StaticContentViewLocationExpandHook : IViewLocationExpandHook
 {
     /// <inheritdoc />

@@ -1,5 +1,6 @@
 using Asreyion.Core.Database.DbContexts;
 using Asreyion.Modules.Blog.Data;
+using Asreyion.Modules.Blog.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,33 +10,100 @@ namespace Asreyion.Modules.Blog.Controllers;
 /// Displays an individual published blog post.
 /// </summary>
 [Area("Blog")]
-public class PostsController(DataDbContext dbContext) : Controller
+public class PostsController(DataDbContext dbContext, BlogPostUrlService postUrlService) : Controller
 {
     /// <summary>
-    /// Finds a post by its URL slug and displays it.
+    /// Finds and displays a post by its category tree and post slug.
     /// </summary>
-    /// <param name="slug">The post's URL slug.</param>
+    /// <param name="path">The category slugs followed by the post slug.</param>
     /// <param name="cancellationToken">Cancels the database query.</param>
     /// <returns>The post view, or a not-found response.</returns>
-    [HttpGet("Blog/Post/{slug}")]
-    public async Task<IActionResult> Index(string slug, CancellationToken cancellationToken)
+    [HttpGet("blog/posts/{**path}", Name = "BlogPostCanonical")]
+    public async Task<IActionResult> Index(string path, CancellationToken cancellationToken)
     {
+        string[] pathSegments = ParsePath(path);
+
+        if (pathSegments.Length == 0)
+        {
+            return this.NotFound();
+        }
+
         try
         {
-            BlogPost? post = await dbContext.Set<BlogPost>()
-            .AsNoTracking()
-            .Include(p => p.Author)
-            .Include(p => p.Categories)
-            .Include(p => p.Tags)
-            .FirstOrDefaultAsync(
-                p => p.Slug == slug,
-                cancellationToken);
+            string postSlug = pathSegments[^1];
+            string[] categoryPath = pathSegments[..^1];
+            BlogPost? post = await GetPostAsync(postSlug, cancellationToken);
 
-            return post is null ? this.NotFound() : this.View(post);
+            if (post is null)
+            {
+                return this.NotFound();
+            }
+
+            IReadOnlyDictionary<int, string> categoryPaths = await postUrlService.GetCategoryPathsAsync(cancellationToken);
+
+            if (!postUrlService.HasMatchingCategoryPath(post, categoryPath, categoryPaths))
+            {
+                return this.NotFound();
+            }
+
+            this.ViewData["CategoryPaths"] = categoryPaths;
+
+            return this.View(post);
         }
         catch
         {
             return this.StatusCode(500);
         }
+    }
+
+    /// <summary>
+    /// Redirects the old post URL to the category-aware canonical URL.
+    /// </summary>
+    /// <param name="slug">The post's stored slug.</param>
+    /// <param name="cancellationToken">Cancels the database query.</param>
+    /// <returns>A permanent redirect to the canonical URL, or a not-found response.</returns>
+    [HttpGet("blog/post/{slug}")]
+    public async Task<IActionResult> Legacy(string slug, CancellationToken cancellationToken)
+    {
+        try
+        {
+            BlogPost? post = await GetPostAsync(slug, cancellationToken);
+
+            if (post is null)
+            {
+                return this.NotFound();
+            }
+
+            IReadOnlyDictionary<int, string> categoryPaths = await postUrlService.GetCategoryPathsAsync(cancellationToken);
+            string canonicalPath = postUrlService.BuildPostPath(post, categoryPaths);
+            string canonicalUrl = this.Url.RouteUrl("BlogPostCanonical", new { path = canonicalPath })
+                ?? $"/blog/posts/{canonicalPath}";
+
+            return this.RedirectPermanent(canonicalUrl);
+        }
+        catch
+        {
+            return this.StatusCode(500);
+        }
+    }
+
+    private async Task<BlogPost?> GetPostAsync(string slug, CancellationToken cancellationToken)
+    {
+        return await dbContext.Set<BlogPost>()
+            .AsNoTracking()
+            .Include(post => post.Author)
+            .Include(post => post.Categories)
+            .Include(post => post.Tags)
+            .FirstOrDefaultAsync(post => post.Slug == slug, cancellationToken);
+    }
+
+    private static string[] ParsePath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return [];
+        }
+
+        return path.Split('/', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
     }
 }

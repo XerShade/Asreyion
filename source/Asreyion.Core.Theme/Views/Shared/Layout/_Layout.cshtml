@@ -1,0 +1,27 @@
+@{
+    // Capture the RenderBody content into ViewData
+    ViewData["MainBody"] = RenderBody();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    @await Html.PartialAsync("/Views/Shared/Layout/_Head.cshtml")
+    <body>
+        <hook name="body-start" />
+
+        <!-- Accessibility Skip Link -->
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+
+        @await Html.PartialAsync("/Views/Shared/Layout/_Header.cshtml")
+
+        @await Html.PartialAsync("/Views/Shared/Layout/_Body.cshtml")
+
+        @await Html.PartialAsync("/Views/Shared/Layout/_Footer.cshtml")
+
+        @await Html.PartialAsync("/Views/Shared/Layout/_Scripts.cshtml")
+
+        @await RenderSectionAsync("Scripts", required: false)
+
+        <hook name="body-end" />
+    </body>
+</html>

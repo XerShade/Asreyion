@@ -20,7 +20,7 @@ public class ProfileController(
     /// </summary>
     /// <returns>The profile view, or a not-found response for inactive or unknown users.</returns>
     [Authorize]
-    [HttpGet("{Area}/Profile")]
+    [HttpGet("members/profile")]
     public async Task<IActionResult> Index()
     {
         ApplicationUser? user = await this.UserManager.GetUserAsync(this.User);
@@ -33,7 +33,7 @@ public class ProfileController(
     /// </summary>
     /// <param name="username">The account name to display, or <see langword="null"/> for the current user.</param>
     /// <returns>The profile view, or a not-found response for inactive or unknown users.</returns>
-    [HttpGet("{Area}/Profile/{username}")]
+    [HttpGet("members/profile/{username}")]
     public async Task<IActionResult> Index(string? username)
     {
         ApplicationUser? user = string.IsNullOrWhiteSpace(username)

@@ -18,7 +18,7 @@ namespace Asreyion.Modules.Blog.Administration.Controllers;
 /// <param name="users">Resolves the administrator creating a post.</param>
 /// <param name="fileUploadService">Builds upload URLs and normalizes stored links.</param>
 [Area("Administration"), Authorize(Roles = "Administrator")]
-[Route("Administration/Blog")]
+[Route("administration/blog")]
 public sealed class BlogManagementController(DataDbContext db, UserManager<ApplicationUser> users, IFileUploadService fileUploadService) : Controller
 {
     /// <summary>
@@ -26,7 +26,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// </summary>
     /// <param name="ct">Cancels the database query.</param>
     /// <returns>The post administration view.</returns>
-    [HttpGet("Posts")]
+    [HttpGet("posts")]
     public async Task<IActionResult> Posts(CancellationToken ct)
     {
         List<BlogPost> posts = await db.Set<BlogPost>()
@@ -43,7 +43,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// </summary>
     /// <param name="ct">Cancels the option queries.</param>
     /// <returns>The post form.</returns>
-    [HttpGet("Posts/Create")]
+    [HttpGet("posts/create")]
     public async Task<IActionResult> CreatePost(CancellationToken ct)
     {
         SetUploadUrls();
@@ -56,7 +56,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="model">The submitted post details and taxonomy selections.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The post form when invalid, or the post list after saving.</returns>
-    [HttpPost("Posts/Create"), ValidateAntiForgeryToken]
+    [HttpPost("posts/create"), ValidateAntiForgeryToken]
     public async Task<IActionResult> CreatePost(BlogPostInputModel model, CancellationToken ct)
     {
         if (!ModelState.IsValid)
@@ -94,7 +94,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="id">The post identifier.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The populated post form, or a not-found response.</returns>
-    [HttpGet("Posts/{id:int}/Edit")]
+    [HttpGet("posts/{id:int}/edit")]
     public async Task<IActionResult> EditPost(int id, CancellationToken ct)
     {
         BlogPost? post = await db.Set<BlogPost>()
@@ -128,7 +128,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="model">The submitted post details and taxonomy selections.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The post form when invalid, or the post list after saving.</returns>
-    [HttpPost("Posts/{id:int}/Edit"), ValidateAntiForgeryToken]
+    [HttpPost("posts/{id:int}/edit"), ValidateAntiForgeryToken]
     public async Task<IActionResult> EditPost(int id, BlogPostInputModel model, CancellationToken ct)
     {
         if (id != model.Id)
@@ -168,7 +168,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="id">The post identifier.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The post list, or a not-found response.</returns>
-    [HttpPost("Posts/{id:int}/Delete"), ValidateAntiForgeryToken]
+    [HttpPost("posts/{id:int}/delete"), ValidateAntiForgeryToken]
     public async Task<IActionResult> DeletePost(int id, CancellationToken ct)
     {
         BlogPost? post = await db.Set<BlogPost>().FirstOrDefaultAsync(blogPost => blogPost.Id == id, ct);
@@ -187,7 +187,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// </summary>
     /// <param name="ct">Cancels the database query.</param>
     /// <returns>The category administration view.</returns>
-    [HttpGet("Categories")]
+    [HttpGet("categories")]
     public async Task<IActionResult> Categories(CancellationToken ct)
     {
         List<BlogCategory> categories = await db.Set<BlogCategory>()
@@ -205,7 +205,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// </summary>
     /// <param name="ct">Cancels the parent category query.</param>
     /// <returns>The category form.</returns>
-    [HttpGet("Categories/Create")]
+    [HttpGet("categories/create")]
     public async Task<IActionResult> CreateCategory(CancellationToken ct)
     {
         BlogCategoryInputModel model = await PopulateCategoryOptions(new BlogCategoryInputModel(), ct);
@@ -218,7 +218,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="model">The submitted category details.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The category form when invalid, or the category list after saving.</returns>
-    [HttpPost("Categories/Create"), ValidateAntiForgeryToken]
+    [HttpPost("categories/create"), ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateCategory(BlogCategoryInputModel model, CancellationToken ct)
     {
         if (model.ParentId.HasValue && !await db.Set<BlogCategory>().AnyAsync(c => c.Id == model.ParentId, ct))
@@ -249,7 +249,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="id">The category identifier.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The category form, or a not-found response.</returns>
-    [HttpGet("Categories/{id:int}/Edit")]
+    [HttpGet("categories/{id:int}/edit")]
     public async Task<IActionResult> EditCategory(int id, CancellationToken ct)
     {
         BlogCategory? category = await db.Set<BlogCategory>()
@@ -279,7 +279,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="model">The submitted category details.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The category form when invalid, or the category list after saving.</returns>
-    [HttpPost("Categories/{id:int}/Edit"), ValidateAntiForgeryToken]
+    [HttpPost("categories/{id:int}/edit"), ValidateAntiForgeryToken]
     public async Task<IActionResult> EditCategory(int id, BlogCategoryInputModel model, CancellationToken ct)
     {
         if (id != model.Id)
@@ -318,7 +318,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="id">The category identifier.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The category list, or a not-found response.</returns>
-    [HttpPost("Categories/{id:int}/Delete"), ValidateAntiForgeryToken]
+    [HttpPost("categories/{id:int}/delete"), ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteCategory(int id, CancellationToken ct)
     {
         BlogCategory? category = await db.Set<BlogCategory>()
@@ -347,7 +347,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// </summary>
     /// <param name="ct">Cancels the database query.</param>
     /// <returns>The tag administration view.</returns>
-    [HttpGet("Tags")]
+    [HttpGet("tags")]
     public async Task<IActionResult> Tags(CancellationToken ct)
     {
         List<BlogTag> tags = await db.Set<BlogTag>()
@@ -363,7 +363,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// Displays a blank tag form.
     /// </summary>
     /// <returns>The tag form.</returns>
-    [HttpGet("Tags/Create")]
+    [HttpGet("tags/create")]
     public IActionResult CreateTag() => this.View("TagForm", new BlogTagInputModel());
 
     /// <summary>
@@ -372,7 +372,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="model">The submitted tag name.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The tag form when invalid, or the tag list after saving.</returns>
-    [HttpPost("Tags/Create"), ValidateAntiForgeryToken]
+    [HttpPost("tags/create"), ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateTag(BlogTagInputModel model, CancellationToken ct)
     {
         string name = model.Name?.Trim() ?? "";
@@ -396,7 +396,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="id">The tag identifier.</param>
     /// <param name="ct">Cancels the database query.</param>
     /// <returns>The tag form, or a not-found response.</returns>
-    [HttpGet("Tags/{id:int}/Edit")]
+    [HttpGet("tags/{id:int}/edit")]
     public async Task<IActionResult> EditTag(int id, CancellationToken ct)
     {
         BlogTag? tag = await db.Set<BlogTag>()
@@ -418,7 +418,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="model">The submitted tag name.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The tag form when invalid, or the tag list after saving.</returns>
-    [HttpPost("Tags/{id:int}/Edit"), ValidateAntiForgeryToken]
+    [HttpPost("tags/{id:int}/edit"), ValidateAntiForgeryToken]
     public async Task<IActionResult> EditTag(int id, BlogTagInputModel model, CancellationToken ct)
     {
         if (id != model.Id)
@@ -451,7 +451,7 @@ public sealed class BlogManagementController(DataDbContext db, UserManager<Appli
     /// <param name="id">The tag identifier.</param>
     /// <param name="ct">Cancels database operations.</param>
     /// <returns>The tag list, or a not-found response.</returns>
-    [HttpPost("Tags/{id:int}/Delete"), ValidateAntiForgeryToken]
+    [HttpPost("tags/{id:int}/delete"), ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteTag(int id, CancellationToken ct)
     {
         BlogTag? tag = await db.Set<BlogTag>()

@@ -2,14 +2,14 @@
 @{ bool editing = Model.Id != 0; ViewData["Title"] = editing ? "Edit Tag" : "New Tag"; }
 
 <section class="admin-page-intro" aria-labelledby="tag-form-heading">
-    <p class="admin-eyebrow"><a href="/Administration/Blog/Tags">Tags</a> / @(editing ? "Edit" : "New")</p>
+    <p class="admin-eyebrow"><a href="/administration/blog/tags">Tags</a> / @(editing ? "Edit" : "New")</p>
     <h1 id="tag-form-heading">@(editing ? "Edit tag" : "Create a tag")</h1>
     <p>Give your tag a short, recognizable name.</p>
 </section>
 
-<form class="admin-card admin-form admin-form-narrow" method="post" action="@(editing ? $"/Administration/Blog/Tags/{Model.Id}/Edit" : "/Administration/Blog/Tags/Create")">
+<form class="admin-card admin-form admin-form-narrow" method="post" action="@(editing ? $"/administration/blog/tags/{Model.Id}/edit" : "/administration/blog/tags/create")">
     @Html.AntiForgeryToken()<input asp-for="Id" type="hidden" />
     <div asp-validation-summary="ModelOnly" class="admin-validation-summary" role="alert"></div>
     <div class="admin-form-grid"><div class="admin-field admin-field-wide"><label asp-for="Name" class="admin-label">Name <span class="admin-required">Required</span></label><input asp-for="Name" class="admin-control" autocomplete="off" placeholder="Tag name" /><span asp-validation-for="Name" class="admin-field-error"></span><span class="admin-field-help">Tag names must be unique.</span></div></div>
-    <div class="admin-form-actions"><button class="admin-btn admin-btn-primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> @(editing ? "Save changes" : "Create tag")</button><a class="admin-btn admin-btn-secondary" href="/Administration/Blog/Tags">Cancel</a></div>
+    <div class="admin-form-actions"><button class="admin-btn admin-btn-primary" type="submit"><i class="fa-solid fa-check" aria-hidden="true"></i> @(editing ? "Save changes" : "Create tag")</button><a class="admin-btn admin-btn-secondary" href="/administration/blog/tags">Cancel</a></div>
 </form>

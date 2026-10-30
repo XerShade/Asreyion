@@ -5,7 +5,7 @@ namespace Asreyion.Core.Hooks.Hooks;
 /// <summary>
 /// Configures the application's middleware and request pipeline after service registration.
 /// </summary>
-public interface IConfigureApplicationHook : IHookSubscriber, IHookDescriptors
+public interface IConfigureApplicationHook : IHookSubscriber
 {
     /// <summary>
     /// Adds middleware and other application components to the request pipeline.

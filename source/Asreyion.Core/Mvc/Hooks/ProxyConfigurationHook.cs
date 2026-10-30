@@ -1,3 +1,4 @@
+using Asreyion.Core.Hooks.Attributes;
 using Asreyion.Core.Hooks.Hooks;
 using Microsoft.AspNetCore.HttpOverrides;
 
@@ -6,13 +7,10 @@ namespace Asreyion.Core.Mvc.Hooks;
 /// <summary>
 /// Configures forwarded headers and proxy-aware request handling.
 /// </summary>
-public class ProxyConfigurationHooks : IConfigureServicesHook, IConfigureApplicationHook
+[HookName("Proxy Configuration")]
+[HookDescription("Configures forwarded headers and proxy-aware request handling.")]
+public class ProxyConfigurationHook : IConfigureServicesHook, IConfigureApplicationHook
 {
-    /// <inheritdoc />
-    public string Name => "Proxy Configuration";
-    /// <inheritdoc />
-    public string Description => "Configures the application to run behind a proxy service.";
-
     /// <inheritdoc />
     public void OnConfigureApplication(WebApplication app, IWebHostEnvironment env)
     {

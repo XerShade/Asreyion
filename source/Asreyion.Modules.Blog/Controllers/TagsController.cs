@@ -17,7 +17,7 @@ public class TagsController(DataDbContext dbContext) : Controller
     /// <param name="slug">The tag name from the route.</param>
     /// <param name="cancellationToken">Cancels the database query.</param>
     /// <returns>The tagged post list, or a not-found response.</returns>
-    [HttpGet("Blog/Tag/{slug}")]
+    [HttpGet("blog/tag/{slug}")]
     public async Task<IActionResult> Index(string slug, CancellationToken cancellationToken)
     {
         try

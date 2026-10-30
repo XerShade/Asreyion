@@ -7,11 +7,11 @@
 <div class="admin-nav-section">
     <div class="admin-nav-section-title">Main</div>
 
-    <a href="/Administration/Dashboard" class="admin-nav-item @(currentController == "Dashboard" && currentAction == "Index" ? "active" : "")">
+    <a href="/administration/dashboard" class="admin-nav-item @(currentController == "Dashboard" && currentAction == "Index" ? "active" : "")">
         <i class="admin-nav-item-icon fa-solid fa-house fa-fw me-2" aria-hidden="true"></i>
         Dashboard
     </a>
-    <a href="/Administration/Hooks" class="admin-nav-item @(currentController == "Dashboard" && currentAction == "Hooks" ? "active" : "")">
+    <a href="/administration/hooks" class="admin-nav-item @(currentController == "Dashboard" && currentAction == "Hooks" ? "active" : "")">
         <i class="admin-nav-item-icon fa-solid fa-plug fa-fw me-2" aria-hidden="true"></i>
         Hooks
     </a>
@@ -19,15 +19,15 @@
 
 <div class="admin-nav-section">
     <div class="admin-nav-section-title">Content</div>
-    <a href="/Administration/Blog/Posts" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Posts" || currentAction == "CreatePost" || currentAction == "EditPost") ? "active" : "")">
+    <a href="/administration/blog/posts" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Posts" || currentAction == "CreatePost" || currentAction == "EditPost") ? "active" : "")">
         <i class="admin-nav-item-icon fa-solid fa-newspaper fa-fw me-2" aria-hidden="true"></i>
         Blog Posts
     </a>
-    <a href="/Administration/Blog/Categories" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Categories" || currentAction == "CreateCategory" || currentAction == "EditCategory") ? "active" : "")">
+    <a href="/administration/blog/categories" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Categories" || currentAction == "CreateCategory" || currentAction == "EditCategory") ? "active" : "")">
         <i class="admin-nav-item-icon fa-solid fa-folder fa-fw me-2" aria-hidden="true"></i>
         Categories
     </a>
-    <a href="/Administration/Blog/Tags" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Tags" || currentAction == "CreateTag" || currentAction == "EditTag") ? "active" : "")">
+    <a href="/administration/blog/tags" class="admin-nav-item @(currentController == "BlogManagement" && (currentAction == "Tags" || currentAction == "CreateTag" || currentAction == "EditTag") ? "active" : "")">
         <i class="admin-nav-item-icon fa-solid fa-tags fa-fw me-2" aria-hidden="true"></i>
         Tags
     </a>

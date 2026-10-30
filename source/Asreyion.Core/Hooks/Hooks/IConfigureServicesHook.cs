@@ -5,7 +5,7 @@ namespace Asreyion.Core.Hooks.Hooks;
 /// <summary>
 /// Configures services before the application's dependency injection container is built.
 /// </summary>
-public interface IConfigureServicesHook : IHookSubscriber, IHookDescriptors
+public interface IConfigureServicesHook : IHookSubscriber
 {
     /// <summary>
     /// Adds or configures services using the host configuration available at startup.

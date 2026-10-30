@@ -1,0 +1,114 @@
+@using Asreyion.Core.Theme.Configuration
+@using Microsoft.Extensions.Options
+@inject IOptions<ThemeOptions> ThemeOptions
+
+@{
+    ThemeOptions theme = ThemeOptions.Value;
+}
+
+<hook name="footer-before" />
+<footer class="modern-footer" role="contentinfo">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section footer-brand">
+                <div class="footer-brand-logo">
+                    <i class="fa-solid fa-diamond brand-icon" aria-hidden="true"></i>
+                    <span class="brand-text">@theme.SiteName</span>
+                </div>
+                @if (!string.IsNullOrWhiteSpace(theme.BrandTagline))
+                {
+                    <p class="footer-tagline">@theme.BrandTagline</p>
+                }
+            </div>
+
+            @if (theme.QuickLinks.Count > 0)
+            {
+                <div class="footer-section footer-links">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <nav aria-label="Footer Quick Links">
+                        <ul class="footer-nav">
+                            @foreach (ThemeLinkOptions link in theme.QuickLinks)
+                            {
+                                <li>
+                                    <a href="@link.Url">
+                                        @if (!string.IsNullOrWhiteSpace(link.Icon))
+                                        {
+                                            <i class="fa-solid fa-@link.Icon me-2" aria-hidden="true"></i>
+                                        }
+                                        @link.Label
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            }
+
+            @if (theme.LegalLinks.Count > 0)
+            {
+                <div class="footer-section footer-legal">
+                    <h4 class="footer-heading">Legal</h4>
+                    <nav aria-label="Footer Legal Links">
+                        <ul class="footer-nav">
+                            @foreach (ThemeLinkOptions link in theme.LegalLinks)
+                            {
+                                <li>
+                                    <a href="@link.Url">
+                                        @if (!string.IsNullOrWhiteSpace(link.Icon))
+                                        {
+                                            <i class="fa-solid fa-@link.Icon me-2" aria-hidden="true"></i>
+                                        }
+                                        @link.Label
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+            }
+
+            @if (theme.SocialLinks.Count > 0)
+            {
+                <div class="footer-section footer-social">
+                    <h4 class="footer-heading">Connect</h4>
+                    <div class="social-links">
+                        @foreach (ThemeLinkOptions link in theme.SocialLinks)
+                        {
+                            <a href="@link.Url"
+                               class="social-link"
+                               aria-label="@link.Label (opens in a new tab)"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                <i class="fa-brands fa-@link.Icon" aria-hidden="true"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+
+            <hook name="footer-content" />
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                &copy; @DateTime.Now.Year @(string.IsNullOrWhiteSpace(theme.CopyrightName) ? theme.SiteName : theme.CopyrightName)
+            </div>
+            @if (theme.LegalLinks.Count > 0)
+            {
+                <div class="footer-bottom-links">
+                    @for (int index = 0; index < theme.LegalLinks.Count; index++)
+                    {
+                        ThemeLinkOptions link = theme.LegalLinks[index];
+                        <a href="@link.Url">@link.Label</a>
+                        @if (index < theme.LegalLinks.Count - 1)
+                        {
+                            <span class="separator">•</span>
+                        }
+                    }
+                </div>
+            }
+            <hook name="footer-bottom" />
+        </div>
+    </div>
+</footer>
+<hook name="footer-after" />

@@ -1,3 +1,4 @@
+using Asreyion.Core.Hooks.Attributes;
 using Asreyion.Core.Mvc.Hooks;
 using Microsoft.AspNetCore.Mvc.Razor;
 
@@ -6,6 +7,8 @@ namespace Asreyion.Core.ControlPanels.Hooks;
 /// <summary>
 /// Adds administration, account, and moderation view folders to MVC lookup.
 /// </summary>
+[HookName("Control Panel View Location Expander")]
+[HookDescription("Adds administration, account, and moderation view folders to MVC lookup.")]
 public class ControlPanelViewLocationExpandHook : IViewLocationExpandHook
 {
     /// <inheritdoc />
