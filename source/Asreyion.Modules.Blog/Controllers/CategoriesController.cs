@@ -83,26 +83,14 @@ public class CategoriesController(
         }
 
         int[] postIds = posts.Select(post => post.Id).ToArray();
-        List<PostCategoryAssignment> assignments = await dbContext.Set<BlogPost>()
+        List<BlogPost> postsWithCategories = await dbContext.Set<BlogPost>()
             .AsNoTracking()
             .Where(post => postIds.Contains(post.Id))
-            .SelectMany(post => post.Categories.Select(category => new PostCategoryAssignment(
-                post.Id,
-                category.Id,
-                category.Name,
-                category.Slug)))
+            .Include(post => post.Categories)
             .ToListAsync(cancellationToken);
 
-        Dictionary<int, List<BlogCategory>> categoriesByPostId = assignments
-            .GroupBy(assignment => assignment.PostId)
-            .ToDictionary(
-                group => group.Key,
-                group => group.Select(assignment => new BlogCategory
-                {
-                    Id = assignment.CategoryId,
-                    Name = assignment.CategoryName,
-                    Slug = assignment.CategorySlug
-                }).ToList());
+        Dictionary<int, List<BlogCategory>> categoriesByPostId = postsWithCategories
+            .ToDictionary(post => post.Id, post => post.Categories);
 
         foreach (BlogPost post in posts)
         {
@@ -187,10 +175,4 @@ public class CategoriesController(
     }
 
     private sealed record CategoryRouteNode(int Id, string Slug, int? ParentId);
-
-    private sealed record PostCategoryAssignment(
-        int PostId,
-        int CategoryId,
-        string CategoryName,
-        string CategorySlug);
 }
